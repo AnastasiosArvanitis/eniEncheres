@@ -62,11 +62,11 @@ CREATE TABLE ARTICLES (
 
 
 CREATE TABLE ENCHERES(
-    id                         INTEGER IDENTITY(1,1) NOT NULL ,
-    idArticle                  INTEGER NOT NULL CONSTRAINT encheres_id_article_fk FOREIGN KEY REFERENCES ARTICLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    idUtilisateur              INTEGER NOT NULL CONSTRAINT encheres_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    dateEnchere                datetime NOT NULL,
-    montantEnchere             INTEGER NOT NULL,
+    id                        INTEGER IDENTITY(1,1) NOT NULL ,
+    idArticle                 INTEGER NOT NULL CONSTRAINT encheres_id_article_fk FOREIGN KEY REFERENCES ARTICLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    idUtilisateur             INTEGER NOT NULL CONSTRAINT encheres_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    dateEnchere               datetime NOT NULL,
+    montantEnchere            INTEGER NOT NULL,
 
     CONSTRAINT encheres_pk PRIMARY KEY (id,idArticle,idUtilisateur),
     CONSTRAINT encheres_montant_enchere_uk UNIQUE (idArticle,montantEnchere)
