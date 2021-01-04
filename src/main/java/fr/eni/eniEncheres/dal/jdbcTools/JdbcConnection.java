@@ -4,20 +4,29 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+
+import fr.eni.eniEncheres.dal.jdbcTools.Settings;
 
 public class JdbcConnection {
 
-    private static String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=NORTHWND";
-    private static String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String dbUser = "sa";
-    private static String dbPassword = "flox123";
-    private static String jdbcInterceptors = "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
-            "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer";
+    private static String dbUrl;
+    private static String dbDriver;
+    private static String dbUser;
+    private static String dbPassword;
+    private static String jdbcInterceptors;
 
     private static DataSource dataSource = new DataSource();
     private static Connection connection;
 
     static {
+
+        dbUrl = Settings.getProperty("dbUrl");
+        dbDriver = Settings.getProperty("dbDriver");
+        dbUser = Settings.getProperty("dbUser");
+        dbPassword = Settings.getProperty("dbPassword");
+        jdbcInterceptors = Settings.getProperty("jdbcInterceptors");
+
         PoolProperties poolProps = new PoolProperties();
         poolProps.setUrl(dbUrl);
         poolProps.setDriverClassName(dbDriver);
@@ -28,6 +37,24 @@ public class JdbcConnection {
         poolProps.setMaxWait(10000);
         poolProps.setJdbcInterceptors(jdbcInterceptors);
         dataSource.setPoolProperties(poolProps);
+    }
+
+    public static Connection connect() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            try {
+                connection = dataSource.getConnection();
+                System.out.println("Connection OK");
+            } catch (SQLException e) {
+                throw new SQLException(e.getMessage(), e);
+            }
+        }
+        return connection;
+    }
+
+    public static void disconnect() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
     }
 
 }
