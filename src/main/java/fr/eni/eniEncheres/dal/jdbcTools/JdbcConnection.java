@@ -6,8 +6,6 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import fr.eni.eniEncheres.dal.jdbcTools.Settings;
-
 public class JdbcConnection {
 
     private static String dbUrl;

@@ -10,13 +10,6 @@ public class Settings {
     private static Properties properties;
     private static FileInputStream input;
 
-       /* FileInputStream input = new FileInputStream(filename);
-        try{
-
-            properties.load(input);
-            return properties;
-        }*/
-
     static {
         try {
             properties = new Properties();
