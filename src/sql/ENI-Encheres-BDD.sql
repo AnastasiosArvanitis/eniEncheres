@@ -49,27 +49,28 @@ CREATE TABLE ARTICLES (
     id                            INTEGER IDENTITY(1,1) CONSTRAINT articles_pk PRIMARY KEY,
     idUtilisateur                 INTEGER NOT NULL CONSTRAINT articles_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     idCategorie                   INTEGER NOT NULL CONSTRAINT articles_id_categorie_fk FOREIGN KEY REFERENCES CATEGORIES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	idRetrait					  INTEGER NULL CONSTRAINT articles_id_retrait_fk FOREIGN KEY REFERENCES RETRAITS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    idRetrait					  INTEGER NULL CONSTRAINT articles_id_retrait_fk FOREIGN KEY REFERENCES RETRAITS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     nom                           VARCHAR(30) NOT NULL,
     description                   VARCHAR(300) NOT NULL,
-	dateDebutEncheres             DATE NOT NULL,
-    dateFinEncheres               DATE NOT NULL CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres),
+    dateDebutEncheres             DATE NOT NULL,
+    dateFinEncheres               DATE NOT NULL,
     prixInitial                   INTEGER NULL CONSTRAINT articles_prix_initial_chk CHECK (prixInitial >= 0),
-    prixVente                     INTEGER NULL CONSTRAINT articles_prix_vente_chk CHECK ((prixVente >= prixInitial) OR (prixVente = NULL))
+    prixVente                     INTEGER NULL ,
+    CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres),
+    CONSTRAINT articles_prix_vente_chk CHECK ((prixVente >= prixInitial) OR (prixVente = NULL))
 )
 
 
-CREATE TABLE ENCHERES(	
-	id                         INTEGER IDENTITY(1,1) NOT NULL ,
-    idArticle                  INTEGER NOT NULL CONSTRAINT encheres_id_article_fk FOREIGN KEY REFERENCES ARTICLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	idUtilisateur              INTEGER NOT NULL CONSTRAINT encheres_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	dateEnchere                datetime NOT NULL,
-	montantEnchere             INTEGER NOT NULL
+CREATE TABLE ENCHERES(
+    id                        INTEGER IDENTITY(1,1) NOT NULL ,
+    idArticle                 INTEGER NOT NULL CONSTRAINT encheres_id_article_fk FOREIGN KEY REFERENCES ARTICLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    idUtilisateur             INTEGER NOT NULL CONSTRAINT encheres_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    dateEnchere               datetime NOT NULL,
+    montantEnchere            INTEGER NOT NULL,
 
-    CONSTRAINT encheres_pk PRIMARY KEY (id,idArticle,idUtilisateur)
-    CONSTRAINT encheres_montant_enchere_uk UNIQUE
-    CONSTRAINT encheres_id_article_uk UNIQUE
- )
+    CONSTRAINT encheres_pk PRIMARY KEY (id,idArticle,idUtilisateur),
+    CONSTRAINT encheres_montant_enchere_uk UNIQUE (idArticle,montantEnchere)
+)
  
 
 
