@@ -16,34 +16,34 @@
 <form action="inscription" method="post">
 
     <label for="pseudo">Pseudo : </label>
-    <input type="text" id="pseudo" name="pseudo" required="required" maxlength="30"/>
+    <input type="text" id="pseudo" name="pseudo" required="required" maxlength="30" value="${ajoutUtilisateur.pseudo}"/>
     <BR/><BR/>
     <label for="nom">Nom : </label>
-    <input type="text" id="nom" name="nom" required="required" maxlength="30"/>
+    <input type="text" id="nom" name="nom" required="required" maxlength="30" value="${ajoutUtilisateur.nom}"/>
     <BR/><BR/>
     <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" required="required" maxlength="30"/>
+    <input type="text" id="prenom" name="prenom" required="required" maxlength="30" value="${ajoutUtilisateur.prenom}"/>
     <BR/><BR/>
     <label for="email">Email :</label>
-    <input type="email" id="email" name="email" required="required" maxlength="30"/>
+    <input type="email" id="email" name="email" required="required" maxlength="30" value="${ajoutUtilisateur.email}"/>
     <BR/><BR/>
     <label for="telephone">Teléphone :</label>
-    <input type="tel" id="telephone" name="telephone" maxlength="10"/>
+    <input type="tel" id="telephone" name="telephone" maxlength="10" value="${ajoutUtilisateur.telephone}"/>
     <BR/><BR/>
     <label for="rue">Rue :</label>
-    <input type="text" id="rue" name="rue" required="required" maxlength="30"/>
+    <input type="text" id="rue" name="rue" required="required" maxlength="30" value="${ajoutUtilisateur.rue}"/>
     <BR/><BR/>
     <label for="codePostal">Code Postal :</label>
-    <input type="text" id="codePostal" name="codePostal" required="required" maxlength="5"/>
+    <input type="text" id="codePostal" name="codePostal" required="required" maxlength="5" value="${ajoutUtilisateur.codePostal}"/>
     <BR/><BR/>
     <label for="ville">Ville :</label>
-    <input type="text" id="ville" name="ville" required="required" maxlength="30"/>
+    <input type="text" id="ville" name="ville" required="required" maxlength="30" value="${ajoutUtilisateur.ville}"/>
     <BR/><BR/>
     <label for="motDePasse">Mot de passe :</label>
-    <input type="password" id="motDePasse" name="motDePasse" required="required" maxlength="30"/>
+    <input type="password" id="motDePasse" name="motDePasse" required="required" maxlength="30" />
     <BR/><BR/>
-    <label for="passwordConfirm">Confirmation :</label>
-    <input type="password" id="passwordConfirm" name="passwordConfirm" required="required" maxlength="30"/>
+    <label for="mdpConfirm">Confirmation :</label>
+    <input type="password" id="mdpConfirm" name="mdpConfirm" required="required" maxlength="30" />
     <BR/><BR/>
     <input type="submit"  id="submit" value="Créer"/><a href="accueil"><input type="button" value="Annuler" /></a>
 
