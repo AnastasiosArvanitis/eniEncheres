@@ -88,11 +88,11 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
   @Override
   public Utilisateur insert(Utilisateur ajoutUtilisateur) throws SQLException, DalException {
-    final String sqlInsert ="INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse) VALUES (?,?,?,?,?,?,?,?,?)";
+    final String SQL_INSERT ="INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse) VALUES (?,?,?,?,?,?,?,?,?)";
     Utilisateur utilisateurCree = null;
     int idAjout = 0;
     try (Connection connection = JdbcConnection.connect()) {
-      PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
+      PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
       preparedStatement.setString(1, ajoutUtilisateur.getPseudo());
       preparedStatement.setString(2, ajoutUtilisateur.getNom());
       preparedStatement.setString(3, ajoutUtilisateur.getPrenom());
@@ -125,6 +125,44 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     }
     return utilisateurCree ;
+  }
+
+  @Override
+  public boolean verifEmail(String email) throws SQLException, DalException {
+    boolean verifEmail = false;
+    final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ? ";
+      try (Connection connection = JdbcConnection.connect())
+      {
+        PreparedStatement preparedStatement = connection.prepareStatement(VERIF_EMAIL);
+        preparedStatement.setString(1,email);
+        ResultSet rs = preparedStatement.executeQuery();
+        verifEmail = rs.next();
+        System.out.println(verifEmail);
+      }catch( SQLException e)
+    {
+      logger.severe("Erreur méthode vérif email , email rechercher : " + email);
+    }
+
+    return verifEmail;
+  }
+
+  @Override
+  public boolean verifPseudo(String pseudo) throws SQLException, DalException {
+    boolean verifPseudo = false;
+    final String VERIF_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ? ";
+    try (Connection connection = JdbcConnection.connect())
+    {
+      PreparedStatement preparedStatement = connection.prepareStatement(VERIF_PSEUDO);
+      preparedStatement.setString(1,pseudo);
+      ResultSet rs = preparedStatement.executeQuery();
+      verifPseudo = rs.next();
+      System.out.println(verifPseudo);
+    }catch( SQLException e)
+    {
+      logger.severe("Erreur méthode vérif pseudo , email pseudo : " + verifPseudo);
+    }
+
+    return verifPseudo;
   }
 
   private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
