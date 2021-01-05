@@ -3,19 +3,14 @@ package fr.eni.eniEncheres.servlets.utilisateur;
 import fr.eni.eniEncheres.bll.BllException;
 import fr.eni.eniEncheres.bll.UtilisateurManager;
 import fr.eni.eniEncheres.bo.Utilisateur;
-import fr.eni.eniEncheres.dal.DalException;
-import fr.eni.eniEncheres.dal.FactoryDao;
-import fr.eni.eniEncheres.dal.jdbc.UtilisateurDaoJdbcImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
-public class Update extends HttpServlet {
+public class Profile extends HttpServlet {
     UtilisateurManager utilisateurManager =  null;
 
     @Override
@@ -42,7 +37,6 @@ public class Update extends HttpServlet {
         request.setAttribute("ville", utilisateur1.getVille());
         request.setAttribute("motDePasse", utilisateur1.getMotDePasse());
         request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
-
     }
 
     @Override
