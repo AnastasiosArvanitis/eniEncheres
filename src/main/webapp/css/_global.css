@@ -50,6 +50,10 @@ header a {
 }
 
 main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 60%;
     padding: 20px;
     background: var(--main-bg-color);
