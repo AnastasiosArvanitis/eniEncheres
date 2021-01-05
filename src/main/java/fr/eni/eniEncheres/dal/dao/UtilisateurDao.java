@@ -13,6 +13,6 @@ public interface UtilisateurDao {
 
     void update(Utilisateur utilisateur) throws SQLException, DalException;
 
-
+    Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException;
 
 }
