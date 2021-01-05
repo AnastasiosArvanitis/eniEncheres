@@ -11,7 +11,7 @@ public interface UtilisateurDao {
 
     Utilisateur selectLogin(String pseudoOuEmail, String password) throws SQLException, DalException;
 
-    void update(Utilisateur utilisateur) throws SQLException, DalException;
+    Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException;
 
     Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException;
 

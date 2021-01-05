@@ -2,6 +2,7 @@ package fr.eni.eniEncheres.dal.jdbc;
 
 import fr.eni.eniEncheres.bo.Utilisateur;
 import fr.eni.eniEncheres.dal.DalException;
+import fr.eni.eniEncheres.dal.FactoryDao;
 import fr.eni.eniEncheres.dal.dao.UtilisateurDao;
 import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
@@ -62,8 +63,9 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     }
 
     @Override
-    public void update(Utilisateur utilisateur) throws SQLException, DalException {
+    public Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException {
         final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, codePostal = ?, ville = ?, motDePasse = ? WHERE id = ?";
+        Utilisateur utilisateurRecupere = null;
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement requete = connection.prepareStatement(UPDATE);
             requete.setString(1, utilisateur.getPseudo());
@@ -77,11 +79,14 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
             requete.setString(9, utilisateur.getMotDePasse());
             requete.setInt(10, utilisateur.getId());
             requete.executeUpdate();
+
+            utilisateurRecupere = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
+
         }catch(SQLException e){
             logger.severe("Error method update " + e.getMessage() + "\n");
             throw  new DalException(e.getMessage(), e);
         }
-
+        return utilisateurRecupere;
     }
 
     @Override

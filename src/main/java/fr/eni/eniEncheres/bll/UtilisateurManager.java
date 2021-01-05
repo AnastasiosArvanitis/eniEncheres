@@ -17,7 +17,7 @@ public class UtilisateurManager {
     private Logger logger = EnchereLogger.getLogger("UtilisateurManager");
 
     //Constructeur privé => PATTERN SINGLETON
-    private UtilisateurManager() {
+    public UtilisateurManager() {
         utilisateurDao = FactoryDao.getUtilisateurDao();
     }
 
@@ -29,16 +29,38 @@ public class UtilisateurManager {
         return instance;
     }
 
-    public Utilisateur getUtilisateurLogin(String pseudoOuEmail, String password) throws SQLException, DalException {
+    public Utilisateur getUtilisateurLogin(String pseudoOuEmail, String password) throws SQLException, BllException {
         Utilisateur utilisateur = null;
 
         try {
             utilisateur = utilisateurDao.selectLogin(pseudoOuEmail, password);
-        } catch (SQLException e) {
+        } catch (SQLException | DalException e) {
             logger.severe("Error getUtilisateurLogin " +e.getMessage());
-            throw new DalException(e.getMessage(), e);
+            throw new BllException(e.getMessage(), e);
         }
         return utilisateur;
+    }
+
+    public Utilisateur selectById(int id) throws SQLException, BllException{
+        Utilisateur utilisateur = null;
+        try {
+            utilisateur = utilisateurDao.selectById(id);
+        }catch (SQLException | DalException e){
+            logger.severe("Error dans selectById UtilisateurManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return utilisateur;
+    }
+
+    public Utilisateur update(Utilisateur utilisateur) throws SQLException, BllException{
+        Utilisateur utilisateurRetourne = null;
+        try {
+            utilisateurRetourne = utilisateurDao.update(utilisateur);
+        }catch(SQLException | DalException e){
+            logger.severe("Error updateManager " + e.getMessage());
+            throw new BllException(e.getMessage(),e);
+        }
+        return utilisateurRetourne;
     }
 
 }
