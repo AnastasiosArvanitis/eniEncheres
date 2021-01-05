@@ -15,4 +15,9 @@ public interface UtilisateurDao {
 
     Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException;
 
+    boolean verifEmail(String email) throws SQLException,DalException;
+
+    boolean verifPseudo(String pseudo) throws  SQLException,DalException;
+
+
 }
