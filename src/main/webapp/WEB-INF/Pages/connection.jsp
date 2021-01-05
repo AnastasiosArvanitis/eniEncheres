@@ -27,6 +27,8 @@
             </p>
             <p></p>
             <p><a href="#">Mot de pass oublié</a></p>
+            <p></p>
+            <p><a href="<%=request.getContextPath()%>/inscription">Créer un compte</a></p>
         </form>
     </div>
 </main>
