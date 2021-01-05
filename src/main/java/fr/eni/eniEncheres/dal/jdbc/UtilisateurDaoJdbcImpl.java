@@ -120,7 +120,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
       if (resultSet.next()) {
         idAjout = resultSet.getInt(1);
-        logger.info("Nouvel utilisateur crée avec l'id : " + idAjout + " "+ajoutUtilisateur.toString())  ;
+       // logger.info("Nouvel utilisateur crée avec l'id : " + idAjout + " "+ajoutUtilisateur.toString())  ;
         utilisateurCree = selectById(idAjout);
       }
     }
