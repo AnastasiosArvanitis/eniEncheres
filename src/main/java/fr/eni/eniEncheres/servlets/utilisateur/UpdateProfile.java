@@ -60,7 +60,7 @@ public class UpdateProfile extends HttpServlet {
             Utilisateur utilisateur = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse,id);
             try {
                 Utilisateur utilisateurRecuperer = utilisateurManager.update(utilisateur);
-
+                message ="Update reussi !";
                 request.setAttribute("id",utilisateurRecuperer.getId());
                 request.setAttribute("pseudo", utilisateurRecuperer.getPseudo());
                 request.setAttribute("nom", utilisateurRecuperer.getNom());
@@ -71,6 +71,7 @@ public class UpdateProfile extends HttpServlet {
                 request.setAttribute("codePostal", utilisateurRecuperer.getCodePostal());
                 request.setAttribute("ville", utilisateurRecuperer.getVille());
                 request.setAttribute("motDePasse", utilisateurRecuperer.getMotDePasse());
+                request.setAttribute("message", message);
                 request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
