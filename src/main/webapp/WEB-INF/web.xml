@@ -33,5 +33,14 @@
         <url-pattern>/inscription</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Update</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Update</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
 </web-app>
 
