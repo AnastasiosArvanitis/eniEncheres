@@ -35,7 +35,14 @@
         </article>
         <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
-        <p style="color: red"><%=request.getAttribute("message")%></p>
+        <p style="color: #ff0000">
+            <% String messageSuccesUpdateProfil = (String) request.getAttribute("message");
+            if (messageSuccesUpdateProfil != null){
+                request.getAttribute("message");
+            }else{
+                out.println("");
+            }
+        %></p>
     </main>
 
 <jsp:include page="./footer.jsp" />
