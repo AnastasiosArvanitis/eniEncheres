@@ -7,8 +7,12 @@ import java.sql.SQLException;
 
 public interface UtilisateurDao {
 
-    public void update(Utilisateur utilisateur) throws SQLException, DalException;
+    Utilisateur selectById(int id) throws SQLException, DalException;
 
-    public Utilisateur selectById(int id) throws SQLException, DalException;
+    Utilisateur selectLogin(String pseudoOuEmail, String password) throws SQLException, DalException;
+
+    void update(Utilisateur utilisateur) throws SQLException, DalException;
+
+
 
 }
