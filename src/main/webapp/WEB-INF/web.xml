@@ -34,12 +34,21 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Update</servlet-name>
-        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Update</servlet-class>
+        <servlet-name>Profile</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Profile</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Update</servlet-name>
-        <url-pattern>/update</url-pattern>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateProfile</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.UpdateProfile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateProfile</servlet-name>
+        <url-pattern>/update_profile</url-pattern>
     </servlet-mapping>
 
 </web-app>
