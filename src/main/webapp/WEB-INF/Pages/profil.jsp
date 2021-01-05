@@ -19,13 +19,12 @@
 
             <p>Pseudo : <%=request.getAttribute("pseudo") %> </p>
             <p>Nom : <%=request.getAttribute("nom") %></p>
-
-            <p>Prenom : </p>
-            <p>Email : </p>
-            <p>Téléphone : </p>
-            <p>Rue : </p>
-            <p>Code Postal : </p>
-            <p>Ville : </p>
+            <p>Prenom : <%=request.getAttribute("prenom") %></p>
+            <p>Email : <%=request.getAttribute("email") %></p>
+            <p>Téléphone : <%=request.getAttribute("telephone") %></p>
+            <p>Rue : <%=request.getAttribute("rue") %></p>
+            <p>Code Postal : <%=request.getAttribute("codePostal") %></p>
+            <p>Ville : <%=request.getAttribute("ville") %></p>
         </article>
         <a href="#">Modifier</a>
         <a href="#">Supprimer</a>

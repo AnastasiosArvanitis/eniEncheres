@@ -17,7 +17,7 @@ public class UtilisateurManager {
     private Logger logger = EnchereLogger.getLogger("UtilisateurManager");
 
     //Constructeur privé => PATTERN SINGLETON
-    public UtilisateurManager() {
+    private UtilisateurManager() {
         utilisateurDao = FactoryDao.getUtilisateurDao();
     }
 

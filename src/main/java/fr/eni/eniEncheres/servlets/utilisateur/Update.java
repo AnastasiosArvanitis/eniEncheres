@@ -16,25 +16,14 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class Update extends HttpServlet {
-    private UtilisateurManager utilisateurManager = null;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        utilisateurManager = UtilisateurManager.getInstance();
-    }
+    UtilisateurManager utilisateurManager =  null;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        Utilisateur utilisateur = null;
-
+         utilisateurManager = UtilisateurManager.getInstance();
+        Utilisateur utilisateur1 = null;
         try {
-            System.out.println("rentrer try");
-
-            utilisateur = utilisateurManager.selectById(1);
-
-            System.out.println("sortie try"+ utilisateur.toString());
+            utilisateur1 = utilisateurManager.selectById(1);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -42,8 +31,16 @@ public class Update extends HttpServlet {
             e.printStackTrace();
         }
 
-        request.setAttribute("pseudo", utilisateur.getPseudo());
-        request.setAttribute("nom", utilisateur.getNom());
+        assert utilisateur1 != null;
+        request.setAttribute("pseudo", utilisateur1.getPseudo());
+        request.setAttribute("nom", utilisateur1.getNom());
+        request.setAttribute("prenom", utilisateur1.getPrenom());
+        request.setAttribute("email", utilisateur1.getEmail());
+        request.setAttribute("telephone", utilisateur1.getTelephone());
+        request.setAttribute("rue", utilisateur1.getRue());
+        request.setAttribute("codePostal", utilisateur1.getCodePostal());
+        request.setAttribute("ville", utilisateur1.getVille());
+        request.setAttribute("motDePasse", utilisateur1.getMotDePasse());
         request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
 
     }
