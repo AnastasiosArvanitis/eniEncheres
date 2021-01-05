@@ -16,8 +16,6 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     private Logger logger = EnchereLogger.getLogger("UtilisateurDaoJdbcImpl");
 
-    private Connection connection = null;
-
     @Override
     public Utilisateur selectById(int id) throws SQLException, DalException {
         return null;
@@ -28,8 +26,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
         Utilisateur utilisateur = null;
         final String sqlLogin = "select * from UTILISATEURS where (email=? or pseudo=?) and motDePasse=?";
 
-        try {
-            connection =JdbcConnection.connect();
+        try (Connection connection =JdbcConnection.connect()) {
+
             PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
             preparedStatement.setString(1, pseudoOuEmail);
             preparedStatement.setString(2, pseudoOuEmail);

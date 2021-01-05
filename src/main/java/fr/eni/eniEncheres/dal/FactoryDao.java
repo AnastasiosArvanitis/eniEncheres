@@ -5,7 +5,7 @@ import fr.eni.eniEncheres.dal.jdbc.UtilisateurDaoJdbcImpl;
 
 public class FactoryDao {
 
-    public static UtilisateurDao getPostDao() {
+    public static UtilisateurDao getUtilisateurDao() {
         return new UtilisateurDaoJdbcImpl();
     }
 
