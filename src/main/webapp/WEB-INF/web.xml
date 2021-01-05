@@ -3,6 +3,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <display-name>Encheres Management Web Application</display-name>
+
+    <servlet>
+        <servlet-name>Welcome</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Welcome</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Welcome</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Connection</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Connection</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Connection</servlet-name>
+        <url-pattern>/connection</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>Inscription</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Inscription</servlet-class>
@@ -11,5 +32,6 @@
         <servlet-name>Inscription</servlet-name>
         <url-pattern>/inscription</url-pattern>
     </servlet-mapping>
+
 </web-app>
 
