@@ -50,6 +50,11 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     }
 
+    @Override
+    public Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException {
+        return null;
+    }
+
     private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setId(rs.getInt("id"));
