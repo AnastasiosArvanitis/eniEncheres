@@ -1,18 +1,16 @@
-<%@ page import="fr.eni.eniEncheres.bo.Utilisateur" %><%--
-  Created by IntelliJ IDEA.
-  User: vincdev
-  Date: 05/01/2021
-  Time: 14:47
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="fr.eni.eniEncheres.bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
     <title>Title</title>
+    <style>
+        <%@ include file="../../css/_global.css"%>
+    </style>
+    <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<jsp:include page="./header.jsp" />
 <%
     Utilisateur utilisateur =null;
     if (session.getAttribute("utilisateur") == null) {
@@ -21,7 +19,7 @@
         utilisateur = (Utilisateur) session.getAttribute("utilisateur");
     }
 %>
-    <section id="monProfil">
+    <main>
         <h2>Mon Profil</h2>
         <article class="monProfil">
 
@@ -38,8 +36,8 @@
         <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
         <p style="color: red"><%=request.getAttribute("message")%></p>
-    </section>
+    </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="./footer.jsp" />
 </body>
 </html>
