@@ -18,7 +18,23 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     @Override
     public Utilisateur selectById(int id) throws SQLException, DalException {
-        return null;
+        Utilisateur utilisateur = null;
+        final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id = ?";
+
+        try(Connection connection = JdbcConnection.connect()){
+
+            PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
+            requete.setInt(1, id);
+            ResultSet resultSet = requete.executeQuery();
+
+            if(resultSet.next()){
+                utilisateur = utilisateurBuilder(resultSet);
+            }
+        }catch(SQLException e){
+            logger.severe("Error method selectById " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return utilisateur;
     }
 
     @Override
@@ -47,7 +63,30 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     @Override
     public void update(Utilisateur utilisateur) throws SQLException, DalException {
+        final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, codePostal = ?, ville = ?, motDePasse = ? WHERE id = ?";
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(UPDATE);
+            requete.setString(1, utilisateur.getPseudo());
+            requete.setString(2, utilisateur.getNom());
+            requete.setString(3, utilisateur.getPrenom());
+            requete.setString(4, utilisateur.getEmail());
+            requete.setString(5, utilisateur.getTelephone());
+            requete.setString(6, utilisateur.getRue());
+            requete.setString(7, utilisateur.getCodePostal());
+            requete.setString(8, utilisateur.getVille());
+            requete.setString(9, utilisateur.getMotDePasse());
+            requete.setInt(10, utilisateur.getId());
+            requete.executeUpdate();
+        }catch(SQLException e){
+            logger.severe("Error method update " + e.getMessage() + "\n");
+            throw  new DalException(e.getMessage(), e);
+        }
 
+    }
+
+    @Override
+    public Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException {
+        return null;
     }
 
     private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
