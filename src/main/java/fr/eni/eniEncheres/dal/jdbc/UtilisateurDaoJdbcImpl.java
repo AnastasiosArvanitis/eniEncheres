@@ -164,17 +164,6 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     return verifPseudo;
   }
-
-  @Override
-  public boolean verifEmail(String email) throws SQLException, DalException {
-    return false;
-  }
-
-  @Override
-  public boolean verifPseudo(String pseudo) throws SQLException, DalException {
-    return false;
-  }
-
   private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
     Utilisateur utilisateur = new Utilisateur();
     utilisateur.setId(rs.getInt("id"));
