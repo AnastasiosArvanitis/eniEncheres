@@ -69,7 +69,12 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       requete.setString(2, utilisateur.getNom());
       requete.setString(3, utilisateur.getPrenom());
       requete.setString(4, utilisateur.getEmail());
-      requete.setString(5, utilisateur.getTelephone());
+      //gestion du null
+      if(utilisateur.getTelephone() == null){
+        requete.setNull(5, Types.VARCHAR);
+      }else {
+        requete.setString(5, utilisateur.getTelephone());
+      }
       requete.setString(6, utilisateur.getRue());
       requete.setString(7, utilisateur.getCodePostal());
       requete.setString(8, utilisateur.getVille());
