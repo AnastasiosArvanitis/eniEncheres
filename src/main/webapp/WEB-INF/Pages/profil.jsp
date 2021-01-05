@@ -1,4 +1,4 @@
-<%--
+<%@ page import="fr.eni.eniEncheres.bo.Utilisateur" %><%--
   Created by IntelliJ IDEA.
   User: vincdev
   Date: 05/01/2021
@@ -13,19 +13,27 @@
 </head>
 <body>
 <jsp:include page="header.jsp" />
+<%
+    Utilisateur utilisateur =null;
+    if (session.getAttribute("utilisateur") == null) {
+        response.sendRedirect("/encheres/error?error=userNotExist");
+    } else {
+        utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+    }
+%>
     <section id="monProfil">
         <h2>Mon Profil</h2>
         <article class="monProfil">
 
-            <p>Pseudo : <%=request.getAttribute("pseudo") %> </p>
-            <p>Nom : <%=request.getAttribute("nom") %></p>
-            <p>Prenom : <%=request.getAttribute("prenom") %></p>
-            <p>Email : <%=request.getAttribute("email") %></p>
-            <p>Téléphone : <%=request.getAttribute("telephone") %></p>
-            <p>Rue : <%=request.getAttribute("rue") %></p>
-            <p>Code Postal : <%=request.getAttribute("codePostal") %></p>
-            <p>Ville : <%=request.getAttribute("ville") %></p>
-            <p style="display: none"><%=request.getAttribute("motDePasse") %></p>
+            <p>Pseudo : <%=utilisateur.getPseudo() %> </p>
+            <p>Nom : <%=utilisateur.getNom() %></p>
+            <p>Prenom : <%=utilisateur.getPrenom() %></p>
+            <p>Email : <%=utilisateur.getEmail() %></p>
+            <p>Téléphone : <%=utilisateur.getTelephone() %></p>
+            <p>Rue : <%=utilisateur.getRue() %></p>
+            <p>Code Postal : <%=utilisateur.getCodePostal() %></p>
+            <p>Ville : <%=utilisateur.getVille() %></p>
+            <p style="display: none"><%=utilisateur.getMotDePasse() %></p>
         </article>
         <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
