@@ -3,6 +3,7 @@ package fr.eni.eniEncheres.dal.jdbcTools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Settings {
@@ -13,20 +14,19 @@ public class Settings {
     static {
         try {
             properties = new Properties();
-            input = new FileInputStream("src/main/resources/settings.properties");
-            properties.load(input);
+
+            InputStream resourceAsStream = Settings.class.getClassLoader().getResourceAsStream("settings.properties");
+            if (resourceAsStream != null) {
+                properties.load(resourceAsStream);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
-            try {
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    public static String getProperty(String key) {
+        public static String getProperty(String key) {
         String parametre = properties.getProperty(key, null);
         return parametre;
     }
