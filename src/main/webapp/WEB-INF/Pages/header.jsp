@@ -5,6 +5,7 @@
     </div>
     <div class="nav">
         <a href="<%=request.getContextPath()%>/connection">S'inscrire - Se connecter</a>
+        <a href="<%=request.getContextPath()%>/update">mon profil</a>
     </div>
 
 </header>
