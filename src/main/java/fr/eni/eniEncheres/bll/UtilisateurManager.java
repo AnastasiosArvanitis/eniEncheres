@@ -8,6 +8,8 @@ import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.SQLException;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UtilisateurManager {
 
@@ -35,33 +37,64 @@ public class UtilisateurManager {
         try {
             utilisateur = utilisateurDao.selectLogin(pseudoOuEmail, password);
         } catch (SQLException | DalException e) {
-            logger.severe("Error getUtilisateurLogin " +e.getMessage());
+            logger.severe("Error getUtilisateurLogin " + e.getMessage());
             throw new BllException(e.getMessage(), e);
         }
         return utilisateur;
     }
 
-    public Utilisateur selectById(int id) throws SQLException, BllException{
+    public Utilisateur selectById(int id) throws SQLException, BllException {
         Utilisateur utilisateur = null;
         try {
             utilisateur = utilisateurDao.selectById(id);
-        }catch (SQLException | DalException e){
+        } catch (SQLException | DalException e) {
             logger.severe("Error dans selectById UtilisateurManager " + e.getMessage());
             throw new BllException(e.getMessage(), e);
         }
         return utilisateur;
     }
 
-    public Utilisateur update(Utilisateur utilisateur) throws SQLException, BllException{
+    public Utilisateur update(Utilisateur utilisateur) throws SQLException, BllException {
         Utilisateur utilisateurRetourne = null;
         try {
             utilisateurRetourne = utilisateurDao.update(utilisateur);
-        }catch(SQLException | DalException e){
+        } catch (SQLException | DalException e) {
             logger.severe("Error updateManager " + e.getMessage());
-            throw new BllException(e.getMessage(),e);
+            throw new BllException(e.getMessage(), e);
         }
         return utilisateurRetourne;
     }
+
+    public Utilisateur insert(Utilisateur ajoutUtilisateur) throws Exception {
+        Utilisateur utilisateur = null;
+        formatEmail(ajoutUtilisateur);
+        boolean verifEmail = utilisateurDao.verifEmail(ajoutUtilisateur.getEmail());
+        boolean verifPseudo = utilisateurDao.verifPseudo(ajoutUtilisateur.getPseudo());
+
+        if ((verifEmail) & (verifPseudo)) {
+            throw new Exception("L'email et le pseudo sont déjà présent en base");
+        } else if ((verifEmail) & (!verifPseudo)) {
+            throw new Exception("L'email saisi est déjà utilisé");
+
+        } else if ((!verifEmail) & (verifPseudo)) {
+            throw new Exception("Le pseudo est déjà pris");
+        } else {
+            utilisateur = utilisateurDao.insert(ajoutUtilisateur);
+        }
+        return utilisateur;
+    }
+
+    public void formatEmail(Utilisateur utilisateur) throws Exception {
+        String regExpression = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+        Pattern p = Pattern.compile(regExpression);
+        Matcher m = p.matcher(utilisateur.getEmail());
+        boolean formatEmail = m.matches();
+        if (!formatEmail) {
+            logger.severe("Tentative de création de compte avec un email incorrect: " + utilisateur.getEmail());
+            throw new Exception("L'adresse email n'est pas dans un format valide");
+        }
+    }
+
 
 }
 

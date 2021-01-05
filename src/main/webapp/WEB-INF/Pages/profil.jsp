@@ -37,6 +37,7 @@
         </article>
         <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
+        <p style="color: red"><%=request.getAttribute("message")%></p>
     </section>
 
 <jsp:include page="footer.jsp" />
