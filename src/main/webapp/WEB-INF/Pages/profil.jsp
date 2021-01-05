@@ -25,8 +25,9 @@
             <p>Rue : <%=request.getAttribute("rue") %></p>
             <p>Code Postal : <%=request.getAttribute("codePostal") %></p>
             <p>Ville : <%=request.getAttribute("ville") %></p>
+            <p style="display: none"><%=request.getAttribute("motDePasse") %></p>
         </article>
-        <a href="#">Modifier</a>
+        <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
     </section>
 
