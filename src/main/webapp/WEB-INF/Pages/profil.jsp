@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Profil</title>
     <style>
         <%@ include file="../../css/_global.css"%>
     </style>
