@@ -55,7 +55,6 @@ public class UpdateProfile extends HttpServlet {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println(e);
             }
                 if(utilisateurRecuperer == null){
                     message ="impossible de mettre a jour pseudo ou email deja utilisé";
