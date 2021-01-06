@@ -60,7 +60,7 @@
             <BR/>
             <BR/>
             <input type="submit" id="submit" value="Creer"/><a href="accueil"><input type="button" value="Annuler"
-                                                                                     onclick="window.location.href='<%=request.getContextPath()%>"/>
+                                                                                     onclick="window.location.href='<%=request.getContextPath()%>"/></a>
         </form>
     </div>
 </main>
