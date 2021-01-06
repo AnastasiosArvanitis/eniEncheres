@@ -4,6 +4,7 @@ import fr.eni.eniEncheres.bo.Retrait;
 import fr.eni.eniEncheres.dal.DalException;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface RetraitDao {
 

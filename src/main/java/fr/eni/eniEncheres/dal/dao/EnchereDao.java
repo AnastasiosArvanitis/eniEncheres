@@ -11,9 +11,9 @@ import java.util.List;
 public interface EnchereDao {
 
     List<Enchere> selectAllEnchere() throws SQLException, DalException;
-    List<Enchere> selectByUtilisateur(Utilisateur utilisateur) throws SQLException, DalException;
-    List<Enchere> selectByArticle(Article article) throws SQLException, DalException;
-    Enchere selectById(int id) throws  SQLException, DalException;
+    List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur) throws SQLException, DalException;
+    List<Enchere> selectEnchereByArticle(Article article) throws SQLException, DalException;
+    Enchere selectById(int id) throws SQLException, DalException;
 
     Enchere addNewEnchere() throws SQLException,DalException;
     Enchere terminerEnchere() throws SQLException, DalException;
