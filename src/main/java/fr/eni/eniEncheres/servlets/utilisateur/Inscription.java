@@ -28,34 +28,48 @@ public class Inscription extends HttpServlet {
         String codePostal   = request.getParameter("codePostal");
         String ville        = request.getParameter("ville");
         String motDePasse   = request.getParameter("motDePasse");
+        String mdpConfirm = request.getParameter("mdpConfirm");
 
 
         Utilisateur ajoutUtilisateur = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse);
         UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
         Utilisateur utilisateur = null;
         RequestDispatcher dispatcher = null;
+        String messageErreur = "" ;
 
-        try {
-            utilisateur = utilisateurManager.insert(ajoutUtilisateur);
-            System.out.println("insert réussi");
-            System.out.println(utilisateur.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(utilisateur == null) {
+        if (!mdpConfirm.equals(motDePasse)){
+            System.out.println("mot de passe non identique");
             request.setAttribute("ajoutUtilisateur", ajoutUtilisateur);
             dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/inscription.jsp");
-            dispatcher.forward(request, response);
-        } else {
-            HttpSession session = request.getSession();
-            session.setAttribute("utilisateur", utilisateur);
+            dispatcher.forward(request, response);}
+            else{
+                try {
+                    utilisateur = utilisateurManager.insert(ajoutUtilisateur);
+                    System.out.println("insert réussi");
+                    System.out.println(utilisateur.toString());
+                } catch (Exception e) {
+                    // Je récupère le message de l'exception
+                    messageErreur = e.getMessage();
+                }
 
-            response.sendRedirect("/encheres/profile");
+                if (utilisateur == null) {
+                    request.setAttribute("Erreur", messageErreur);
+                    request.setAttribute("ajoutUtilisateur", ajoutUtilisateur);
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/inscription.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("utilisateur", utilisateur);
+
+                    response.sendRedirect("/encheres/profile");
+                }
+            }
+            }
         }
-        }
 
 
 
 
-}
+
+
+

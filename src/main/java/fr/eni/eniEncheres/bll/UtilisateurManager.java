@@ -54,13 +54,26 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
-    public Utilisateur update(Utilisateur utilisateur) throws SQLException, BllException {
+    public Utilisateur update(Utilisateur utilisateur) throws Exception {
         Utilisateur utilisateurRetourne = null;
-        try {
-            utilisateurRetourne = utilisateurDao.update(utilisateur);
-        } catch (SQLException | DalException e) {
-            logger.severe("Error updateManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
+        formatEmail(utilisateur);
+        formatPseudo(utilisateur);
+        //VERIFIER PSEUDO ET EMAIL
+        boolean verifEmail = utilisateurDao.verifEmail(utilisateur.getEmail(), utilisateur.getId());
+        boolean verifPseudo = utilisateurDao.verifPseudo(utilisateur.getPseudo(), utilisateur.getId());
+        if ((verifEmail) & (verifPseudo)) {
+            throw new Exception("L'email et le pseudo sont déjà présent en base");
+        } else if ((verifEmail) & (!verifPseudo)) {
+            throw new Exception("L'email saisi est déjà utilisé");
+        } else if ((!verifEmail) & (verifPseudo)) {
+            throw new Exception("Le pseudo est déjà pris");
+        } else {
+            try {
+                utilisateurRetourne = utilisateurDao.update(utilisateur);
+            } catch (SQLException | DalException e) {
+                logger.severe("Error updateManager " + e.getMessage());
+                throw new BllException(e.getMessage(), e);
+            }
         }
         return utilisateurRetourne;
     }
@@ -68,20 +81,31 @@ public class UtilisateurManager {
     public Utilisateur insert(Utilisateur ajoutUtilisateur) throws Exception {
         Utilisateur utilisateur = null;
         formatEmail(ajoutUtilisateur);
-        boolean verifEmail = utilisateurDao.verifEmail(ajoutUtilisateur.getEmail());
-        boolean verifPseudo = utilisateurDao.verifPseudo(ajoutUtilisateur.getPseudo());
+        formatPseudo(ajoutUtilisateur);
+        boolean verifEmail = utilisateurDao.verifEmail ( ajoutUtilisateur.getEmail(), ajoutUtilisateur.getId());
+        boolean verifPseudo = utilisateurDao.verifPseudo ( ajoutUtilisateur.getPseudo(), ajoutUtilisateur.getId());
 
         if ((verifEmail) & (verifPseudo)) {
             throw new Exception("L'email et le pseudo sont déjà présent en base");
         } else if ((verifEmail) & (!verifPseudo)) {
             throw new Exception("L'email saisi est déjà utilisé");
-
         } else if ((!verifEmail) & (verifPseudo)) {
             throw new Exception("Le pseudo est déjà pris");
         } else {
             utilisateur = utilisateurDao.insert(ajoutUtilisateur);
         }
         return utilisateur;
+    }
+
+    public boolean delete(int id) throws Exception {
+        boolean verifDelete = false;
+        try{
+          verifDelete = utilisateurDao.delete(id);
+        }catch(SQLException | DalException e){
+            logger.severe("Error lors de la suppression du membre dans la BLL" + e.getMessage());
+            throw new Exception("Impossible du supprimer le membre");
+        }
+        return verifDelete;
     }
 
     public void formatEmail(Utilisateur utilisateur) throws Exception {
@@ -92,6 +116,17 @@ public class UtilisateurManager {
         if (!formatEmail) {
             logger.severe("Tentative de création de compte avec un email incorrect: " + utilisateur.getEmail());
             throw new Exception("L'adresse email n'est pas dans un format valide");
+        }
+
+    }
+    public void formatPseudo(Utilisateur utilisateur) throws Exception {
+        String regExpression = "[a-z\\d]*";
+        Pattern p = Pattern.compile(regExpression);
+        Matcher m = p.matcher(utilisateur.getPseudo());
+        boolean formatPseudo = m.matches();
+        if (!formatPseudo) {
+            logger.severe("Le pseudo doit être au format alpha-numérique " + utilisateur.getPseudo());
+            throw new Exception("Le pseudo doit être au format alpha numérique");
         }
     }
 

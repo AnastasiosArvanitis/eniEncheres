@@ -133,13 +133,39 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
-  public boolean verifEmail(String email) throws SQLException, DalException {
+  public boolean delete(int id) throws SQLException, DalException {
+    boolean verifDelete = false;
+    Utilisateur utilisateur;
+    final String DELETE ="DELETE UTILISATEURS WHERE id = ?";
+
+    try(Connection connection = JdbcConnection.connect()){
+
+      PreparedStatement requete = connection.prepareStatement(DELETE);
+
+      requete.setInt(1, id);
+      requete.executeUpdate();
+      utilisateur = FactoryDao.getUtilisateurDao().selectById(id);
+      if(utilisateur == null){
+        verifDelete = true;
+      }else {
+        verifDelete = false;
+      }
+    }catch (SQLException e){
+      logger.severe("Erreur lors de la suppression du membre " + e.getMessage());
+      throw new DalException(e.getMessage(), e);
+    }
+    return verifDelete;
+  }
+
+  @Override
+  public boolean verifEmail(String email, int id) throws SQLException, DalException {
     boolean verifEmail = false;
-    final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ? ";
+    final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ?  AND id <> ?";
       try (Connection connection = JdbcConnection.connect())
       {
         PreparedStatement preparedStatement = connection.prepareStatement(VERIF_EMAIL);
         preparedStatement.setString(1,email);
+        preparedStatement.setInt(2,id);
         ResultSet rs = preparedStatement.executeQuery();
         verifEmail = rs.next();
         System.out.println(verifEmail);
@@ -152,13 +178,14 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
-  public boolean verifPseudo(String pseudo) throws SQLException, DalException {
+  public boolean verifPseudo(String pseudo,int id) throws SQLException, DalException {
     boolean verifPseudo = false;
-    final String VERIF_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ? ";
+    final String VERIF_PSEUDO =  "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND id <> ? ";
     try (Connection connection = JdbcConnection.connect())
     {
       PreparedStatement preparedStatement = connection.prepareStatement(VERIF_PSEUDO);
       preparedStatement.setString(1,pseudo);
+      preparedStatement.setInt(2,id);
       ResultSet rs = preparedStatement.executeQuery();
       verifPseudo = rs.next();
       System.out.println(verifPseudo);
@@ -169,6 +196,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     return verifPseudo;
   }
+
   private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
     Utilisateur utilisateur = new Utilisateur();
     utilisateur.setId(rs.getInt("id"));

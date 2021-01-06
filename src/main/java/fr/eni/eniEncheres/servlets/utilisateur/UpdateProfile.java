@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.beans.ExceptionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class UpdateProfile extends HttpServlet {
     UtilisateurManager utilisateurManager =  null;
     private String message = "";
+    private String error="";
 
     @Override
     public void init() throws ServletException {
@@ -43,20 +45,32 @@ public class UpdateProfile extends HttpServlet {
         String motDePasse = request.getParameter("motDePasse");
         String confirmeMotDePasse = request.getParameter("confirmeMotDePasse");
 
+        Utilisateur utilisateurRecuperer = null;
+
         if(motDePasse.equals(confirmeMotDePasse) ){
             Utilisateur utilisateur = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse,id);
             try {
-                Utilisateur utilisateurRecuperer = utilisateurManager.update(utilisateur);
-                message ="Update reussi !";
-                HttpSession session = request.getSession();
-                session.setAttribute("utilisateur", utilisateurRecuperer);
-                request.setAttribute("message",message);
-                request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
+                utilisateurRecuperer = utilisateurManager.update(utilisateur);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (BllException e) {
+                error = e.getMessage();
+                e.printStackTrace();
+            } catch (Exception e) {
+                error = e.getMessage();
                 e.printStackTrace();
             }
+            if(utilisateurRecuperer == null){
+                    request.setAttribute("message",error);
+                    request.setAttribute("utilisateur",utilisateur);
+                    request.getRequestDispatcher("/WEB-INF/Pages/updateProfil.jsp").forward(request,response);
+                }else {
+                    message = "Mise à jour reussi !";
+                    HttpSession session = request.getSession();
+                    session.setAttribute("utilisateur", utilisateurRecuperer);
+                    request.setAttribute("message", message);
+                    request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request, response);
+                }
         }else{
             message = "les mots de passe ne correspondent pas !";
             request.setAttribute("message",message);
