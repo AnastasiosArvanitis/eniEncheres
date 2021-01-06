@@ -45,8 +45,23 @@ header {
     color: var(--header-txt-color);
 }
 
+header ul {
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+
+}
+
+header ul li {
+    padding-left: 20px;
+}
+
 header a {
     color: var(--header-txt-color);
+}
+
+header a:hover {
+    text-decoration: underline;
 }
 
 main {
