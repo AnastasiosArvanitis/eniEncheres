@@ -120,7 +120,7 @@ public class UtilisateurManager {
 
     }
     public void formatPseudo(Utilisateur utilisateur) throws Exception {
-        String regExpression = "[a-z\\d]*";
+        String regExpression = "[a-zA-Z\\d]*";
         Pattern p = Pattern.compile(regExpression);
         Matcher m = p.matcher(utilisateur.getPseudo());
         boolean formatPseudo = m.matches();
