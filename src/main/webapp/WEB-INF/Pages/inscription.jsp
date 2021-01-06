@@ -62,6 +62,8 @@
             <input type="submit" id="submit" value="Creer"/><a href="accueil"><input type="button" value="Annuler"
                                                                                      onclick="window.location.href='<%=request.getContextPath()%>"/></a>
         </form>
+
+        <p class="message-erreur">${Erreur}</p>
     </div>
 </main>
 <%@ include file="./footer.jsp"%>

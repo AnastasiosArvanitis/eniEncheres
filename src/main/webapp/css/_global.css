@@ -105,6 +105,10 @@ footer {
     color: var(--footer-txt-color);
 }
 
+.message-erreur{
+    color:red;
+}
+
 
 
 
