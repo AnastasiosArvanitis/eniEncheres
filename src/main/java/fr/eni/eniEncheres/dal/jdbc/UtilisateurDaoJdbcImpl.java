@@ -158,13 +158,14 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
-  public boolean verifEmail(String email) throws SQLException, DalException {
+  public boolean verifEmail(String email, int id) throws SQLException, DalException {
     boolean verifEmail = false;
-    final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ? ";
+    final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ?  AND id <> ?";
       try (Connection connection = JdbcConnection.connect())
       {
         PreparedStatement preparedStatement = connection.prepareStatement(VERIF_EMAIL);
         preparedStatement.setString(1,email);
+        preparedStatement.setInt(2,id);
         ResultSet rs = preparedStatement.executeQuery();
         verifEmail = rs.next();
         System.out.println(verifEmail);
@@ -177,13 +178,14 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
-  public boolean verifPseudo(String pseudo) throws SQLException, DalException {
+  public boolean verifPseudo(String pseudo,int id) throws SQLException, DalException {
     boolean verifPseudo = false;
-    final String VERIF_PSEUDO ="SELECT * FROM UTILISATEURS WHERE pseudo = ? ";
+    final String VERIF_PSEUDO =  "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND id <> ? ";
     try (Connection connection = JdbcConnection.connect())
     {
       PreparedStatement preparedStatement = connection.prepareStatement(VERIF_PSEUDO);
       preparedStatement.setString(1,pseudo);
+      preparedStatement.setInt(2,id);
       ResultSet rs = preparedStatement.executeQuery();
       verifPseudo = rs.next();
       System.out.println(verifPseudo);

@@ -69,8 +69,8 @@ public class UtilisateurManager {
         Utilisateur utilisateur = null;
         formatEmail(ajoutUtilisateur);
         formatPseudo(ajoutUtilisateur);
-        boolean verifEmail = utilisateurDao.verifEmail(ajoutUtilisateur.getEmail());
-        boolean verifPseudo = utilisateurDao.verifPseudo(ajoutUtilisateur.getPseudo());
+        boolean verifEmail = utilisateurDao.verifEmail ( ajoutUtilisateur.getEmail(), ajoutUtilisateur.getId());
+        boolean verifPseudo = utilisateurDao.verifPseudo ( ajoutUtilisateur.getPseudo(), ajoutUtilisateur.getId());
 
         if ((verifEmail) & (verifPseudo)) {
             throw new Exception("L'email et le pseudo sont déjà présent en base");
