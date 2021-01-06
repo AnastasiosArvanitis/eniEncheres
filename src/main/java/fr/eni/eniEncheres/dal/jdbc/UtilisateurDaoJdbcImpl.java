@@ -19,8 +19,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     Utilisateur utilisateur = null;
     final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id = ?";
 
-    try(Connection connection = JdbcConnection.connect()){
-
+    try {
+      Connection connection = JdbcConnection.connect();
       PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
       requete.setInt(1, id);
       ResultSet resultSet = requete.executeQuery();
