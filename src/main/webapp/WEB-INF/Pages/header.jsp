@@ -12,7 +12,7 @@
                     out.println("<li><a href=\"" +request.getContextPath()+ "/connection\">S'inscrire - Se connecter</a></li>");
                 } else {
                     out.println("<li><a href=\"" +request.getContextPath()+ "/encheres\">Encheres</a></li>");
-                    out.println("<li><a href=\"" +request.getContextPath()+ "/encheres\">Vendre un article</a></li>");
+                    out.println("<li><a href=\"" +request.getContextPath()+ "/ajout_vente\">Vendre un article</a></li>");
                     out.println("<li><a href=\"" +request.getContextPath()+ "/profile\">Mon profil</a></li>");
                     out.println("<li><a href=\"" +request.getContextPath()+ "/deconnexion\">Deconnexion</a></li>");
                 }

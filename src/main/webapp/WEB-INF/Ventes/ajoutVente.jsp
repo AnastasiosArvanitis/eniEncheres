@@ -53,11 +53,11 @@
             </p>
             <p>
                 <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="datetime-local" name="debutEnchere" id="debutEnchere">
+                <input type="date" name="debutEnchere" id="debutEnchere">
             </p>
             <p>
                 <label for="finEnchere">Fin de l'enchère :</label>
-                <input type="datetime-local" name="finEnchere" id="finEnchere">
+                <input type="date" name="finEnchere" id="finEnchere">
             </p>
 
                 <fieldset class="form-retrait">
