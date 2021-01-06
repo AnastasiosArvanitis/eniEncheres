@@ -30,6 +30,7 @@
             <p></p>
             <p><a href="<%=request.getContextPath()%>/inscription">Créer un compte</a></p>
         </form>
+        <p class="message-erreur">${message}</p>
     </div>
 </main>
 

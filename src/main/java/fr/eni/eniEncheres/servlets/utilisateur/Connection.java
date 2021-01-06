@@ -18,6 +18,7 @@ import java.sql.SQLException;
 public class Connection extends HttpServlet {
 
     private UtilisateurManager utilisateurManager = null;
+    private String error="";
 
     @Override
     public void init() throws ServletException {
@@ -34,11 +35,14 @@ public class Connection extends HttpServlet {
         try {
             utilisateur = utilisateurManager.getUtilisateurLogin(pseudoOuEmail, password);
             if(utilisateur == null) {
-                response.sendRedirect("/encheres/error?error=userNotFound");
+                error = "Mot de passe ou pseudo incorrect";
+                request.setAttribute("message",error);
+                request.getRequestDispatcher("/WEB-INF/Pages/connection.jsp").forward(request,response);
+                //response.sendRedirect("/encheres/error?error=userNotFound");
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
-                response.sendRedirect("/encheres/profile");
+                response.sendRedirect("/encheres/");
             }
         } catch (BllException e) {
             e.printStackTrace();
