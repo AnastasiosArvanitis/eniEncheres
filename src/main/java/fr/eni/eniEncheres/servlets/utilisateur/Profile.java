@@ -25,7 +25,11 @@ public class Profile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-        request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
+        if (utilisateur == null) {
+            response.sendRedirect("/encheres/error?error=NotConnected");
+        } else {
+            request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
+        }
     }
 
     @Override
