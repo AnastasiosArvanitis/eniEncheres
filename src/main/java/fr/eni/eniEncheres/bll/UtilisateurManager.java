@@ -54,13 +54,26 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
-    public Utilisateur update(Utilisateur utilisateur) throws SQLException, BllException {
+    public Utilisateur update(Utilisateur utilisateur) throws Exception {
         Utilisateur utilisateurRetourne = null;
-        try {
-            utilisateurRetourne = utilisateurDao.update(utilisateur);
-        } catch (SQLException | DalException e) {
-            logger.severe("Error updateManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
+        formatEmail(utilisateur);
+        formatPseudo(utilisateur);
+        //VERIFIER PSEUDO ET EMAIL
+        boolean verifEmail = utilisateurDao.verifEmail(utilisateur.getEmail(), utilisateur.getId());
+        boolean verifPseudo = utilisateurDao.verifPseudo(utilisateur.getPseudo(), utilisateur.getId());
+        if ((verifEmail) & (verifPseudo)) {
+            throw new Exception("L'email et le pseudo sont déjà présent en base");
+        } else if ((verifEmail) & (!verifPseudo)) {
+            throw new Exception("L'email saisi est déjà utilisé");
+        } else if ((!verifEmail) & (verifPseudo)) {
+            throw new Exception("Le pseudo est déjà pris");
+        } else {
+            try {
+                utilisateurRetourne = utilisateurDao.update(utilisateur);
+            } catch (SQLException | DalException e) {
+                logger.severe("Error updateManager " + e.getMessage());
+                throw new BllException(e.getMessage(), e);
+            }
         }
         return utilisateurRetourne;
     }

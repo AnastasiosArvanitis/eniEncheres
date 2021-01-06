@@ -196,6 +196,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     return verifPseudo;
   }
+
   private Utilisateur utilisateurBuilder(ResultSet rs) throws SQLException {
     Utilisateur utilisateur = new Utilisateur();
     utilisateur.setId(rs.getInt("id"));

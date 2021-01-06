@@ -43,20 +43,33 @@ public class UpdateProfile extends HttpServlet {
         String motDePasse = request.getParameter("motDePasse");
         String confirmeMotDePasse = request.getParameter("confirmeMotDePasse");
 
+        Utilisateur utilisateurRecuperer = null;
+
         if(motDePasse.equals(confirmeMotDePasse) ){
             Utilisateur utilisateur = new Utilisateur(pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse,id);
             try {
-                Utilisateur utilisateurRecuperer = utilisateurManager.update(utilisateur);
-                message ="Update reussi !";
-                HttpSession session = request.getSession();
-                session.setAttribute("utilisateur", utilisateurRecuperer);
-                request.setAttribute("message",message);
-                request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
+                utilisateurRecuperer = utilisateurManager.update(utilisateur);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } catch (BllException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
             }
+                if(utilisateurRecuperer == null){
+                    message ="impossible de mettre a jour pseudo ou email deja utilisé";
+                    request.setAttribute("message",message);
+                    request.setAttribute("utilisateur",utilisateur);
+                    request.getRequestDispatcher("/WEB-INF/Pages/updateProfil.jsp").forward(request,response);
+                }else {
+                    message = "Update reussi !";
+                    HttpSession session = request.getSession();
+                    session.setAttribute("utilisateur", utilisateurRecuperer);
+                    request.setAttribute("message", message);
+                    request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request, response);
+                }
+
         }else{
             message = "les mots de passe ne correspondent pas !";
             request.setAttribute("message",message);
