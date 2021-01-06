@@ -97,13 +97,13 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
-    public boolean delete(int id) throws SQLException, BllException{
+    public boolean delete(int id) throws Exception {
         boolean verifDelete = false;
         try{
           verifDelete = utilisateurDao.delete(id);
         }catch(SQLException | DalException e){
             logger.severe("Error lors de la suppression du membre dans la BLL" + e.getMessage());
-            throw new BllException(e.getMessage(),e);
+            throw new Exception("Impossible du supprimer le membre");
         }
         return verifDelete;
     }

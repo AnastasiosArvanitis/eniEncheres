@@ -55,7 +55,7 @@
                 <input type="submit" value="Modifier">
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
             </form>
-            <p style="color: red">${message}</p>
+            <p class="message-erreur">${message}</p>
         </article>
     </main>
 

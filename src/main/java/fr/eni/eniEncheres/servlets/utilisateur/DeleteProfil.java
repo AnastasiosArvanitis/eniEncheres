@@ -15,6 +15,7 @@ import java.sql.SQLException;
 public class DeleteProfil extends HttpServlet {
     UtilisateurManager utilisateurManager =  null;
     private String message = "";
+    private String error = "";
 
     @Override
     public void init() throws ServletException {
@@ -33,19 +34,18 @@ public class DeleteProfil extends HttpServlet {
         boolean verifDelete = false;
         try {
             verifDelete = utilisateurManager.delete(id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = e.getMessage();
+        }
             if(verifDelete){
                 session.invalidate();
                 request.getRequestDispatcher("WEB-INF/Pages/welcome.jsp").forward(request,response);
             }else{
-                message = "Suppression du profil impossible !";
-                request.setAttribute("message",message);
+                request.setAttribute("message",error);
                 request.getRequestDispatcher("WEB-INF/Pages/profil.jsp").forward(request,response);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (BllException e) {
-            e.printStackTrace();
-        }
-
     }
 }
