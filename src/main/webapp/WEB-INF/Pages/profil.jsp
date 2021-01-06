@@ -35,10 +35,10 @@
         </article>
         <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         <a href="#">Supprimer</a>
-        <p style="color: #ff0000">
+        <p style="color: green">
             <% String messageSuccesUpdateProfil = (String) request.getAttribute("message");
             if (messageSuccesUpdateProfil != null){
-                request.getAttribute("message");
+                out.println(messageSuccesUpdateProfil);
             }else{
                 out.println("");
             }
