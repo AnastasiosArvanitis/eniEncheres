@@ -87,6 +87,14 @@ main {
     padding: 20px;
 }
 
+.error-container {
+    height: 400px;
+}
+
+.error-container a {
+    color: var(--border-color);
+}
+
 footer {
     display: flex;
     justify-content: space-around;
