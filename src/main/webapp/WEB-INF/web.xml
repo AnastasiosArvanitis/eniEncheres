@@ -64,5 +64,14 @@
         <url-pattern>/update_profile</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Error</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Error</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
 </web-app>
 
