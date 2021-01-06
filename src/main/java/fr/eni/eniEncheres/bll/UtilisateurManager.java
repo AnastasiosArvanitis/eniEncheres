@@ -84,6 +84,17 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
+    public boolean delete(int id) throws SQLException, BllException{
+        boolean verifDelete = false;
+        try{
+          verifDelete = utilisateurDao.delete(id);
+        }catch(SQLException | DalException e){
+            logger.severe("Error lors de la suppression du membre dans la BLL" + e.getMessage());
+            throw new BllException(e.getMessage(),e);
+        }
+        return verifDelete;
+    }
+
     public void formatEmail(Utilisateur utilisateur) throws Exception {
         String regExpression = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         Pattern p = Pattern.compile(regExpression);

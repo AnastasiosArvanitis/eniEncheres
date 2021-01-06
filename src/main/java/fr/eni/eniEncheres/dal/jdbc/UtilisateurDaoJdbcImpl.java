@@ -133,6 +133,31 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
+  public boolean delete(int id) throws SQLException, DalException {
+    boolean verifDelete = false;
+    Utilisateur utilisateur;
+    final String DELETE ="DELETE UTILISATEURS WHERE id = ?";
+
+    try(Connection connection = JdbcConnection.connect()){
+
+      PreparedStatement requete = connection.prepareStatement(DELETE);
+
+      requete.setInt(1, id);
+      requete.executeUpdate();
+      utilisateur = FactoryDao.getUtilisateurDao().selectById(id);
+      if(utilisateur == null){
+        verifDelete = true;
+      }else {
+        verifDelete = false;
+      }
+    }catch (SQLException e){
+      logger.severe("Erreur lors de la suppression du membre " + e.getMessage());
+      throw new DalException(e.getMessage(), e);
+    }
+    return verifDelete;
+  }
+
+  @Override
   public boolean verifEmail(String email) throws SQLException, DalException {
     boolean verifEmail = false;
     final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ? ";
