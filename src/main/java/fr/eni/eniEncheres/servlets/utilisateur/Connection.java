@@ -34,12 +34,10 @@ public class Connection extends HttpServlet {
         try {
             utilisateur = utilisateurManager.getUtilisateurLogin(pseudoOuEmail, password);
             if(utilisateur == null) {
-                dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/error.jsp?error=userNotExist");
-                dispatcher.forward(request, response);
+                response.sendRedirect("/encheres/error?error=userNotFound");
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("utilisateur", utilisateur);
-
                 response.sendRedirect("/encheres/profile");
             }
         } catch (BllException e) {

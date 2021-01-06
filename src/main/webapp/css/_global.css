@@ -45,8 +45,23 @@ header {
     color: var(--header-txt-color);
 }
 
+header ul {
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+
+}
+
+header ul li {
+    padding-left: 20px;
+}
+
 header a {
     color: var(--header-txt-color);
+}
+
+header a:hover {
+    text-decoration: underline;
 }
 
 main {
@@ -70,6 +85,14 @@ main {
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
     padding: 20px;
+}
+
+.error-container {
+    height: 400px;
+}
+
+.error-container a {
+    color: var(--border-color);
 }
 
 footer {
