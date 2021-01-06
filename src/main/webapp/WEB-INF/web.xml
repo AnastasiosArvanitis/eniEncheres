@@ -29,6 +29,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Deconnection</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Deconnection</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Deconnection</servlet-name>
+        <url-pattern>/deconnexion</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Inscription</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Inscription</servlet-class>
     </servlet>
