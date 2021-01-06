@@ -22,6 +22,9 @@ public class Error extends HttpServlet {
             case "userNotFound":
                 errorMessage = "L'utilisateur n'exist pas...";
                 break;
+            case "NotConnected":
+                errorMessage = "Vous n'etes pas connecte...";
+                break;
             default:
                 errorMessage = "The page that you are looking for was not found, please try again";
                 break;
