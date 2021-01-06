@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class UpdateProfile extends HttpServlet {
     UtilisateurManager utilisateurManager =  null;
-    private String message;
+    private String message = "";
 
     @Override
     public void init() throws ServletException {
@@ -48,17 +48,9 @@ public class UpdateProfile extends HttpServlet {
             try {
                 Utilisateur utilisateurRecuperer = utilisateurManager.update(utilisateur);
                 message ="Update reussi !";
-                request.setAttribute("id",utilisateurRecuperer.getId());
-                request.setAttribute("pseudo", utilisateurRecuperer.getPseudo());
-                request.setAttribute("nom", utilisateurRecuperer.getNom());
-                request.setAttribute("prenom", utilisateurRecuperer.getPrenom());
-                request.setAttribute("email", utilisateurRecuperer.getEmail());
-                request.setAttribute("telephone", utilisateurRecuperer.getTelephone());
-                request.setAttribute("rue", utilisateurRecuperer.getRue());
-                request.setAttribute("codePostal", utilisateurRecuperer.getCodePostal());
-                request.setAttribute("ville", utilisateurRecuperer.getVille());
-                request.setAttribute("motDePasse", utilisateurRecuperer.getMotDePasse());
-                request.setAttribute("message", message);
+                HttpSession session = request.getSession();
+                session.setAttribute("utilisateur", utilisateurRecuperer);
+                request.setAttribute("message",message);
                 request.getRequestDispatcher("/WEB-INF/Pages/profil.jsp").forward(request,response);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -66,8 +58,9 @@ public class UpdateProfile extends HttpServlet {
                 e.printStackTrace();
             }
         }else{
-            message="les mots de passe ne correspondent pas !";
+            message = "les mots de passe ne correspondent pas !";
             request.setAttribute("message",message);
+            request.getRequestDispatcher("/WEB-INF/Pages/updateProfil.jsp").forward(request,response);
         }
 
     }
