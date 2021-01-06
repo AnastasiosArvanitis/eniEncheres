@@ -6,6 +6,10 @@
 
     <display-name>Encheres Management Web Application</display-name>
 
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
     <servlet>
         <servlet-name>Welcome</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Welcome</servlet-class>
