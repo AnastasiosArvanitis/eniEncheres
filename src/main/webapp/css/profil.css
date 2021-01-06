@@ -1,0 +1,32 @@
+
+/* MODAL */
+#modalDelete{
+    color: black;
+    position: absolute;
+    width: 500px;
+    margin: auto;
+}
+.modal-content{
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid black;
+    box-shadow: 1px 1px black;
+    border-radius: 20px;
+}
+.modal-header{
+    padding: 17px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+}
+.modal-body{
+    padding: 17px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+.modal-footer{
+    padding: 17px 10px;
+    text-align: right;
+}
