@@ -68,6 +68,7 @@ public class UtilisateurManager {
     public Utilisateur insert(Utilisateur ajoutUtilisateur) throws Exception {
         Utilisateur utilisateur = null;
         formatEmail(ajoutUtilisateur);
+        formatPseudo(ajoutUtilisateur);
         boolean verifEmail = utilisateurDao.verifEmail(ajoutUtilisateur.getEmail());
         boolean verifPseudo = utilisateurDao.verifPseudo(ajoutUtilisateur.getPseudo());
 
@@ -75,7 +76,6 @@ public class UtilisateurManager {
             throw new Exception("L'email et le pseudo sont déjà présent en base");
         } else if ((verifEmail) & (!verifPseudo)) {
             throw new Exception("L'email saisi est déjà utilisé");
-
         } else if ((!verifEmail) & (verifPseudo)) {
             throw new Exception("Le pseudo est déjà pris");
         } else {
@@ -92,6 +92,17 @@ public class UtilisateurManager {
         if (!formatEmail) {
             logger.severe("Tentative de création de compte avec un email incorrect: " + utilisateur.getEmail());
             throw new Exception("L'adresse email n'est pas dans un format valide");
+        }
+
+    }
+    public void formatPseudo(Utilisateur utilisateur) throws Exception {
+        String regExpression = "[a-z\\d]*";
+        Pattern p = Pattern.compile(regExpression);
+        Matcher m = p.matcher(utilisateur.getPseudo());
+        boolean formatPseudo = m.matches();
+        if (!formatPseudo) {
+            logger.severe("Le pseudo doit être au format alpha-numérique " + utilisateur.getPseudo());
+            throw new Exception("Le pseudo doit être au format alpha numérique");
         }
     }
 
