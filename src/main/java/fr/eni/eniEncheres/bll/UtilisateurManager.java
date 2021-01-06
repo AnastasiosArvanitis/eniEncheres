@@ -36,7 +36,7 @@ public class UtilisateurManager {
 
         try {
             utilisateur = utilisateurDao.selectLogin(pseudoOuEmail, password);
-        } catch (SQLException | DalException e) {
+        } catch (SQLException | DalException  e) {
             logger.severe("Error getUtilisateurLogin " + e.getMessage());
             throw new BllException(e.getMessage(), e);
         }
