@@ -12,8 +12,8 @@ public class Utilisateur {
     private String ville;
     private String MotDePasse;
     private int credit;
-    private byte administration;
-    private byte compteActif;
+    private boolean administration;
+    private boolean compteActif;
 
     public Utilisateur() {}
 
@@ -22,8 +22,8 @@ public class Utilisateur {
     }
 
     public Utilisateur(int id, String pseudo, String nom, String prenom, String email, String telephone, String rue,
-                       String codePostal, String ville, String motDePasse, int credit, byte administration,
-                       byte compteActif) {
+                       String codePostal, String ville, String motDePasse, int credit, boolean administration,
+                       boolean compteActif) {
         this.id = id;
         this.pseudo = pseudo;
         this.nom = nom;
@@ -40,8 +40,8 @@ public class Utilisateur {
     }
 
     public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-                       String codePostal, String ville, String motDePasse, int credit, byte administration,
-                       byte compteActif) {
+                       String codePostal, String ville, String motDePasse, int credit, boolean administration,
+                       boolean compteActif) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
@@ -191,19 +191,19 @@ public class Utilisateur {
         this.credit = credit;
     }
 
-    public byte getAdministration() {
+    public boolean getAdministration() {
         return administration;
     }
 
-    public void setAdministration(byte administration) {
+    public void setAdministration(boolean administration) {
         this.administration = administration;
     }
 
-    public byte getCompteActif() {
+    public boolean getCompteActif() {
         return compteActif;
     }
 
-    public void setCompteActif(byte compteActif) {
+    public void setCompteActif(boolean compteActif) {
         this.compteActif = compteActif;
     }
 }

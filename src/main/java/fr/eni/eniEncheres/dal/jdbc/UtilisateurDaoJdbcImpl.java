@@ -210,8 +210,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     utilisateur.setVille(rs.getString("ville"));
     utilisateur.setMotDePasse(rs.getString("motDePasse"));
     utilisateur.setCredit(rs.getInt("credit"));
-    utilisateur.setAdministration(rs.getByte("administrateur"));
-    utilisateur.setCompteActif(rs.getByte("compteActif"));
+    utilisateur.setAdministration(rs.getBoolean("administrateur"));
+    utilisateur.setCompteActif(rs.getBoolean("compteActif"));
 
     return utilisateur;
   }
