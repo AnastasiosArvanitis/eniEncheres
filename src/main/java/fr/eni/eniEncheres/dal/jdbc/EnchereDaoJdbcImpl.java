@@ -26,7 +26,9 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
     @Override
     public List<Enchere> selectAllEnchere() throws SQLException, DalException {
         List<Enchere> enchereList = new ArrayList<>();
-        final String SELECT_ALL_ENCHERE = "select a.*,e.* from ARTICLES a" +
+        final String SELECT_ALL_ENCHERE = "select a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
+                "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
         "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
                 "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
         try(Connection connection = JdbcConnection.connect()){
@@ -45,11 +47,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         return enchereList;
     }
 
-
-
-
-
-
     /**
      *
      * @param
@@ -60,29 +57,74 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
      * @throws DalException
      */
     @Override
-    public List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur, String filtreNom , String filtreCategorie ) throws SQLException, DalException {
-          final String SELECT_ENCHERE_BY_USER = "select a.*,e.* from ARTICLES a\n" +
-                 "        INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
-                 "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
-                 "and (exists (select  * from ENCHERES u where u.idArticle = e.idArticle and u.idUtilisateur = ? ))";
-
-
-        List<Enchere> enchereList= new ArrayList<>();
-          if (!filtreNom.equals("0")){
-              filtreNom = "and a.nom like '%"+filtreNom+"' ";
-          }
-          if (!filtreCategorie.equals("0")){
-                filtreNom = "and a.idCategorie = '%"+filtreCategorie+"' ";
-           }
-
-
-
-
-
-
-
+    public List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException {
+        final String SELECT_ENCHERE_BY_USER = "select a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
+                "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
+                "        INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
+                "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
+                "and (exists (select  * from ENCHERES u where u.idArticle = e.idArticle and u.idUtilisateur = ? ))";
+        String stringFiltreCategorie = "";
+        List<Enchere> enchereList = new ArrayList<>();
+        if (!filtreNom.equals("0")) {
+            filtreNom = "and a.nom like '%" + filtreNom + "%' ";
+        } else {
+            filtreNom = "";
+        }
+        if (!(filtreCategorie == 0)) {
+            stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
+        }
+        try (Connection connection = JdbcConnection.connect()) {
+            PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
+            requete.setInt(1, utilisateur.getId());
+            System.out.println(requete.toString());
+            ResultSet rs = requete.executeQuery();
+            while (rs.next()) {
+                Enchere enchere = new Enchere();
+                enchere = enchereBuilder(rs);
+                enchereList.add(enchere);
+            }
+        } catch (SQLException e) {
+            logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
         return enchereList;
     }
+
+    @Override
+    public List<Enchere> selectEnchereVictoire(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException {
+        final String SELECT_ENCHERE_BY_USER = "select a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
+                "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
+                "INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle) and e.idUtilisateur=? \n" +
+                "where  a.dateFinEncheres <= getdate()";
+        String stringFiltreCategorie = "";
+        List<Enchere> enchereList = new ArrayList<>();
+        if (!filtreNom.equals("0")) {
+            filtreNom = "and a.nom like '%" + filtreNom + "%' ";
+        } else {
+            filtreNom = "";
+        }
+        if (!(filtreCategorie == 0)) {
+            stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
+        }
+
+        try (Connection connection = JdbcConnection.connect()) {
+            PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
+            requete.setInt(1, utilisateur.getId());
+            ResultSet rs = requete.executeQuery();
+            while (rs.next()) {
+                Enchere enchere = new Enchere();
+                enchere = enchereBuilder(rs);
+                enchereList.add(enchere);
+            }
+        } catch (SQLException e) {
+            logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return enchereList;
+    }
+
 
     @Override
     public List<Enchere> selectEnchereByArticle(Article article) throws SQLException, DalException {
@@ -132,10 +174,10 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
 
     private Enchere enchereBuilder(ResultSet rs) throws SQLException, DalException{
         Enchere enchere = new Enchere();
-        enchere.setId(rs.getInt("id"));
-        Article article = this.getEnchereArticle(rs.getInt("id"));
+        enchere.setId(rs.getInt("ench_id"));
+        Article article = this.getEnchereArticle(rs.getInt("ench_idArticle"));
         enchere.setArticle(article);
-        Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("id"));
+        Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("ench_idUtilisateur"));
         enchere.setUtilisateur(utilisateur);
         enchere.setDateEnchere(rs.getDate("dateEnchere"));
         enchere.setMontantEnchere(rs.getInt("montantEnchere"));
