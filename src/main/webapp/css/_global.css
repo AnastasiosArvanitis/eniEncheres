@@ -81,7 +81,7 @@ main {
 
 .list-encheres {
     width: 100%;
-    height: 400px;
+    height: auto;
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
     padding: 20px;

@@ -1,10 +1,7 @@
 package fr.eni.eniEncheres.servlets.vente;
 
 import fr.eni.eniEncheres.bll.*;
-import fr.eni.eniEncheres.bo.Article;
-import fr.eni.eniEncheres.bo.Categorie;
-import fr.eni.eniEncheres.bo.Retrait;
-import fr.eni.eniEncheres.bo.Utilisateur;
+import fr.eni.eniEncheres.bo.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +20,7 @@ public class AjoutVente extends HttpServlet {
     RetraitManager retraitManager = null;
     UtilisateurManager utilisateurManager = null;
     ArticleManager articleManager = null;
+    EnchereManager enchereManager = null;
 
     @Override
     public void init() throws ServletException {
@@ -31,6 +29,7 @@ public class AjoutVente extends HttpServlet {
         retraitManager = RetraitManager.getInstance();
         utilisateurManager = UtilisateurManager.getInstance();
         articleManager = ArticleManager.getInstance();
+        enchereManager = EnchereManager.getInstance();
     }
 
     @Override
@@ -51,6 +50,8 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Enchere> enchereList = new ArrayList<>();
+
         Article newArticle = null;
         Article addedArticle = null;
 
@@ -58,6 +59,7 @@ public class AjoutVente extends HttpServlet {
         Retrait newRetrait = null;
 
         Categorie categorieArticle = null;
+        List<Categorie> categorieList = new ArrayList<>();
 
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
@@ -93,6 +95,11 @@ public class AjoutVente extends HttpServlet {
 
                 newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
                 addedArticle = articleManager.addNewArticle(newArticle);
+                categorieList = categorieManager.selectAllCategorie();
+                enchereList = enchereManager.selectAllEnchere();
+
+                request.setAttribute("enchereListe", enchereList);
+                request.setAttribute("listCategorie", categorieList);
                 System.out.println(addedArticle.toString());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
                 dispatcher.forward(request, response);
