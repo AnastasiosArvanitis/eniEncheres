@@ -15,5 +15,6 @@ div.list-encheres article.enchere-article div.article-content{
 }
 main div.list-encheres{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
 }

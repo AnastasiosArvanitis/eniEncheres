@@ -41,17 +41,13 @@
                     <img src="#" alt="">
                 </div>
                 <div class="article-content">
-
                     <h3>${enchere.article.nom}</h3>
                     <p>Prix : ${enchere.article.prixInitial} points</p>
                     <p>Fin de l'enchere : <fmt:formatDate type = "date" value = "${date}" /> </p>
-                    <p>Vendeur :
-                        <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a>
-                    </p>
+                    <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>
                 </div>
             </article>
         </c:forEach>
-
     </div>
 </main>
 
