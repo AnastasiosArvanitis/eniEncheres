@@ -1,5 +1,6 @@
 <%@ page import="fr.eni.eniEncheres.bo.Enchere" %>
 <%@ page import="java.util.List" %>
+<%@ page import="fr.eni.eniEncheres.bo.Categorie" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,22 +18,86 @@
 <main>
     <h1>Liste des encheres</h1>
     <div class="search-article-welcome">
-        <form action="">
-            <label for="search-article">Filtres:
-                <input id="search-article" name="search-article" value="le nom de l'article contient..." type="text">
-            </label>
-            <label for="search-categorie">Categorie:
-                <select name="search-categorie" id="search-categorie">
-                    <option value="" selected disabled hidden>Toutes</option>
-                    <option value="Informatique">Informatique</option>
-                    <option value="Ameublement">Ameublement</option>
-                    <option value="Vetement">Vetement</option>
-                    <option value="Sport & Loisirs">Sport & Loisirs</option>
-                </select>
-            </label>
-            <input type="submit" value="Rechercher">
+        <%
+            if ((utilisateur != null) && (utilisateur.getCompteActif())) {
+        %>
+        <form method="post" action="">
+            <div>
+                <p><label for="search-article">Filtres:</label></p>
+                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p>
+                    <label for="search-categorie">Categorie:
+                        <select name="search-categorie" id="search-categorie">
+                            <option value="null" selected>Choix</option>
+                            <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listCategorie");
+                                for(Categorie ca : listCategorie){ %>
+                            <option  value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %></option>
+                            <%	}	%>
+                        </select>
+                    </label>
+                </p>
+                <div>
+                    <p>
+                        <input type="radio" id="achat" name="check" value="" checked>
+                        <label for="achat">Achats</label><br>
+
+                        <input type="checkbox" id="enchereOuvert" name="check" value="" class="checkbox" checked>
+                        <label for="enchereOuvert">enchere ouverte</label><br>
+
+                        <input type="checkbox" id="enchereEnCours" name="check" value="" class="checkbox">
+                        <label for="enchereEnCours">mes enchere en cours</label><br>
+
+                        <input type="checkbox" id="enchereRemporte" name="check" value="" class="checkbox">
+                        <label for="enchereRemporte">mes encheres remportes</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="vente" name="check" value="">
+                        <label for="vente">Mes ventes</label><br>
+
+                        <input type="checkbox" id="venteEnCours" name="check" value="" class="checkbox">
+                        <label for="venteEnCours">mes ventes en cours</label><br>
+
+                        <input type="checkbox" id="venteNonDebute" name="check" value="" class="checkbox">
+                        <label for="venteNonDebute">ventes non debutes</label><br>
+
+                        <input type="checkbox" id="venteTermine" name="check" value="" class="checkbox">
+                        <label for="venteTermine">ventes termines</label>
+                    </p></div>
+            </div>
+            <div class="recherche">
+                <input type="submit" value="Rechercher">
+            </div>
+
         </form>
+        <%
+            } else {
+        %>
+                <form method="post" action="">
+            <div>
+                <p><label for="search-article">Filtres:</label></p>
+                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p>
+                    <label for="search-categorie">Categorie:
+                        <select name="search-categorie" id="search-categorie">
+                            <option value="null" selected>Choix</option>
+                            <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listCategorie");
+                                for(Categorie ca : listCategorie){ %>
+                            <option  value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %></option>
+                            <%	}	%>
+                        </select>
+                    </label>
+                </p>
+            </div>
+            <div class="rechercheOne">
+               <input type="submit" value="Rechercher">
+            </div>
+        </form>
+        <%
+            }
+        %>
     </div>
+
+
     <div class="list-encheres">
         <c:forEach items="${enchereListe}" var="enchere" >
             <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />

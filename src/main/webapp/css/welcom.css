@@ -18,3 +18,43 @@ main div.list-encheres{
     flex-wrap: wrap;
     justify-content: space-around;
 }
+form div div{
+    display: flex;
+    margin: 10px 10px;
+}
+form div div p input.checkbox{
+    margin-left: 35px;
+}
+form div p input#search-article{
+    width: 300px;
+    border-radius: 10px;
+    height: 25px;
+    margin: 10px 0px 5px 0px;
+}
+form div p input#search-categorie{
+    margin-left: 25px;
+    width: 180px;
+}
+form div p label select#search-categorie{
+    margin-left: 25px;
+    width: 180px;
+}
+form{
+    display: flex;
+}
+form div.recherche{
+    margin: 50px;
+}
+form div.recherche input{
+    width: 300px;
+    height: 100px;
+}
+
+form div.rechercheOne{
+    margin: 25px;
+}
+form div.rechercheOne input{
+    width: 300px;
+    height: 50px;
+}
+
