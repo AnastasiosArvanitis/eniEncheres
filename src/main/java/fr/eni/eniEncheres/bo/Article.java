@@ -27,7 +27,7 @@ public class Article {
         this.prixInitial = prixInitial;
     }
 
-    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, int prixVente) {
+    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial) {
         this.utilisateur = utilisateur;
         this.categorie = categorie;
         this.retrait = retrait;

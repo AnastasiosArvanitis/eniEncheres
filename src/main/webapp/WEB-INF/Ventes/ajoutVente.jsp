@@ -24,10 +24,10 @@
         <img src="#" alt="">
     </article>
     <article>
-        <form action="" method="post">
+        <form action="/encheres/ajout_vente" method="post">
             <p>
                 <label for="article">Article : </label>
-                <input type="text" id="article" name="article">
+                <input type="text" id="article" name="articleName">
             </p>
             <p>
                 <label for="description">Description :</label>
@@ -39,7 +39,7 @@
                     <option value="null" selected>Choix</option>
                     <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listeCategorie");
                         for(Categorie ca : listCategorie){ %>
-                    <option  value="<%=ca.getId() %>"><%=ca.getLibelle() %></option>
+                    <option  value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %></option>
                     <%	}	%>
                 </select>
             </p>
@@ -49,15 +49,15 @@
             </p>
             <p>
                 <label for="number">Mise à prix :</label>
-                <input type="number" id="number" name="number" value="0">
+                <input type="number" id="number" name="prixInitial" value="0">
             </p>
             <p>
                 <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="date" name="debutEnchere" id="debutEnchere">
+                <input type="date" name="dateDebutEnchere" id="debutEnchere">
             </p>
             <p>
                 <label for="finEnchere">Fin de l'enchère :</label>
-                <input type="date" name="finEnchere" id="finEnchere">
+                <input type="date" name="dateFinEnchere" id="finEnchere">
             </p>
 
                 <fieldset class="form-retrait">
