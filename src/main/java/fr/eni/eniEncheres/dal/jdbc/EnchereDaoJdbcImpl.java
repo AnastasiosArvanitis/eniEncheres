@@ -26,20 +26,16 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
     @Override
     public List<Enchere> selectAllEnchere() throws SQLException, DalException {
         List<Enchere> enchereList = new ArrayList<>();
-        final String SELECT_ALL_ENCHERE = "SELECT * FROM ENCHERES";
+        final String SELECT_ALL_ENCHERE = "select a.*,e.* from ARTICLES a" +
+        "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
+                "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement requete = connection.prepareStatement(SELECT_ALL_ENCHERE);
             ResultSet rs = requete.executeQuery();
             while (rs.next()){
                 Enchere enchere = new Enchere();
-                enchere.setId(rs.getInt("id"));
-                Article article = this.getEnchereArticle(rs.getInt("id"));
-                enchere.setArticle(article);
-                Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("id"));
-                enchere.setUtilisateur(utilisateur);
-                enchere.setDateEnchere(rs.getDate("dateEnchere"));
-                enchere.setMontantEnchere(rs.getInt("montantEnchere"));
-                enchereList.add(enchere);
+               enchere = enchereBuilder(rs);
+               enchereList.add(enchere);
             }
         }catch (SQLException e){
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
@@ -98,6 +94,19 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
             throw new DalException( e.getMessage(), e);
         }
         return enchereArticle;
+    }
+
+    private Enchere enchereBuilder(ResultSet rs) throws SQLException, DalException{
+        Enchere enchere = new Enchere();
+        enchere.setId(rs.getInt("id"));
+        Article article = this.getEnchereArticle(rs.getInt("id"));
+        enchere.setArticle(article);
+        Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("id"));
+        enchere.setUtilisateur(utilisateur);
+        enchere.setDateEnchere(rs.getDate("dateEnchere"));
+        enchere.setMontantEnchere(rs.getInt("montantEnchere"));
+
+        return enchere;
     }
 
 
