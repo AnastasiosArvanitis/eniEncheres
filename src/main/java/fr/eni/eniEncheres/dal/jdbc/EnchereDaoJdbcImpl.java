@@ -45,9 +45,43 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         return enchereList;
     }
 
+
+
+
+
+
+    /**
+     *
+     * @param
+     * @apiNote  récupérer la liste d'enchêre en cours ou l'utilisateur a participé ( au moins une enchère)
+     * avec filtre en entrée pour ajouter ou non le controle par catégorie et saisie nom
+     * @return
+     * @throws SQLException
+     * @throws DalException
+     */
     @Override
-    public List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur) throws SQLException, DalException {
-        return null;
+    public List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur, String filtreNom , String filtreCategorie ) throws SQLException, DalException {
+          final String SELECT_ENCHERE_BY_USER = "select a.*,e.* from ARTICLES a\n" +
+                 "        INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
+                 "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
+                 "and (exists (select  * from ENCHERES u where u.idArticle = e.idArticle and u.idUtilisateur = ? ))";
+
+
+        List<Enchere> enchereList= new ArrayList<>();
+          if (!filtreNom.equals("0")){
+              filtreNom = "and a.nom like '%"+filtreNom+"' ";
+          }
+          if (!filtreCategorie.equals("0")){
+                filtreNom = "and a.idCategorie = '%"+filtreCategorie+"' ";
+           }
+
+
+
+
+
+
+
+        return enchereList;
     }
 
     @Override
