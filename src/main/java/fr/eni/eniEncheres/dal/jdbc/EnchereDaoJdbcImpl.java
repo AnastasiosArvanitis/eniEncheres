@@ -45,6 +45,11 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         return enchereList;
     }
 
+
+
+
+
+
     /**
      *
      * @param
@@ -60,8 +65,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                  "        INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
                  "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
                  "and (exists (select  * from ENCHERES u where u.idArticle = e.idArticle and u.idUtilisateur = ? ))";
-                  String filtreNom ="";
-                  String filtreCategorie ="";
+
 
         List<Enchere> enchereList= new ArrayList<>();
           if (!filtreNom.equals("0")){
