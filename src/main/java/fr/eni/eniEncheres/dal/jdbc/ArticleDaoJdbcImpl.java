@@ -63,6 +63,28 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         return articles;
     }
 
+    @Override
+    public List<Article> selectAllArticlesByUtilisateur(Utilisateur utilisateur) throws SQLException, DalException {
+        List<Article> returnedArticles = new ArrayList<>();
+        final String SELECT_BY_USER = "select * from ARTICLES where idUtilisateur = ? ";
+
+        try {
+            Connection connection = JdbcConnection.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER);
+            preparedStatement.setInt(1,utilisateur.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                returnedArticles.add(articleBuilder(resultSet));
+            }
+        } catch(SQLException e){
+            logger.severe("Error method selectAllArticlesByUtilisateur " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+
+
+        return returnedArticles;
+    }
+
 
     @Override
     public Article insertArticle(Article ajoutArticle) throws SQLException, DalException {
