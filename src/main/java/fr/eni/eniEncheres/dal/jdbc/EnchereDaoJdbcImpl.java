@@ -31,13 +31,14 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
         "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
                 "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
+        System.out.println(SELECT_ALL_ENCHERE);
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement requete = connection.prepareStatement(SELECT_ALL_ENCHERE);
             ResultSet rs = requete.executeQuery();
             while (rs.next()){
                 Enchere enchere = new Enchere();
-               enchere = enchereBuilder(rs);
-               enchereList.add(enchere);
+                enchere = enchereBuilder(rs);
+                enchereList.add(enchere);
             }
         }catch (SQLException e){
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
@@ -174,7 +175,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
     private Enchere enchereBuilder(ResultSet rs) throws SQLException, DalException{
         Enchere enchere = new Enchere();
         enchere.setId(rs.getInt("ench_id"));
-        Article article = this.getEnchereArticle(rs.getInt("ench_idArticle"));
+        Article article = this.getEnchereArticle(rs.getInt("art_id"));
         enchere.setArticle(article);
         Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("ench_idUtilisateur"));
         enchere.setUtilisateur(utilisateur);
