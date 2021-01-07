@@ -19,6 +19,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- GESTION UTILISATEUR -->
     <servlet>
         <servlet-name>Connection</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Connection</servlet-class>
@@ -73,6 +74,7 @@
         <url-pattern>/delete_profil</url-pattern>
     </servlet-mapping>
 
+    <!-- GESTION VENTE -->
     <servlet>
         <servlet-name>AjoutVente</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.vente.AjoutVente</servlet-class>
@@ -82,6 +84,16 @@
         <url-pattern>/ajout_vente</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ViewVendeur</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.ViewVendeur</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewVendeur</servlet-name>
+        <url-pattern>/view_vendeur</url-pattern>
+    </servlet-mapping>
+
+    <!-- GESTION ERREUR -->
     <servlet>
         <servlet-name>Error</servlet-name>
         <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.Error</servlet-class>
