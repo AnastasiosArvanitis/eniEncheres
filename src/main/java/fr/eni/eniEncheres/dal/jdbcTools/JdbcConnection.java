@@ -18,7 +18,6 @@ public class JdbcConnection {
     private static Connection connection;
 
     static {
-
         dbUrl = Settings.getProperty("dbUrl");
         dbDriver = Settings.getProperty("dbDriver");
         dbUser = Settings.getProperty("dbUser");

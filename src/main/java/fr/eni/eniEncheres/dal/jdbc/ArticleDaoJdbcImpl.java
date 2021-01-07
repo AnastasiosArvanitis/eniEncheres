@@ -114,9 +114,9 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
 
 
     private Article articleBuilder(ResultSet rs) throws SQLException, DalException {
-        Categorie articleCategorie = this.getArticleCategorie(rs.getInt("id"));
-        Retrait articleRetrait = this.getArticleRetrait(rs.getInt("id"));
-        Utilisateur articleUtilisateur = this.getArticleUtilisateur(rs.getInt("id"));
+        Categorie articleCategorie = this.getArticleCategorie(rs.getInt("idCategorie"));
+        Retrait articleRetrait = this.getArticleRetrait(rs.getInt("idRetrait"));
+        Utilisateur articleUtilisateur = this.getArticleUtilisateur(rs.getInt("idUtilisateur"));
 
         Article article = new Article();
         article.setId(rs.getInt("id"));
