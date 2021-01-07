@@ -1,9 +1,14 @@
+<%@ page import="fr.eni.eniEncheres.bo.Enchere" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Welcome</title>
     <style>
         <%@ include file="../../css/_global.css"%>
+        <%@ include file="../../css/welcom.css"%>
     </style>
     <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
 </head>
@@ -29,13 +34,23 @@
         </form>
     </div>
     <div class="list-encheres">
-        <p>La on va mettre les encheres en cours...</p>
-        <input type="reset" value="View utilisateur" onclick="window.location.href='<%=request.getContextPath()%>/view_vendeur';" />
+        <c:forEach items="${enchereListe}" var="enchere" >
+            <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
+            <article class="enchere-article">
+                <div >
+                    <img src="#" alt="">
+                </div>
+                <div class="article-content">
 
-
-        <article>
-            
-        </article>
+                    <h3>${enchere.article.nom}</h3>
+                    <p>Prix : ${enchere.article.prixInitial} points</p>
+                    <p>Fin de l'enchere : <fmt:formatDate type = "date" value = "${date}" /> </p>
+                    <p>Vendeur :
+                        <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a>
+                    </p>
+                </div>
+            </article>
+        </c:forEach>
 
     </div>
 </main>

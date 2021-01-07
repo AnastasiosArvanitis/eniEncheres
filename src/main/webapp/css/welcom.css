@@ -1,0 +1,19 @@
+div.list-encheres article.enchere-article{
+    border: 1px solid black;
+    width: 450px;
+    height: 150px;
+    display: flex;
+}
+div.list-encheres article.enchere-article div img{
+    width: 125px;
+    height: 125px;
+    background-color: gray;
+    margin: 10px;
+}
+div.list-encheres article.enchere-article div.article-content{
+  padding: 15px;
+}
+main div.list-encheres{
+    display: flex;
+    justify-content: space-around;
+}
