@@ -96,8 +96,6 @@
             }
         %>
     </div>
-
-
     <div class="list-encheres">
         <c:forEach items="${enchereListe}" var="enchere" >
             <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
@@ -106,7 +104,7 @@
                     <img src="#" alt="">
                 </div>
                 <div class="article-content">
-                    <h3>${enchere.article.nom}</h3>
+                    <h3><a href="<%=request.getContextPath()%>/view_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
                     <p>Prix : ${enchere.article.prixInitial} points</p>
                     <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                     <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>

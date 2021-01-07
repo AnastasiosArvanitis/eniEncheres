@@ -125,7 +125,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         return enchereList;
     }
 
-
     @Override
     public List<Enchere> selectEnchereByArticle(Article article) throws SQLException, DalException {
         return null;
