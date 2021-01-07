@@ -53,8 +53,10 @@ public class AjoutVente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Article newArticle = null;
         Article addedArticle = null;
-        Utilisateur utilisateurArticle = null;
+
         Retrait retraitArticle = null;
+        Retrait newRetrait = null;
+
         Categorie categorieArticle = null;
 
         HttpSession session = request.getSession();
@@ -75,15 +77,21 @@ public class AjoutVente extends HttpServlet {
         String rue = request.getParameter("rue");
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
-        System.out.println("Ajoute Vente POST");
+
         if (utilisateur == null) {
             response.sendRedirect("/encheres/error?error=ventWithoutLogin");
         } else {
+            retraitArticle = new Retrait(rue, codePostal, ville);
+            try {
+                newRetrait = retraitManager.addNewRetrait(retraitArticle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             try {
                 categorieArticle = categorieManager.selectByName(categorie);
-                System.out.println(categorieArticle.toString());
-                retraitArticle = new Retrait(rue, codePostal, ville);
-                newArticle = new Article(utilisateur,categorieArticle, retraitArticle, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                System.out.println(newRetrait.toString());
+
+                newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
                 addedArticle = articleManager.addNewArticle(newArticle);
                 System.out.println(addedArticle.toString());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");

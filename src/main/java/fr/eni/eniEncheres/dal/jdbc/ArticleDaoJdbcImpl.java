@@ -96,9 +96,9 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
                 "dateFinEncheres, prixInitial, prixVente) values (?,?,?,?,?,?,?,?,?)";
         int idArticleAjout = 0;
         int idRetraitAjout = 0;
-        String rueUtilisateur = ajoutArticle.getUtilisateur().getRue();
-        String codePostalUtilisateur = ajoutArticle.getUtilisateur().getCodePostal();
-        String villeUtilisateur = ajoutArticle.getUtilisateur().getVille();
+        String rueUtilisateur = ajoutArticle.getRetrait().getRue();
+        String codePostalUtilisateur = ajoutArticle.getRetrait().getCodePostal();
+        String villeUtilisateur = ajoutArticle.getRetrait().getVille();
 
         try {
             Connection connection = JdbcConnection.connect();
