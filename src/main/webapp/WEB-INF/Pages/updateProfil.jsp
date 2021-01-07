@@ -11,6 +11,7 @@
     <title>ENI_Encheres</title>
     <style>
         <%@ include file="../../css/_global.css"%>
+        <%@ include file="../../css/ajoutVente.css" %>
     </style>
 </head>
 <body>

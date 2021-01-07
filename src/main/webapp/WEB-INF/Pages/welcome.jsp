@@ -30,6 +30,7 @@
     </div>
     <div class="list-encheres">
         <p>La on va mettre les encheres en cours...</p>
+        <input type="reset" value="View utilisateur" onclick="window.location.href='<%=request.getContextPath()%>/view_vendeur';" />
     </div>
 </main>
 

@@ -34,8 +34,8 @@
                 <textarea name="description" id="description" col="10" rows="5"></textarea>
             </p>
             <p>
-                <label>Categorie :</label>
-                <select name="categorie">
+                <label for="categorie">Categorie :</label>
+                <select name="categorie" id="categorie">
                     <option value="null" selected>Choix</option>
                     <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listeCategorie");
                         for(Categorie ca : listCategorie){ %>
@@ -78,7 +78,6 @@
 
             <input type="submit" value="Enregistrer">
             <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';">
-
         </form>
         <p class="message-erreur">${message}</p>
     </article>

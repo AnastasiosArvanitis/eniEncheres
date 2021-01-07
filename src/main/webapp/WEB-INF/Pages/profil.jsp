@@ -24,15 +24,15 @@
         <h2>Mon Profil</h2>
         <article class="monProfil">
 
-            <p>Pseudo : <%=utilisateur.getPseudo() %> </p>
-            <p>Nom : <%=utilisateur.getNom() %></p>
-            <p>Prenom : <%=utilisateur.getPrenom() %></p>
-            <p>Email : <%=utilisateur.getEmail() %></p>
-            <p>Téléphone : <%=utilisateur.getTelephone() %></p>
-            <p>Rue : <%=utilisateur.getRue() %></p>
-            <p>Code Postal : <%=utilisateur.getCodePostal() %></p>
-            <p>Ville : <%=utilisateur.getVille() %></p>
-            <p style="display: none"><%=utilisateur.getMotDePasse() %></p>
+            <p><span>Pseudo : </span><span> ${utilisateur.pseudo}</span></p>
+            <p><span>Nom :</span><span>${utilisateur.nom}</span></p>
+            <p><span>Prenom :</span><span>${utilisateur.prenom}</span></p>
+            <p><span>Email :</span><span>${utilisateur.email}</span></p>
+            <p><span>Téléphone :</span><span>${utilisateur.telephone}<span></p>
+            <p><span>Rue :</span><span>${utilisateur.rue}<span/></p>
+            <p><span>Code Postal :</span><span>${utilisateur.codePostal}<span/></p>
+            <p><span>Ville :</span><span>${utilisateur.ville}</span></p>
+            <p style="display: none">${utilisateur.motDePasse}</p>
         </article>
 
             <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
@@ -60,15 +60,7 @@
             </div>
 
             <!-- MESSAGE EN CAS DE SUCCES LORS DE L UPDATE PROFIL -->
-            <p style="color: green">
-                <% String messageSuccesUpdateProfil = (String) request.getAttribute("message");
-                    if (messageSuccesUpdateProfil != null){
-                        out.println(messageSuccesUpdateProfil);
-                    }else{
-                        out.println("");
-                    }
-                %></p>
-
+            <p style="color: green">${message}</p>
     </main>
 
 <jsp:include page="./footer.jsp" />
