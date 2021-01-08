@@ -134,6 +134,33 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         return articleCree;
     }
 
+    @Override
+    public Article updateArticle(Article updateArticle) throws  SQLException, DalException{
+        Article articleUpdate = null;
+        final String UPDATE_ARTICLE = "UPDATE ARTICLES SET idUtilisateur = ?, idCategorie = ?, idRetrait = ?," +
+                "nom = ?, description = ?, dateDebutEncheres = ?, dateFinEncheres = ?, prixInitial = ?, " +
+                "prixVente = ? WHERE id = ?";
+
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(UPDATE_ARTICLE);
+            requete.setInt(1, updateArticle.getUtilisateur().getId());
+            requete.setInt(2, updateArticle.getCategorie().getId());
+            requete.setInt(3, updateArticle.getRetrait().getId());
+            requete.setString(4,updateArticle.getNom());
+            requete.setString(5, updateArticle.getDescription());
+            requete.setDate(6,updateArticle.getDateDebutEncheres());
+            requete.setDate(7,updateArticle.getDateFinEncheres());
+            requete.setInt(8,updateArticle.getPrixInitial());
+            requete.setInt(9,updateArticle.getPrixVente());
+            requete.setInt(10 , updateArticle.getId());
+            requete.executeUpdate();
+            articleUpdate = FactoryDao.getArticleDao().selectArticleById(updateArticle.getId());
+        }catch (SQLException e){
+            logger.severe("Error method updateArticle " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return articleUpdate;
+    }
 
     private Article articleBuilder(ResultSet rs) throws SQLException, DalException {
         Categorie articleCategorie = this.getArticleCategorie(rs.getInt("idCategorie"));

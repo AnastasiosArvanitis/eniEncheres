@@ -63,7 +63,7 @@ public class EnchereManager {
         return listEnchere;
     }
 
-    private Enchere getEnchereArticle(int articleId) throws SQLException, DalException, BllException {
+    public Enchere getEnchereArticle(int articleId) throws SQLException, DalException, BllException {
         Enchere enchere = new Enchere() ;
 
         try{

@@ -32,7 +32,7 @@ public class DetailEnchere extends HttpServlet {
 
         Enchere enchere = new Enchere();
         try {
-            enchere = enchereManager.getEnchereArticle(idArticle);
+           enchere = enchereManager.getEnchereArticle(idArticle);
             System.out.println(enchere);
 
         } catch (SQLException throwables) {

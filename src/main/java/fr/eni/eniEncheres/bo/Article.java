@@ -51,6 +51,18 @@ public class Article {
         this.prixInitial = prixInitial;
         this.prixVente = prixVente;
     }
+    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, int prixVente, int id) {
+        this.utilisateur = utilisateur;
+        this.categorie = categorie;
+        this.retrait = retrait;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.id = id;
+    }
 
 
     public int getId() {

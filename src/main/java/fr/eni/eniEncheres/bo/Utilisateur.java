@@ -81,6 +81,21 @@ public class Utilisateur {
         this.MotDePasse = motDePasse;
         this.id = id;
     }
+    public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
+                       String codePostal, String ville, String motDePasse,int credit, int id) {
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.MotDePasse = motDePasse;
+        this.credit = credit;
+        this.id = id;
+    }
+
 
 
 
