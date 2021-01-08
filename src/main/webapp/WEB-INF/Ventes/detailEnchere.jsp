@@ -28,24 +28,16 @@
     </article>
     <article>
         <h3></h3>
-        <p>Description :${enchere.article.nom}</p>
-        <p></p>
-        <p>Catégorie :${enchere.article.categorie.libelle} </p>
-        <p></p>
-        <p>Meilleur Offre : ${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p>
-        <p></p>
-        <p>Mise a prix :  ${enchere.article.prixInitial} pts</p>
-        <p></p>
-        <p>Fin de l'enchère :  ${enchere.article.dateFinEncheres}</p>
-
+        <p>Description : </p><p>${enchere.article.nom}</p>
+        <p>Catégorie : </p><p>${enchere.article.categorie.libelle}</p>
+        <p>Meilleur Offre : </p><p>${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p>
+        <p>Mise a prix : </p><p>${enchere.article.prixInitial} pts</p>
+        <p>Fin de l'enchère :  </p><p>${enchere.article.dateFinEncheres}</p>
         <p>Adresse de retrait : </p><p> ${enchere.article.retrait.rue}</p>
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
-        <p>Vendeur :</p>
-
-        <p>${enchere.article.utilisateur.pseudo}</p>
-
+        <p>Vendeur :</p><p>${enchere.article.utilisateur.pseudo}</p>
         <div>
-            <form>
+            <form method ="post" action="">
                 <label for="montantEnchere">Ma Proposition : </label>
                 <input type="number" id ="montantEnchere" name="montantEnchere"
                        min =<c:choose>
@@ -54,7 +46,8 @@
                             </c:choose>
                 />
                 <input type="hidden" value="${enchere.article.id}" name="idArticle"/>
-                <input type="submit" value="Enchérir" action="/"/>
+                <input type="hidden" value="${utilisateur}" name="utilisateur"/>
+                <input type="submit" value="Enchérir" />
 
             </form>
         </div>
