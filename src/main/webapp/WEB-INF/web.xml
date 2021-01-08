@@ -101,6 +101,15 @@
         <url-pattern>/detail_enchere</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ChercherEnchere</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.ChercherEnchere</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChercherEnchere</servlet-name>
+        <url-pattern>/ChercherEnchere</url-pattern>
+    </servlet-mapping>
+
     <!-- GESTION ERREUR -->
     <servlet>
         <servlet-name>Error</servlet-name>
