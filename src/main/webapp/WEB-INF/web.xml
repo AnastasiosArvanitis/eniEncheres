@@ -92,6 +92,14 @@
         <servlet-name>ViewVendeur</servlet-name>
         <url-pattern>/view_vendeur</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>detailVente</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.ViewVente</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>detailVente</servlet-name>
+        <url-pattern>/detail-enchere</url-pattern>
+    </servlet-mapping>
 
     <!-- GESTION ERREUR -->
     <servlet>
@@ -102,6 +110,7 @@
         <servlet-name>Error</servlet-name>
         <url-pattern>/error</url-pattern>
     </servlet-mapping>
+
 
 </web-app>
 
