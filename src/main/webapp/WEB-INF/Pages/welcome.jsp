@@ -21,10 +21,10 @@
         <%
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {
         %>
-            <form method="post" action="">
+            <form method="post" action="/encheres/ChercherEnchere">
             <div>
-                <p><label for="search-article">Filtres:</label></p>
-                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p><label for="input-search-article">Filtres:</label></p>
+                <p><input id="input-search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
                 <p>
                     <label for="search-categorie">Categorie:
                         <select name="search-categorie" id="search-categorie">
@@ -38,29 +38,29 @@
                 </p>
                 <div>
                     <p>
-                        <input type="radio" id="achat" name="check" value="" checked>
+                        <input type="radio" id="achat" name="radio-achat" value="" checked>
                         <label for="achat">Achats</label><br>
 
-                        <input type="checkbox" id="enchereOuvert" name="check" value="" class="checkbox" checked>
+                        <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="" class="checkbox" checked>
                         <label for="enchereOuvert">enchere ouverte</label><br>
 
-                        <input type="checkbox" id="enchereEnCours" name="check" value="" class="checkbox">
+                        <input type="checkbox" id="enchereEnCours" name="check-enchereEnCours" value="" class="checkbox">
                         <label for="enchereEnCours">mes enchere en cours</label><br>
 
-                        <input type="checkbox" id="enchereRemporte" name="check" value="" class="checkbox">
+                        <input type="checkbox" id="enchereRemporte" name="check-enchereRemporte" value="" class="checkbox">
                         <label for="enchereRemporte">mes encheres remportes</label>
                     </p>
                     <p>
-                        <input type="radio" id="vente" name="check" value="">
+                        <input type="radio" id="vente" name="radio-vente" value="">
                         <label for="vente">Mes ventes</label><br>
 
-                        <input type="checkbox" id="venteEnCours" name="check" value="" class="checkbox">
+                        <input type="checkbox" id="venteEnCours" name="check-venteEnCours" value="" class="checkbox">
                         <label for="venteEnCours">mes ventes en cours</label><br>
 
-                        <input type="checkbox" id="venteNonDebute" name="check" value="" class="checkbox">
+                        <input type="checkbox" id="venteNonDebute" name="check-venteNonDebute" value="" class="checkbox">
                         <label for="venteNonDebute">ventes non debutes</label><br>
 
-                        <input type="checkbox" id="venteTermine" name="check" value="" class="checkbox">
+                        <input type="checkbox" id="venteTermine" name="check-venteTermine" value="" class="checkbox">
                         <label for="venteTermine">ventes termines</label>
                     </p></div>
             </div>
