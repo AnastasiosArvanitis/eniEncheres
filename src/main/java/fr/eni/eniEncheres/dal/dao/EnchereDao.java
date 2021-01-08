@@ -12,6 +12,8 @@ public interface EnchereDao {
 
     List<Enchere> selectAllEnchere() throws SQLException, DalException;
 
+    List<Enchere> selectAllEnchere(Utilisateur utilisateur, String filtreNom , int filtreCategorie ) throws SQLException, DalException;
+
     List<Enchere> selectEnchereVictoire(Utilisateur utilisateur, String filtreNom , int filtreCategorie ) throws SQLException, DalException;
 
     List<Enchere> selectEnchereByUtilisateur(Utilisateur utilisateur, String filtreNom , int filtreCategorie ) throws SQLException, DalException;
