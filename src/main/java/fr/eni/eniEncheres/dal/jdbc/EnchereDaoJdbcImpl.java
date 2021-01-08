@@ -320,63 +320,64 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
 
     @Override
     public Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, DalException {
-       //enchere de retour
+        //enchere de retour
         Enchere enchereAdd = new Enchere();
         Enchere enchere = FactoryDao.getEnchereDao().selectEnchereByIdArticle(idArticle);
         //varaible pour recupere l'id de la nouvelle enchere
-       int idAjout = 0;
-       //varaiable pour initialiser la date du jour
-       java.sql.Date now = new java.sql.Date( new java.util.Date().getTime() );
+        int idAjout = 0;
+        //varaiable pour initialiser la date du jour
+        java.sql.Date now = new java.sql.Date( new java.util.Date().getTime() );
 
-       final String INSERT_NEW_ENCHERE ="INSERT INTO ENCHERES (idArticle, idUtilisateur, dateEnchere, montantEnchere) VALUES (?,?,?,?)";
+        final String INSERT_NEW_ENCHERE ="INSERT INTO ENCHERES (idArticle, idUtilisateur, dateEnchere, montantEnchere) VALUES (?,?,?,?)";
 
         //prix de vente est soit = au prix initial ou soit supperieur
-            if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
-                //compare le montantEnchere avec le prix article
-                if (enchere.getArticle().getPrixVente() < montantEnchere){
-                    //controle pour savoir si l'acheteur a deja fais la derniere enchere
-                    if(acheteur.getId() != enchere.getUtilisateur().getId()) {
-                        //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
-                        if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
-                            try (Connection connection = JdbcConnection.connect()) {
-                                PreparedStatement requete = connection.prepareStatement(INSERT_NEW_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
-                                requete.setInt(1, idArticle);
-                                requete.setInt(2, acheteur.getId());
-                                requete.setDate(3, now);
-                                requete.setInt(4, montantEnchere);
-                                requete.executeUpdate();
-                                ResultSet rs = requete.getGeneratedKeys();
-                                if (rs.next()) {
-                                    idAjout = rs.getInt(1);
-                                }
-                            } catch (SQLException e) {
-                                logger.severe("Error method addNew Enchere " + e.getMessage() + "\n");
-                                throw new DalException(e.getMessage(), e);
+        if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
+            //compare le montantEnchere avec le prix article
+            if (enchere.getArticle().getPrixVente() < montantEnchere){
+                //controle pour savoir si l'acheteur a deja fais la derniere enchere
+                if(acheteur.getId() != enchere.getUtilisateur().getId()) {
+                    //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
+                    if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
+                        try (Connection connection = JdbcConnection.connect()) {
+                            PreparedStatement requete = connection.prepareStatement(INSERT_NEW_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
+                            requete.setInt(1, idArticle);
+                            requete.setInt(2, acheteur.getId());
+                            requete.setDate(3, now);
+                            requete.setInt(4, montantEnchere);
+                            requete.executeUpdate();
+                            ResultSet rs = requete.getGeneratedKeys();
+                            if (rs.next()) {
+                                idAjout = rs.getInt(1);
                             }
-                            //new prix de vente
-                            int prixVente = montantEnchere + enchere.getArticle().getPrixVente();
-                            //mise a jour de l'article apres enchere
-                            updateArticleApresEnchere(enchere.getArticle(), montantEnchere);
-                            //debit du montant de l'enchere du nouvelle encherisseur
-                            deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
-                            //ajout credit de l'enchere precedente a l'encherisseur precedent
-                            addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
-                            //récuperation de l'enchere creer
-                            enchereAdd = FactoryDao.getEnchereDao().selectById(idAjout);
-                        }else {
-                            throw new DalException("credit Acheteur inferieur au montant de l'enchere");
+                        } catch (SQLException e) {
+                            logger.severe("Error method addNew Enchere " + e.getMessage() + "\n");
+                            throw new DalException(e.getMessage(), e);
                         }
-                    }else{
-                        throw new DalException("Vous etes deja le dernier encherisseur");
+                        //new prix de vente
+                        int prixVente = montantEnchere + enchere.getArticle().getPrixVente();
+                        //mise a jour de l'article apres enchere
+                        updateArticleApresEnchere(enchere.getArticle(), montantEnchere);
+                        //debit du montant de l'enchere du nouvelle encherisseur
+                        deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
+                        //ajout credit de l'enchere precedente a l'encherisseur precedent
+                        addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
+                        //récuperation de l'enchere creer
+                        enchereAdd = FactoryDao.getEnchereDao().selectById(idAjout);
+                    }else {
+                        throw new DalException("credit Acheteur inferieur au montant de l'enchere");
                     }
-                }else {
-                    throw new DalException("prix de vente supperieur au montant de l'enchere");
+                }else{
+                    throw new DalException("Vous etes deja le dernier encherisseur");
                 }
-            }else{
-                throw new DalException("le prix initial est supperieur aux prix de vente ");
+            }else {
+                throw new DalException("prix de vente supperieur au montant de l'enchere");
             }
+        }else{
+            throw new DalException("le prix initial est supperieur aux prix de vente ");
+        }
         return enchereAdd;
     }
+
 
     @Override
     public Enchere terminerEnchere() throws SQLException, DalException {
