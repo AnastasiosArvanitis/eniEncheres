@@ -94,11 +94,11 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>detailVente</servlet-name>
-        <servlet-class>fr.eni.eniEncheres.servlets.vente.ViewVente</servlet-class>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.detail_enchere</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>detailVente</servlet-name>
-        <url-pattern>/detail-enchere</url-pattern>
+        <url-pattern>/detail_enchere</url-pattern>
     </servlet-mapping>
 
     <!-- GESTION ERREUR -->

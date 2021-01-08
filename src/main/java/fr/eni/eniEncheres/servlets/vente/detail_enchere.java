@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewVente extends HttpServlet {
+public class detail_enchere extends HttpServlet {
     CategorieManager categorieManager = null;
     RetraitManager retraitManager = null;
     UtilisateurManager utilisateurManager = null;
@@ -36,7 +36,7 @@ public class ViewVente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getParameter("idArticle");
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/ViewVente.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/detail_enchere.jsp");
         rd.forward(request,response);
 
 
