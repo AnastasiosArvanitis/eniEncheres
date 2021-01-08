@@ -66,7 +66,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         }
         try (Connection connection = JdbcConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ALL_ENCHERE + filtreNom + stringFiltreCategorie);
-            requete.setInt(1, utilisateur.getId());
             System.out.println(requete.toString());
             ResultSet rs = requete.executeQuery();
             while (rs.next()) {
