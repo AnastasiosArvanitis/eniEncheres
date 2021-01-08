@@ -21,7 +21,7 @@
         <%
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {
         %>
-        <form method="post" action="">
+            <form method="post" action="">
             <div>
                 <p><label for="search-article">Filtres:</label></p>
                 <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
@@ -69,10 +69,26 @@
             </div>
 
         </form>
+            <div class="list-encheres">
+            <c:forEach items="${enchereListe}" var="enchere" >
+                <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
+                <article class="enchere-article">
+                    <div >
+                        <img src="#" alt="">
+                    </div>
+                    <div class="article-content">
+                        <h3><a href="<%=request.getContextPath()%>/view_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
+                        <p>Prix : ${enchere.article.prixInitial} points</p>
+                        <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
+                        <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>
+                    </div>
+                </article>
+            </c:forEach>
+        </div>
         <%
             } else {
         %>
-                <form method="post" action="">
+            <form method="post" action="">
             <div>
                 <p><label for="search-article">Filtres:</label></p>
                 <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
@@ -92,28 +108,27 @@
                <input type="submit" value="Rechercher">
             </div>
         </form>
+            <div class="list-encheres">
+            <c:forEach items="${enchereListe}" var="enchere" >
+                <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
+                <article class="enchere-article">
+                    <div >
+                        <img src="#" alt="">
+                    </div>
+                    <div class="article-content">
+                        <h3><a href="<%=request.getContextPath()%>/view_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
+                        <p>Prix : ${enchere.article.prixInitial} points</p>
+                        <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
+                        <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>
+                    </div>
+                </article>
+            </c:forEach>
+        </div>
         <%
             }
         %>
     </div>
-    <div class="list-encheres">
-        <c:forEach items="${enchereListe}" var="enchere" >
-            <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
-            <article class="enchere-article">
-                <div >
-                    <img src="#" alt="">
-                </div>
-                <div class="article-content">
-                    <h3><a href="<%=request.getContextPath()%>/view_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
-                    <p>Prix : ${enchere.article.prixInitial} points</p>
-                    <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
-                    <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>
-                </div>
-            </article>
-        </c:forEach>
-    </div>
 </main>
-
 <%@ include file="./footer.jsp"%>
 </body>
 </html>
