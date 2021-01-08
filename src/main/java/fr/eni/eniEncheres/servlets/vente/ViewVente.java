@@ -36,7 +36,7 @@ public class ViewVente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getParameter("idArticle");
-        RequestDispatcher rd = request.getRequestDispatcher();
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/ViewVente.jsp");
         rd.forward(request,response);
 
 
