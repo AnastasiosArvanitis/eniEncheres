@@ -136,7 +136,7 @@
                         <img src="#" alt="">
                     </div>
                     <div class="article-content">
-                        <h3><a href="<%=request.getContextPath()%>/detail_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
+                        <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
                         <p>Prix : ${enchere.article.prixInitial} points</p>
                         <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                         <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>

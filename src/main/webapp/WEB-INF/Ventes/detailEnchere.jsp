@@ -9,6 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>ENI_Enchere</title>
@@ -45,9 +46,15 @@
 
         <div>
             <form>
-                <label for="montantEnchere"> </label>
-
-                <input type="submit" value="Enchérir"/>
+                <label for="montantEnchere">Ma Proposition : </label>
+                <input type="number" id ="montantEnchere" name="montantEnchere"
+                       min =<c:choose>
+                               <c:when test="${enchere.montantEnchere > 0}">"${enchere.montantEnchere +1}" value="${enchere.montantEnchere+1}"</c:when>
+                                <c:otherwise>"${enchere.article.prixInitial}" value="${enchere.article.prixInitial}"</c:otherwise>
+                            </c:choose>
+                />
+                <input type="hidden" value="${enchere.article.id}" name="idArticle"/>
+                <input type="submit" value="Enchérir" action="/"/>
 
             </form>
         </div>
