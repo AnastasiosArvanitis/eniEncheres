@@ -208,7 +208,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                             requete.setInt(4, montantEnchere);
                             requete.executeUpdate();
                             ResultSet rs = requete.getGeneratedKeys();
-                            System.out.println("controle avant le if");
                             if (rs.next()) {
                                 idAjout = rs.getInt(1);
                             }
