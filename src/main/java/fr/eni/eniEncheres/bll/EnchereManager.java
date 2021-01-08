@@ -1,7 +1,6 @@
 package fr.eni.eniEncheres.bll;
 
 import fr.eni.eniEncheres.bo.Enchere;
-import fr.eni.eniEncheres.bo.Utilisateur;
 import fr.eni.eniEncheres.dal.DalException;
 import fr.eni.eniEncheres.dal.FactoryDao;
 import fr.eni.eniEncheres.dal.dao.EnchereDao;
@@ -40,50 +39,4 @@ public class EnchereManager {
         return listEnchere;
     }
 
-    public List<Enchere> selectEnchereVictoire(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException, BllException {
-        List<Enchere> listEnchere = new ArrayList<>();
-        try{
-            listEnchere = enchereDao.selectEnchereVictoire(utilisateur, filtreNom,filtreCategorie);
-        }catch(SQLException | DalException e){
-            logger.severe("Error dans selectAll EnchereManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
-        }
-        return listEnchere;
-    }
-
-
-    public List<Enchere> selectEnchereByUtilisateur (Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException, BllException {
-        List<Enchere> listEnchere = new ArrayList<>();
-        try{
-            listEnchere = enchereDao.selectEnchereByUtilisateur(utilisateur, filtreNom,filtreCategorie);
-        }catch(SQLException | DalException e){
-            logger.severe("Error dans selectAll EnchereManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
-        }
-        return listEnchere;
-    }
-
-        private Enchere getEnchereArticle(int articleId) throws SQLException, DalException, BllException {
-            Enchere enchere = new Enchere() ;
-
-            try{
-                enchere = enchereDao.selectEnchereByIdArticle(articleId);
-            }catch (SQLException | DalException e) {
-                logger.severe("Error dans selectAll EnchereManager " + e.getMessage());
-                throw new BllException(e.getMessage(), e);
-            }
-            return enchere;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-    }
+}
