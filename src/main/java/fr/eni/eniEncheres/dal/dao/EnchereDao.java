@@ -28,4 +28,9 @@ public interface EnchereDao {
 
     public Enchere selectById(int id) throws SQLException, DalException;
 
+    public List<Enchere> selectEnchereVendeur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
+
+    public List<Enchere> selectEnchereVendeurFutur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
+
+    public List<Enchere> selectEnchereVendeurTermine(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
 }
