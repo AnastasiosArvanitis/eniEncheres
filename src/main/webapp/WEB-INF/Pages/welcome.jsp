@@ -29,8 +29,8 @@
         %>
             <form method="post" action="/encheres/ChercherEnchere">
             <div>
-                <p><label for="input-search-article">Filtres:</label></p>
-                <p><input id="input-search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p><label for="search-article">Filtres:</label></p>
+                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
                 <p>
                     <label for="search-categorie">Categorie:
                         <select name="search-categorie" id="search-categorie">
@@ -137,7 +137,7 @@
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
-                        <p>Prix : ${enchere.article.prixInitial} points</p>
+                        <p>Prix : ${enchere.article.prixVente} points</p>
                         <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                         <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>
                     </div>

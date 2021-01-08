@@ -51,7 +51,6 @@ public class EnchereManager {
         return listEnchere;
     }
 
-
     public List<Enchere> selectEnchereByUtilisateur (Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException, BllException {
         List<Enchere> listEnchere = new ArrayList<>();
         try{
@@ -75,15 +74,14 @@ public class EnchereManager {
         return enchere;
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    public Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, BllException{
+        Enchere enchereRetourner = null;
+        try{
+            enchereRetourner = enchereDao.addNewEnchere(acheteur,idArticle,montantEnchere);
+        }catch (SQLException | DalException e){
+            logger.severe("Error dans addNewEncher EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return enchereRetourner;
+    }
 }

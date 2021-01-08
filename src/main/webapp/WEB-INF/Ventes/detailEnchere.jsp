@@ -21,6 +21,7 @@
 </head>
 <body>
 <%@ include file="../Pages/header.jsp" %>
+
 <main>
     <h2>Détail Vente</h2>
     <article>
@@ -37,18 +38,17 @@
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
         <p>Vendeur :</p><p>${enchere.article.utilisateur.pseudo}</p>
         <div>
-            <form method ="post" action="">
+            <form method ="post" action="detailEnchere">
                 <label for="montantEnchere">Ma Proposition : </label>
                 <input type="number" id ="montantEnchere" name="montantEnchere"
                        min =<c:choose>
-                               <c:when test="${enchere.montantEnchere > 0}">"${enchere.montantEnchere +1}" value="${enchere.montantEnchere+1}"</c:when>
+                               <c:when test="${enchere.montantEnchere > 0}">"${enchere.montantEnchere +1}" value="${enchere.montantEnchere+1}" </c:when>
                                 <c:otherwise>"${enchere.article.prixInitial}" value="${enchere.article.prixInitial}"</c:otherwise>
                             </c:choose>
                 />
                 <input type="hidden" value="${enchere.article.id}" name="idArticle"/>
-                <input type="hidden" value="${utilisateur}" name="utilisateur"/>
+                <input type="hidden" value="<%=utilisateur.getId()%>" name="idUtilisateur"/>
                 <input type="submit" value="Enchérir" />
-
             </form>
         </div>
 
