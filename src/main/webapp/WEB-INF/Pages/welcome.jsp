@@ -96,7 +96,7 @@
                     </script>
                     <%--------------------------    RADIO ACHATS                  --------------------------%>
                     <p>
-                        <input type="radio" id="achat" name="radio-achat" value="">
+                        <input type="radio" id="achat" name="radio-achat" value="radioAchat">
                         <label for="achat">Achats</label><br>
 
                         <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="" class="checkbox">
@@ -110,7 +110,7 @@
                     </p>
                         <%--------------------------    RADIO VENTES                  --------------------------%>
                     <p>
-                        <input type="radio" id="vente" name="radio-vente" value="">
+                        <input type="radio" id="vente" name="radio-vente" value="radioVente">
                         <label for="vente">Mes ventes</label><br>
 
                         <input type="checkbox" id="venteEnCours" name="check-venteEnCours" value="" class="checkbox">
