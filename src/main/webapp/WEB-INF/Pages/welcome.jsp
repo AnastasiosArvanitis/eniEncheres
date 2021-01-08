@@ -10,6 +10,12 @@
     <style>
         <%@ include file="../../css/_global.css"%>
         <%@ include file="../../css/welcom.css"%>
+        .show {
+            pointer-events: none;
+        }
+        .hide {
+            pointer-events: none;
+        }
     </style>
     <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
 </head>
@@ -37,11 +43,63 @@
                     </label>
                 </p>
                 <div>
+                    <script type="application/javascript">
+                        window.onload = function() {
+                            var radioAchat = document.getElementById("achat");
+                            var enchereOuvert = document.getElementById("enchereOuvert");
+                            var enchereEnCours = document.getElementById("enchereEnCours");
+                            var enchereRemporte = document.getElementById("enchereRemporte");
+
+                            var radioVente = document.getElementById("vente");
+                            var venteEnCours = document.getElementById("venteEnCours");
+                            var venteNonDebute = document.getElementById("venteNonDebute");
+                            var venteTermine = document.getElementById("venteTermine");
+
+                            radioAchat.checked = true;
+                            enchereOuvert.checked = true;
+
+                            radioAchat.onclick = achatClickHandler;
+                            radioVente.onclick = venteClickHandler;
+
+                            function achatClickHandler() {
+
+                                venteEnCours.disabled = true;
+                                venteNonDebute.disabled = true;
+                                venteTermine.disabled = true;
+
+                                radioAchat.checked = true;
+                                enchereOuvert.checked = true;
+                                radioVente.checked = false;
+
+                                enchereOuvert.disabled = false;
+                                enchereEnCours.disabled = false;
+                                enchereRemporte.disabled = false;
+                            }
+                            function venteClickHandler() {
+
+                                enchereOuvert.disabled = true;
+                                enchereEnCours.disabled = true;
+                                enchereRemporte.disabled = true;
+
+                                radioAchat.checked = false;
+                                radioVente.checked = true;
+
+                                venteEnCours.disabled = false;
+                                venteNonDebute.disabled = false;
+                                venteTermine.disabled = false;
+                            }
+                        }
+
+
+
+
+                    </script>
+                    <%--------------------------    RADIO ACHATS                  --------------------------%>
                     <p>
-                        <input type="radio" id="achat" name="radio-achat" value="" checked>
+                        <input type="radio" id="achat" name="radio-achat" value="">
                         <label for="achat">Achats</label><br>
 
-                        <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="" class="checkbox" checked>
+                        <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="" class="checkbox">
                         <label for="enchereOuvert">enchere ouverte</label><br>
 
                         <input type="checkbox" id="enchereEnCours" name="check-enchereEnCours" value="" class="checkbox">
@@ -50,6 +108,7 @@
                         <input type="checkbox" id="enchereRemporte" name="check-enchereRemporte" value="" class="checkbox">
                         <label for="enchereRemporte">mes encheres remportes</label>
                     </p>
+                        <%--------------------------    RADIO VENTES                  --------------------------%>
                     <p>
                         <input type="radio" id="vente" name="radio-vente" value="">
                         <label for="vente">Mes ventes</label><br>
