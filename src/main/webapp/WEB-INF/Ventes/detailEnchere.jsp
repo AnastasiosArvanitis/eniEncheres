@@ -21,14 +21,7 @@
 </head>
 <body>
 <%@ include file="../Pages/header.jsp" %>
-<%
-    Utilisateur acheteur =null;
-    if (session.getAttribute("utilisateur") == null) {
-        response.sendRedirect("/encheres/error?error=userNotExist");
-    } else {
-        acheteur = (Utilisateur) session.getAttribute("utilisateur");
-    }
-%>
+
 <main>
     <h2>Détail Vente</h2>
     <article>
@@ -54,7 +47,7 @@
                             </c:choose>
                 />
                 <input type="hidden" value="${enchere.article.id}" name="idArticle"/>
-                <input type="hidden" value="<%=acheteur.getId()%>" name="idUtilisateur"/>
+                <input type="hidden" value="<%=utilisateur.getId()%>" name="idUtilisateur"/>
                 <input type="submit" value="Enchérir" />
             </form>
         </div>
