@@ -24,4 +24,6 @@ public interface EnchereDao {
 
     Enchere terminerEnchere() throws SQLException, DalException;
 
+    public Enchere selectById(int id) throws SQLException, DalException;
+
 }

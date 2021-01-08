@@ -2,6 +2,7 @@ package fr.eni.eniEncheres.servlets.vente;
 
 import fr.eni.eniEncheres.bll.*;
 import fr.eni.eniEncheres.bo.*;
+import fr.eni.eniEncheres.dal.DalException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,28 +16,34 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class detail_enchere extends HttpServlet {
-    CategorieManager categorieManager = null;
-    RetraitManager retraitManager = null;
-    UtilisateurManager utilisateurManager = null;
-    ArticleManager articleManager = null;
+public class DetailEnchere extends HttpServlet {
     EnchereManager enchereManager = null;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        categorieManager = CategorieManager.getInstance();
-        retraitManager = RetraitManager.getInstance();
-        utilisateurManager = UtilisateurManager.getInstance();
-        articleManager = ArticleManager.getInstance();
         enchereManager = EnchereManager.getInstance();
     }
 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getParameter("idArticle");
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/detail_enchere.jsp");
+        int idArticle = Integer.parseInt(request.getParameter("idArticle"));
+
+        Enchere enchere = new Enchere();
+        try {
+           enchere = enchereManager.getEnchereArticle(idArticle);
+            System.out.println(enchere);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (DalException e) {
+            e.printStackTrace();
+        } catch (BllException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("enchere",enchere);
+        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp");
         rd.forward(request,response);
 
 
@@ -45,6 +52,8 @@ public class detail_enchere extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
 
 
 

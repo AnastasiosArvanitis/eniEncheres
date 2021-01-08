@@ -13,6 +13,8 @@ public interface UtilisateurDao {
 
     Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException;
 
+    Utilisateur updateUtilisateurApresEnchere(Utilisateur utilisateur) throws SQLException, DalException;
+
     Utilisateur insert(Utilisateur utilisateur) throws SQLException, DalException;
 
     boolean delete(int id) throws SQLException, DalException;

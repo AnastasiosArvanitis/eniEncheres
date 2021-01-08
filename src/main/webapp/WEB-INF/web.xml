@@ -93,12 +93,12 @@
         <url-pattern>/view_vendeur</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>detailVente</servlet-name>
-        <servlet-class>fr.eni.eniEncheres.servlets.vente.detail_enchere</servlet-class>
+        <servlet-name>DetailEnchere</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.DetailEnchere</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>detailVente</servlet-name>
-        <url-pattern>/detail_enchere</url-pattern>
+        <servlet-name>DetailEnchere</servlet-name>
+        <url-pattern>/detailEnchere</url-pattern>
     </servlet-mapping>
 
     <servlet>

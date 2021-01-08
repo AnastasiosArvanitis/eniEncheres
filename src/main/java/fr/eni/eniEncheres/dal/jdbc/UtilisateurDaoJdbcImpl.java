@@ -92,6 +92,39 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
+  public Utilisateur updateUtilisateurApresEnchere(Utilisateur utilisateur) throws SQLException, DalException {
+    final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, codePostal = ?, ville = ?, motDePasse = ?, credit = ? WHERE id = ?";
+    Utilisateur utilisateurRecupere = null;
+    try(Connection connection = JdbcConnection.connect()){
+      PreparedStatement requete = connection.prepareStatement(UPDATE);
+      requete.setString(1, utilisateur.getPseudo());
+      requete.setString(2, utilisateur.getNom());
+      requete.setString(3, utilisateur.getPrenom());
+      requete.setString(4, utilisateur.getEmail());
+      //gestion du null
+      if(utilisateur.getTelephone() == null){
+        requete.setNull(5, Types.VARCHAR);
+      }else {
+        requete.setString(5, utilisateur.getTelephone());
+      }
+      requete.setString(6, utilisateur.getRue());
+      requete.setString(7, utilisateur.getCodePostal());
+      requete.setString(8, utilisateur.getVille());
+      requete.setString(9, utilisateur.getMotDePasse());
+      requete.setInt(10, utilisateur.getCredit());
+      requete.setInt(11, utilisateur.getId());
+      requete.executeUpdate();
+
+      utilisateurRecupere = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
+
+    }catch(SQLException e){
+      logger.severe("Error method update " + e.getMessage() + "\n");
+      throw  new DalException(e.getMessage(), e);
+    }
+    return utilisateurRecupere;
+  }
+
+  @Override
   public Utilisateur insert(Utilisateur ajoutUtilisateur) throws SQLException, DalException {
     final String SQL_INSERT ="INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse) VALUES (?,?,?,?,?,?,?,?,?)";
     Utilisateur utilisateurCree = null;
