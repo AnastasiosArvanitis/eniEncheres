@@ -61,17 +61,6 @@ public class EnchereManager {
             throw new BllException(e.getMessage(), e);
         }
         return listEnchere;
-
-    }
-
-    public List<Enchere> selectEnchereByUtilisateur (Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException, BllException {
-        List<Enchere> listEnchere = new ArrayList<>();
-        try {
-            listEnchere = enchereDao.selectEnchereByUtilisateur(utilisateur, filtreNom, filtreCategorie);
-        } catch (SQLException | DalException e) {
-            logger.severe("Error dans selectAll EnchereManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
-        }
     }
 
         private Enchere getEnchereArticle(int articleId) throws SQLException, DalException, BllException {
@@ -84,7 +73,6 @@ public class EnchereManager {
                 throw new BllException(e.getMessage(), e);
             }
             return enchere;
-
         }
 
 
