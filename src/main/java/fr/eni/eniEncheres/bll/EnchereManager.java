@@ -38,4 +38,5 @@ public class EnchereManager {
         }
         return listEnchere;
     }
+
 }

@@ -18,9 +18,9 @@ public interface EnchereDao {
 
     List<Enchere> selectEnchereByArticle(Article article) throws SQLException, DalException;
 
-    Enchere selectById(int id) throws SQLException, DalException;
+    Enchere selectEnchereByIdArticle(int idArticle) throws SQLException, DalException;
 
-    Enchere addNewEnchere() throws SQLException,DalException;
+    Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, DalException;
 
     Enchere terminerEnchere() throws SQLException, DalException;
 
