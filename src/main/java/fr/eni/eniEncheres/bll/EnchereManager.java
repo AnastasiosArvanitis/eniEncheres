@@ -84,4 +84,52 @@ public class EnchereManager {
         }
         return enchereRetourner;
     }
+
+
+
+    public List<Enchere> getEnchereVendeur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws BllException {
+        List<Enchere> enchereRetourner = null;
+        try {
+            enchereRetourner = enchereDao.selectEnchereVendeur(utilisateur, filtreNom, filtreCategorie);
+        } catch (SQLException | DalException e){
+            logger.severe("Error dans getEnchereVendeur EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return enchereRetourner;
+    }
+
+
+    public List<Enchere> getEnchereVendeurFutur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws BllException {
+        List<Enchere> enchereRetourner = null;
+        try {
+            enchereRetourner = enchereDao.selectEnchereVendeurFutur(utilisateur, filtreNom, filtreCategorie);
+        } catch (SQLException | DalException e){
+            logger.severe("Error dans getEnchereVendeurFutur EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return enchereRetourner;
+    }
+
+    public List<Enchere> getEnchereVendeurTermine(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws BllException {
+        List<Enchere> enchereRetourner = null;
+        try {
+            enchereRetourner = enchereDao.selectEnchereVendeurTermine(utilisateur, filtreNom, filtreCategorie);
+        } catch (SQLException | DalException e){
+            logger.severe("Error dans getEnchereVendeurTermine EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return enchereRetourner;
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
