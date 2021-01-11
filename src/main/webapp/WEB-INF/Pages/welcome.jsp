@@ -10,14 +10,9 @@
     <style>
         <%@ include file="../../css/_global.css"%>
         <%@ include file="../../css/welcom.css"%>
-        .show {
-            pointer-events: none;
-        }
-        .hide {
-            pointer-events: none;
-        }
     </style>
-    <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
+   <%-- <link rel="stylesheet" type="text/css" href="./css/_global.css">
+    <link rel="stylesheet" type="text/css" href="./css/welcom.css">--%>
 </head>
 <body>
 <%@ include file="./header.jsp"%>
@@ -99,13 +94,13 @@
                         <input type="radio" id="achat" name="radio-achat" value="radioAchat">
                         <label for="achat">Achats</label><br>
 
-                        <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="" class="checkbox">
+                        <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="enchereOuvert" class="checkbox">
                         <label for="enchereOuvert">enchere ouverte</label><br>
 
-                        <input type="checkbox" id="enchereEnCours" name="check-enchereEnCours" value="" class="checkbox">
+                        <input type="checkbox" id="enchereEnCours" name="check-enchereEnCours" value="enchereEnCours" class="checkbox">
                         <label for="enchereEnCours">mes enchere en cours</label><br>
 
-                        <input type="checkbox" id="enchereRemporte" name="check-enchereRemporte" value="" class="checkbox">
+                        <input type="checkbox" id="enchereRemporte" name="check-enchereRemporte" value="enchereRemporte" class="checkbox">
                         <label for="enchereRemporte">mes encheres remportes</label>
                     </p>
                         <%--------------------------    RADIO VENTES                  --------------------------%>
@@ -113,13 +108,13 @@
                         <input type="radio" id="vente" name="radio-vente" value="radioVente">
                         <label for="vente">Mes ventes</label><br>
 
-                        <input type="checkbox" id="venteEnCours" name="check-venteEnCours" value="" class="checkbox">
+                        <input type="checkbox" id="venteEnCours" name="check-venteEnCours" value="venteEnCours" class="checkbox">
                         <label for="venteEnCours">mes ventes en cours</label><br>
 
-                        <input type="checkbox" id="venteNonDebute" name="check-venteNonDebute" value="" class="checkbox">
+                        <input type="checkbox" id="venteNonDebute" name="check-venteNonDebute" value="venteNonDebute" class="checkbox">
                         <label for="venteNonDebute">ventes non debutes</label><br>
 
-                        <input type="checkbox" id="venteTermine" name="check-venteTermine" value="" class="checkbox">
+                        <input type="checkbox" id="venteTermine" name="check-venteTermine" value="venteTermine" class="checkbox">
                         <label for="venteTermine">ventes termines</label>
                     </p></div>
             </div>

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -36,7 +37,7 @@ public class ChercherEnchere extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String filtreNom = request.getParameter("search-article");
+        String searchNom = request.getParameter("search-article");
         String searchCategorie = request.getParameter("search-categorie");
 
         String radioAchat = request.getParameter("radio-achat");
@@ -49,50 +50,113 @@ public class ChercherEnchere extends HttpServlet {
         String checkVenteNonDebute = request.getParameter("check-venteNonDebute");
         String checkVenteTermine = request.getParameter("check-venteTermine");
 
-        System.out.println("radioAchat " +radioAchat);
-        System.out.println("radioVente " +radioVente);
 
-        int categorieId;
+
+        int categorieId = 0;
         Article article = null;
         Categorie categorie = null;
         Utilisateur utilisateur = null;
-        List<Enchere> enchereListe = null;
+
+        List<Enchere>   enchereOuvertList = null;
+        List<Enchere>   enchereEnCoursList = null;
+        List<Enchere>   enchereRemporteesList = null;
+
+        List<Enchere> venteEnCoursList = null;
+        List<Enchere> venteNonDebuteeList = null;
+        List<Enchere> venteTermineList = null;
+
+        List<Enchere>   enchereListe = null;
         List<Categorie> listCategorie = null;
 
         HttpSession session = request.getSession();
         utilisateur = (Utilisateur) session.getAttribute("utilisateur");
 
+        try {
+            categorie = categorieManager.selectByName(searchCategorie);
+            categorieId = categorie.getId();
+            listCategorie = categorieManager.selectAllCategorie();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String filtreNom = (searchNom.equals("")) ? "0" : searchNom;
+        int filtreCategorie = (searchCategorie.equals("")) ? 0 : categorieId; //to pairnei h oxi?
+
+        request.setAttribute("listCategorie", listCategorie);
+        RequestDispatcher dispatcher = null;
+
         if (utilisateur != null) {
-            if (!filtreNom.trim().equals("")) {
-                if (!searchCategorie.trim().equals("")) {
+            //mode connecté
+            if (radioAchat.equals("radioAchat")) {
+                //Encheres
+                try {
+                    enchereOuvertList = enchereManager.selectAllEnchere();
+                    enchereEnCoursList = enchereManager.selectEnchereByUtilisateur(utilisateur, filtreNom, filtreCategorie);
+                    enchereRemporteesList = enchereManager.selectEnchereVictoire(utilisateur, filtreNom, filtreCategorie);
+                }   catch (Exception e) {
+                    e.printStackTrace();
+                }
+              if ( checkEnchereOuvert.equals("enchereOuvert") ) {
+                  enchereListe.addAll(enchereOuvertList);
+              }
+              if ( checkEnchereEnCours.equals("enchereEnCours") ) {
+                  enchereListe.addAll(enchereEnCoursList);
+              }
+              if ( checkEnchereRemporte.equals("enchereRemporte") ) {
+                  enchereListe.addAll(enchereRemporteesList);
+              }
+                if ( (enchereOuvertList != null) && (enchereEnCoursList != null) && (enchereRemporteesList != null) ) {
                     try {
-                        categorie = categorieManager.selectByName(searchCategorie);
-                        categorieId = categorie.getId();
-                        enchereListe = enchereManager.selectEnchereVictoire(utilisateur, filtreNom ,categorieId);
-                        listCategorie = categorieManager.selectAllCategorie();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    categorieId = 0;
-                    try {
-                        enchereListe = enchereManager.selectEnchereVictoire(utilisateur, filtreNom ,categorieId);
-                        listCategorie = categorieManager.selectAllCategorie();
-                    } catch (Exception e) {
+                        enchereListe = enchereManager.selectAllEnchere();
+                    }   catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+            } //end radioAchats
 
-
-                request.setAttribute("enchereListe", enchereListe);
-                request.setAttribute("listCategorie", listCategorie);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
-                dispatcher.forward(request, response);
-            } else {
-                //error here
+            else if (radioVente.equals("radioVente")) {
+                //Ventes
+                try {
+                    venteEnCoursList = enchereManager.getEnchereVendeur(utilisateur, filtreNom, filtreCategorie);
+                    venteNonDebuteeList = enchereManager.getEnchereVendeurFutur(utilisateur, filtreNom, filtreCategorie);
+                    venteTermineList = enchereManager.getEnchereVendeurTermine(utilisateur, filtreNom, filtreCategorie);
+                }  catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if ( (checkVenteEnCours.equals("venteEnCours"))) {
+                   enchereListe.addAll(venteEnCoursList);
+                }
+                if (checkVenteNonDebute.equals("venteNonDebute")) {
+                    enchereListe.addAll(venteNonDebuteeList);
+                }
+                if (checkVenteTermine.equals("venteTermine")) {
+                    enchereListe.addAll(venteTermineList);
+                }
+                if ( (checkVenteEnCours == null) && (checkVenteNonDebute == null) && (checkVenteTermine == null)) {
+                  try {
+                      enchereListe = enchereManager.getEnchereVendeur(utilisateur, filtreNom, filtreCategorie);
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+                }
             }
+
+            request.setAttribute("enchereListe", enchereListe);
+            dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
+            dispatcher.forward(request, response);
+
         } else {
-            response.sendRedirect("/encheres/error?error=NotConnected");
+            //mode deconnecté
+            try {
+                enchereListe = enchereManager.selectAllEnchere();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (BllException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("enchereListe", enchereListe);
+            dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
+            dispatcher.forward(request, response);
         }
 
 
