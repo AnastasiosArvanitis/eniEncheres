@@ -309,7 +309,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchereNew.setMontantEnchere(rs.getInt("montantEnchere"));
                 enchere = enchereNew;
             }
-
         }catch (SQLException e){
             logger.severe("Error method selectById Enchere " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
@@ -361,7 +360,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                             deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
                             //ajout credit de l'enchere precedente a l'encherisseur precedent
                             addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
-
                         }
                         //récuperation de l'enchere creer
                         enchereAdd = FactoryDao.getEnchereDao().selectById(idAjout);
@@ -436,11 +434,11 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
 
     private void addCredit(int creditUtilisateur, int montantEnchere, Utilisateur acheteur) throws SQLException, DalException{
         int addCredit = creditUtilisateur + montantEnchere;
-        Utilisateur UtilisateurACredité = new Utilisateur(acheteur.getPseudo(),acheteur.getNom(),acheteur.getPrenom(),
+        Utilisateur UtilisateurACredite = new Utilisateur(acheteur.getPseudo(),acheteur.getNom(),acheteur.getPrenom(),
                 acheteur.getEmail(),acheteur.getTelephone(),acheteur.getRue(),acheteur.getCodePostal(),
                 acheteur.getVille(), acheteur.getMotDePasse(), addCredit ,acheteur.getId());
 
-        FactoryDao.getUtilisateurDao().updateUtilisateurApresEnchere(UtilisateurACredité);
+        FactoryDao.getUtilisateurDao().updateUtilisateurApresEnchere(UtilisateurACredite);
     }
 
     private void updateArticleApresEnchere(Article article, int montantEnchere) throws SQLException, DalException{
