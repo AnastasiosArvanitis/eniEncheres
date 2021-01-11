@@ -74,18 +74,38 @@ public class EnchereManager {
         return enchere;
     }
 
-    public Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, BllException{
+    public Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, BllException, DalException {
         Enchere enchereRetourner = null;
-        try{
-            enchereRetourner = enchereDao.addNewEnchere(acheteur,idArticle,montantEnchere);
-        }catch (SQLException | DalException e){
-            logger.severe("Error dans addNewEncher EnchereManager " + e.getMessage());
-            throw new BllException(e.getMessage(), e);
+        Enchere enchere = enchereDao.selectEnchereByIdArticle(idArticle);
+
+        //prix de vente est soit = au prix initial ou soit supperieur
+        if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
+            //compare le montantEnchere avec le prix article
+            if (enchere.getArticle().getPrixVente() < montantEnchere){
+                //controle pour savoir si l'acheteur a deja fais la derniere enchere
+                if(acheteur.getId() != enchere.getUtilisateur().getId()) {
+                    //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
+                    if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
+                        try{
+                            enchereRetourner = enchereDao.addNewEnchere(acheteur,idArticle,montantEnchere);
+                        }catch (SQLException | DalException e){
+                            logger.severe("Error dans addNewEncher EnchereManager " + e.getMessage());
+                            throw new BllException(e.getMessage(), e);
+                        }
+                    }else {
+                        new BllException("Votre Credit est inferieur au montant de l'enchere");
+                    }
+                }else{
+                    new BllException("Vous etes deja le dernier encherisseur");
+                }
+            }else {
+                new BllException("Prix de vente supperieur au montant de l'enchere");
+            }
+        }else{
+            new BllException("le prix initial est supperieur aux prix de vente");
         }
         return enchereRetourner;
     }
-
-
 
     public List<Enchere> getEnchereVendeur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws BllException {
         List<Enchere> enchereRetourner = null;
