@@ -31,7 +31,18 @@
 <%@ include file="../Pages/header.jsp" %>
 
 <main>
-    <h2>Détail Vente</h2>
+    <c:choose>
+        <%--Si l'utilisateur connecté est le vendeur et que l'enchère est remporté--%>
+        <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) }"><h2>${enchere.utilisateur.pseudo} a remporté l'enchère</h2></c:when>
+        <%--Si l'utilisateur connecté est l'achetur et que la date de fin est passée--%>
+        <c:when test="${(meilleureEnchereUtilisateurId == acheteur ) && ( dateFin < maintenant )}"><h2>Vous avez remporté la vente</h2></c:when>
+        <%--Si l'utilisateur connecté est le vendeur et que l'enchère est KO--%>
+        <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant) && (empty meilleureEnchereUtilisateurId)}"><h2>L'article n'a pas été vendu</h2></c:when>
+        <%--Si l'utilisateur connecté n'est pas le vendeur et que la vente est terminée--%>
+        <c:when test="${(acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant)}"><h2>La vente est terminée</h2></c:when>
+        <c:otherwise><h2>Détail Vente</h2></c:otherwise>
+    </c:choose>
+
     <article>
         <img src="#" alt="">
     </article>
@@ -42,7 +53,6 @@
 
         <c:choose>
             <c:when test="${enchere.montantEnchere > 0}"><p>Meilleur Offre : </p><p>${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p></c:when>
-            <c:otherwise ><p>Devenez le premier enchérisseur en faisant une proposition</p></c:otherwise>
         </c:choose>
         <p>Mise a prix : </p><p>${enchere.article.prixInitial} pts</p>
         <p>Fin de l'enchère :  </p><p>${enchere.article.dateFinEncheres}</p>
@@ -55,31 +65,20 @@
 
             <c:choose>
 
-                <%--si Vendeur--%>
+                <c:when test="${(acheteur == vendeur ) && (dateDebut > maintenant) }"><%@ include file="../Ventes/BlocsDetailsEncheres/modifierVente.jsp" %></c:when>
 
-                <c:when test="${(acheteur == vendeur ) && (dateDebut > maintenant) }"><p>tu est le vendeur et la vente n'a pas commencé (lien modifier article et supprimer article)</p></c:when>
-
-                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant) && (meilleureEnchereUtilisateurId > 0)}"><p>tu est le vendeur et la vente est terminée</p></c:when>
-
-                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant) && (meilleureEnchereUtilisateurId = 0)}"><p>tu est le vendeur, malheureusement l'article n'a pas été vendu </p></c:when>
-
-                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) }"><p>tu est le vendeur et la vente est en cours</p></c:when>
-
-                <%--Si Acheteur--%>
-
-                <c:when test="${(acheteur == meilleureEnchereUtilisateurId ) && (dateDebut < maintenant) && (dateFin < maintenant) }"><p>tu as remporté l'article</p></c:when>
-
-                <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant))}"><p>La vente est terminée</p></c:when>
+                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) }"><p class="message-info">Vous ne pouvez plus modifier une vente en cours</p></c:when>
 
                 <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant))}"> <%@ include file="../Ventes/BlocsDetailsEncheres/encherir.jsp" %></c:when>
 
+                <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) }"><h2>Confirmer la réception de l'article ( boolean a rajouter table retrait avec boutton actif /inactif)</h2></c:when>
             </c:choose>
 
         </c:if>
         <%--Si Non connecté et enchère en cours--%>
 
         <c:if test="${(empty acheteur)&&(dateDebut < maintenant) && (dateFin > maintenant)}">
-            <p>Vous devez etre connecté pour enchérir</p>
+            <p class="message-info">Vous devez etre connecté pour enchérir. <a href="/encheres/connection">Se connecter</a></p>
         </c:if>
 
 
