@@ -19,4 +19,6 @@
         <input type="hidden" value="${utilisateur.id}" name="idUtilisateur"/>
         <input type="submit" value="Enchérir" />
     </form>
+    <p class="message-erreur">${message}</p>
+    <p class="message-succes">${message_succes}</p>
 </div>
