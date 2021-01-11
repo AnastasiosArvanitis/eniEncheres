@@ -85,6 +85,14 @@
         <servlet-name>AjoutVente</servlet-name>
         <url-pattern>/ajout_vente</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AjoutVente</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.AjoutVente</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjoutVente</servlet-name>
+        <url-pattern>/modifVente</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>ViewVendeur</servlet-name>
