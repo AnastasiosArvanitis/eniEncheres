@@ -3,6 +3,7 @@ package fr.eni.eniEncheres.servlets.vente;
 import fr.eni.eniEncheres.bll.*;
 import fr.eni.eniEncheres.bo.*;
 import fr.eni.eniEncheres.dal.DalException;
+import fr.eni.eniEncheres.dal.FactoryDao;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import java.util.List;
 public class DetailEnchere extends HttpServlet {
     EnchereManager enchereManager = null;
     UtilisateurManager utilisateurManager = null;
+    private String message="";
 
     @Override
     public void init() throws ServletException {
@@ -59,20 +61,73 @@ public class DetailEnchere extends HttpServlet {
         int idUtilisateur = Integer.parseInt(request.getParameter("idUtilisateur"));
         Enchere enchereRetourner = null;
         Utilisateur utilisateurRenvoyer = null;
-        try {
-            Utilisateur acheteur = utilisateurManager.selectById(idUtilisateur);
-            enchereRetourner = enchereManager.addNewEnchere(acheteur,idArticle,montantEnchere);
-            utilisateurRenvoyer = utilisateurManager.selectById(idUtilisateur);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (BllException e) {
-            e.printStackTrace();
+        Enchere enchere = null;
+        Utilisateur acheteur = null;
+
+            try {
+                enchere = FactoryDao.getEnchereDao().selectEnchereByIdArticle(idArticle);
+                acheteur = utilisateurManager.selectById(idUtilisateur);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (DalException e) {
+                e.printStackTrace();
+            } catch (BllException e) {
+                e.printStackTrace();
+            }
+
+        //prix de vente est soit = au prix initial ou soit supperieur
+        if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
+            //compare le montantEnchere avec le prix article
+            if (enchere.getArticle().getPrixVente() < montantEnchere){
+                //controle pour savoir si l'acheteur a deja fais la derniere enchere
+                if(acheteur.getId() != enchere.getUtilisateur().getId()) {
+                    //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
+                    if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
+
+                        try {
+                                enchereRetourner = enchereManager.addNewEnchere(acheteur,idArticle,montantEnchere);
+                                utilisateurRenvoyer = utilisateurManager.selectById(idUtilisateur);
+                                message="Votre enchere a reussi !";
+                                session.setAttribute("utilisateur",utilisateurRenvoyer);
+                                request.setAttribute("message_succes",message);
+                                request.setAttribute("enchere", enchereRetourner);
+                                request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            } catch (BllException e) {
+                                e.printStackTrace();
+                            } catch (DalException e) {
+                            e.printStackTrace();
+                        }
+
+                    }else {
+                        message="Votre Credit est inferieur au montant de l'enchere";
+                        session.setAttribute("utilisateur",acheteur);
+                        request.setAttribute("enchere",enchere);
+                        request.setAttribute("message",message);
+                        request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
+                    }
+                }else{
+                    message="Vous etes deja le dernier encherisseur";
+                    session.setAttribute("utilisateur",acheteur);
+                    request.setAttribute("enchere",enchere);
+                    request.setAttribute("message",message);
+                    request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
+                }
+            }else {
+                message="Prix de vente supperieur au montant de l'enchere";
+                session.setAttribute("utilisateur",acheteur);
+                request.setAttribute("enchere",enchere);
+                request.setAttribute("message",message);
+                request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
+            }
+        }else{
+            message="le prix initial est supperieur aux prix de vente ";
+            session.setAttribute("utilisateur",acheteur);
+            request.setAttribute("enchere",enchere);
+            request.setAttribute("message",message);
+            request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
         }
-        session.setAttribute("utilisateur",utilisateurRenvoyer);
-        request.setAttribute("enchere", enchereRetourner);
-        request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
-
-
     }
 }
 

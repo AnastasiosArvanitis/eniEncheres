@@ -108,6 +108,9 @@ footer {
 .message-erreur{
     color:red;
 }
+.message-succes{
+    color: green;
+}
 
 
 
