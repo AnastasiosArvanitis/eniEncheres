@@ -273,7 +273,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "                description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle," +
                 "                e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
                 "                LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)"+
-                "                        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate() and a.id = ?";
+                "                        where a.id = ?";
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
             requete.setInt(1, idArticle);
