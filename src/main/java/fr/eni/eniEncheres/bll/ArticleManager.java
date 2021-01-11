@@ -62,7 +62,7 @@ public class ArticleManager {
             throw new Exception("L'article doit avoir un nom");
         } else if (newArticle.getDescription().equals("")) {
             throw new Exception("L'article doit avoir une description");
-        } else if (newArticle.getDateDebutEncheres().equals("")) {
+        } else if (newArticle.getDateDebutEncheres() == null) {
             throw new Exception("L'article doit avoir une date de debut d'enchere");
         } else if (newArticle.getDateFinEncheres() == null) {
             throw new Exception("L'article doit avoir une date de fin d'enchere");
@@ -73,8 +73,8 @@ public class ArticleManager {
         }
         return addedArticle;
     }
+    }
 
-}
 
 
 

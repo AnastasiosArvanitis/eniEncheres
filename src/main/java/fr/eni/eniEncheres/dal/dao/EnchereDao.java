@@ -33,4 +33,7 @@ public interface EnchereDao {
     public List<Enchere> selectEnchereVendeurFutur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
 
     public List<Enchere> selectEnchereVendeurTermine(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
+
+    /*requete pour afficher les choix d'affichage d'un future acheteur*/
+    public List<Enchere> afficherRequete(String condition) throws SQLException, DalException;
 }

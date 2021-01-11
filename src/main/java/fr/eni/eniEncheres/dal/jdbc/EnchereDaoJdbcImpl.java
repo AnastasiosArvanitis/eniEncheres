@@ -13,8 +13,6 @@ import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import  java.sql.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -49,8 +47,8 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
 
     @Override
     public List<Enchere> selectAllEnchere(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException {
-        final String SELECT_ALL_ENCHERE = "select a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
-                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
+        final String SELECT_ALL_ENCHERE = "SELECT a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, " +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
                 "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
                 "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
@@ -335,8 +333,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
             //compare le montantEnchere avec le prix article
             if (enchere.getArticle().getPrixVente() < montantEnchere){
-                //controle pour savoir si l'acheteur a deja fais la derniere enchere
-                if(acheteur.getId() != enchere.getUtilisateur().getId()) {
+
                     //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
                     if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
                         try (Connection connection = JdbcConnection.connect()) {
@@ -361,15 +358,14 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                         //debit du montant de l'enchere du nouvelle encherisseur
                         deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
                         //ajout credit de l'enchere precedente a l'encherisseur precedent
-                        addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
+                        if(enchere.getMontantEnchere() > 0) {
+                            addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
+                        }
                         //récuperation de l'enchere creer
                         enchereAdd = FactoryDao.getEnchereDao().selectById(idAjout);
                     }else {
                         throw new DalException("credit Acheteur inferieur au montant de l'enchere");
                     }
-                }else{
-                    throw new DalException("Vous etes deja le dernier encherisseur");
-                }
             }else {
                 throw new DalException("prix de vente supperieur au montant de l'enchere");
             }
@@ -447,7 +443,40 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 article.getRetrait(), article.getNom(), article.getDescription(),
                 article.getDateDebutEncheres(), article.getDateFinEncheres(),
                 article.getPrixInitial(), montantEnchere, article.getId());
-
         FactoryDao.getArticleDao().updateArticle(newArticle);
+}
+
+    /* NOUVELLE METHODE POUR AFFICHER LES REQUETES UTILISATEURS
+    * */
+    @Override
+    public List<Enchere> afficherRequete(String condition) throws SQLException, DalException{
+        List<Enchere> listeEnchere = new ArrayList<>();
+        String addCondition="";
+        final String REQ_CONSTRUITE ="SELECT a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom, " +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, " +
+                "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a INNER JOIN CATEGORIES c on a.idCategorie = c.id " +
+                "LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle) " +
+                "where a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE() ";
+
+        if (!condition.equals("0")) {
+            addCondition = condition;
+        } else {
+            addCondition="";
+        }
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(REQ_CONSTRUITE + addCondition);
+            ResultSet rs = requete.executeQuery();
+            while (rs.next()){
+                Enchere enchere = new Enchere();
+                enchere = enchereBuilder(rs);
+                listeEnchere.add(enchere);
+            }
+        }catch (SQLException e){
+            logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return listeEnchere;
     }
+
+
 }

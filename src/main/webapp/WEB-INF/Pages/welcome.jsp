@@ -22,6 +22,7 @@
         <%
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {
         %>
+        <!-- FORMULAIRE MODE CONNEXION-->
             <form method="post" action="/encheres/ChercherEnchere">
             <div>
                 <p><label for="search-article">Filtres:</label></p>
@@ -142,17 +143,18 @@
         <%
             } else {
         %>
-            <form method="post" action="">
+        <!-- FORMULAIRE MODE DECONNEXION-->
+            <form method="post" action="search">
             <div>
-                <p><label for="search-article">Filtres:</label></p>
-                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p><label for="search-name">Filtres:</label></p>
+                <p><input id="search-name" name="search-name" placeholder="le nom de l'article contient..." type="text"></p>
                 <p>
                     <label for="search-categorie">Categorie:
                         <select name="search-categorie" id="search-categorie">
-                            <option value="null" selected>Choix</option>
+                            <option value= "0" selected>Choix</option>
                             <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listCategorie");
                                 for(Categorie ca : listCategorie){ %>
-                            <option  value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %></option>
+                            <option  value="<%=ca.getId() %>"><%=ca.getLibelle() %></option>
                             <%	}	%>
                         </select>
                     </label>
@@ -170,7 +172,7 @@
                         <img src="#" alt="">
                     </div>
                     <div class="article-content">
-                        <h3><a href="<%=request.getContextPath()%>/view_enchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
+                        <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
                         <p>Prix : ${enchere.article.prixVente} points</p>
                         <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                         <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>

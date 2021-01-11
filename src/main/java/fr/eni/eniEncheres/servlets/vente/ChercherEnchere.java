@@ -8,7 +8,6 @@ import fr.eni.eniEncheres.bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +36,8 @@ public class ChercherEnchere extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String searchNom = request.getParameter("search-article");
         String searchCategorie = request.getParameter("search-categorie");
+        String searchNom = request.getParameter("search-article");
 
         String radioAchat = request.getParameter("radio-achat");
         String checkEnchereOuvert = request.getParameter("check-enchereOuvert");
@@ -49,8 +48,6 @@ public class ChercherEnchere extends HttpServlet {
         String checkVenteEnCours = request.getParameter("check-venteEnCours");
         String checkVenteNonDebute = request.getParameter("check-venteNonDebute");
         String checkVenteTermine = request.getParameter("check-venteTermine");
-
-
 
         int categorieId = 0;
         Article article = null;
@@ -146,7 +143,7 @@ public class ChercherEnchere extends HttpServlet {
             dispatcher.forward(request, response);
 
         } else {
-            //mode deconnecté
+            //MODE DECONNECTER
             try {
                 enchereListe = enchereManager.selectAllEnchere();
             } catch (SQLException e) {

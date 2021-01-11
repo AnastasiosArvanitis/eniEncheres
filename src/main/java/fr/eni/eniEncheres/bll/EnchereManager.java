@@ -82,8 +82,7 @@ public class EnchereManager {
         if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
             //compare le montantEnchere avec le prix article
             if (enchere.getArticle().getPrixVente() < montantEnchere){
-                //controle pour savoir si l'acheteur a deja fais la derniere enchere
-                if(acheteur.getId() != enchere.getUtilisateur().getId()) {
+
                     //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
                     if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
                         try{
@@ -95,9 +94,6 @@ public class EnchereManager {
                     }else {
                         new BllException("Votre Credit est inferieur au montant de l'enchere");
                     }
-                }else{
-                    new BllException("Vous etes deja le dernier encherisseur");
-                }
             }else {
                 new BllException("Prix de vente supperieur au montant de l'enchere");
             }
@@ -117,7 +113,6 @@ public class EnchereManager {
         }
         return enchereRetourner;
     }
-
 
     public List<Enchere> getEnchereVendeurFutur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws BllException {
         List<Enchere> enchereRetourner = null;
@@ -140,6 +135,48 @@ public class EnchereManager {
         }
         return enchereRetourner;
     }
+
+    /*requete pour afficher les choix d'affichage d'un future acheteur*/
+    public List<Enchere> afficherRequete(String nomTitreArticle, int idCategorie) throws SQLException, DalException, BllException {
+        List<Enchere> listeEnchere = new ArrayList<>();
+
+        String condition = "";
+        String conditionCategorie = "";
+        String conditionNom = "";
+
+        switch (idCategorie){
+            case 0: conditionCategorie = "";
+                break;
+            case 1:conditionCategorie = " AND c.id = 1";
+                break;
+            case 2:conditionCategorie = " AND c.id = 2";
+                break;
+            case 3:conditionCategorie = " AND c.id = 3";
+                break;
+            case 4:conditionCategorie = " AND c.id = 4";
+                break;
+            default: conditionCategorie = "";
+        }
+
+        if(!nomTitreArticle.equals("0")){
+            conditionNom = " AND a.nom LIKE '%" + nomTitreArticle +"%'";
+        }else{
+            conditionNom = "";
+        }
+        condition = conditionCategorie + conditionNom;
+
+        try{
+            listeEnchere = enchereDao.afficherRequete(condition);
+        }catch(SQLException | DalException e){
+            logger.severe("Error dans afficherRequete EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return listeEnchere;
+    }
+
+
+
+
 
 
 }
