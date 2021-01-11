@@ -77,13 +77,12 @@ public class DetailEnchere extends HttpServlet {
 
         //prix de vente est soit = au prix initial ou soit supperieur
         if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
-
             //compare le montantEnchere avec le prix article
             if (enchere.getArticle().getPrixVente() < montantEnchere){
-
+                //controle pour savoir si l'acheteur a deja fais la derniere enchere
+                if((enchere.getUtilisateur() == null) || (acheteur.getId() != enchere.getUtilisateur().getId())) {
                 //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
                     if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
-
                         try {
                                 enchereRetourner = enchereManager.addNewEnchere(acheteur,idArticle,montantEnchere);
                                 utilisateurRenvoyer = utilisateurManager.selectById(idUtilisateur);
@@ -107,7 +106,13 @@ public class DetailEnchere extends HttpServlet {
                         request.setAttribute("message",message);
                         request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
                     }
-
+            } else{
+                    message="Vous etes deja le dernier encherisseur";
+                    session.setAttribute("utilisateur",acheteur);
+                    request.setAttribute("enchere",enchere);
+                    request.setAttribute("message",message);
+                    request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
+            }
             }else {
                 message="Prix de vente supperieur au montant de l'enchere";
                 session.setAttribute("utilisateur",acheteur);

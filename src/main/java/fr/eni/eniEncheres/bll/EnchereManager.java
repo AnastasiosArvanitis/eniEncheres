@@ -82,17 +82,21 @@ public class EnchereManager {
         if((enchere.getArticle().getPrixInitial() <= enchere.getArticle().getPrixVente()) || (enchere.getArticle().getPrixVente() == 0)){
             //compare le montantEnchere avec le prix article
             if (enchere.getArticle().getPrixVente() < montantEnchere){
-
+                //controle pour savoir si l'acheteur a deja fais la derniere enchere
+                if((enchere.getUtilisateur() == null) || (acheteur.getId() != enchere.getUtilisateur().getId())) {
                     //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
-                    if(acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
-                        try{
-                            enchereRetourner = enchereDao.addNewEnchere(acheteur,idArticle,montantEnchere);
-                        }catch (SQLException | DalException e){
+                    if (acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
+                        try {
+                            enchereRetourner = enchereDao.addNewEnchere(acheteur, idArticle, montantEnchere);
+                        } catch (SQLException | DalException e) {
                             logger.severe("Error dans addNewEncher EnchereManager " + e.getMessage());
                             throw new BllException(e.getMessage(), e);
                         }
-                    }else {
+                    } else {
                         new BllException("Votre Credit est inferieur au montant de l'enchere");
+                    }
+                } else{
+                        throw new DalException("Vous etes deja le dernier encherisseur");
                     }
             }else {
                 new BllException("Prix de vente supperieur au montant de l'enchere");
