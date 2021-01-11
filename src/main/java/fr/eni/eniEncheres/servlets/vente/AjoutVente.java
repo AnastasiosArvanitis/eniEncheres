@@ -34,9 +34,28 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("entree dans la servlet");
         List<Categorie> listeCategorie = new ArrayList<>();
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        String idArticleString  = null;
+        idArticleString =     request.getParameter("idArticle");
+
+        Article article = null ;
+        String action = null;
+
+         if (idArticleString !=null)
+        {
+            try {
+                article = articleManager.getArticleById(Integer.parseInt(idArticleString));
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (BllException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             listeCategorie = categorieManager.selectAllCategorie();
         } catch (SQLException throwables) {
@@ -44,6 +63,16 @@ public class AjoutVente extends HttpServlet {
         } catch (BllException e) {
             e.printStackTrace();
         }
+        // Je vérifie que le créateur de l'article demandé, correspond à l'utilisateur connecté avant de l'afficher dans l'écran de modification
+        if (article != null){
+            if (article.getUtilisateur().getId() == utilisateur.getId()){
+                request.setAttribute("article",article);
+                action ="maj";
+                article.toString();
+            }
+
+        }
+        request.setAttribute("action",action);
         request.setAttribute("listeCategorie",listeCategorie);
         request.getRequestDispatcher("WEB-INF/Ventes/ajoutVente.jsp").forward(request,response);
     }
