@@ -235,7 +235,15 @@ public class EnchereManager {
         return listeEnchere;
     }
 
-
+    public List<Enchere> selectAllEncheresVendeur(int idUtilisateur, List<String> conditions, int idCategorie, String nomTitreArticle){
+        List<Enchere> listeEnchere = new ArrayList<>();
+        try {
+            listeEnchere = enchereDao.selectAllEncheresVendeur( idUtilisateur,  conditions, idCategorie, nomTitreArticle);
+        } catch (DalException e) {
+            e.printStackTrace();
+        }
+        return listeEnchere;
+    }
 
 }
 

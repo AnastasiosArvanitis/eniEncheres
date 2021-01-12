@@ -380,10 +380,6 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
     }
 
 
-    @Override
-    public Enchere terminerEnchere() throws SQLException, DalException {
-        return null;
-    }
 
     private Utilisateur getEnchereUtilisateur(int utilisateurId) throws SQLException, DalException  {
         Utilisateur enchereUtilisateur = null;
@@ -478,6 +474,70 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
             }
         }catch (SQLException e){
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return listeEnchere;
+    }
+
+    @Override
+    public List<Enchere> selectAllEncheresVendeur(int idUtilisateur, List<String> conditions, int idCategorie, String nomTitreArticle) throws DalException {
+        List<Enchere> listeEnchere = new ArrayList<>();
+        final String selectAllByVendeur = "SELECT \n" +
+                "a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
+                "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle,\n" +
+                "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
+                "LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
+                "where a.idUtilisateur = ? " ;
+
+        final String  venteNonDebute = " (a.dateDebutEncheres > GETDATE())" ;
+
+        final String  venteEnCours = "(a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE())" ;
+
+        final String  venteTermine = "(a.dateFinEncheres <= GETDATE())" ;
+
+        StringBuilder requete  =  new StringBuilder() ;
+        requete.append(selectAllByVendeur);
+
+        for (String condition : conditions){
+            System.out.println(condition.indexOf(condition) + condition);
+            if(condition.indexOf(condition) > 0) {
+                requete.append(" or ");
+            }
+            else {
+                requete.append(" and ");
+            }
+            if (condition.equals("venteNonDebute")) {
+                requete.append(venteNonDebute);
+            }
+            if (condition.equals("venteEnCours")){
+                requete.append(venteEnCours);
+            }
+            if (condition.equals("venteTermine")){
+                requete.append(venteTermine);
+            }
+        }
+
+        if(!nomTitreArticle.isEmpty()){
+            System.out.println("Ajout du paramètre par nom à la requête " + nomTitreArticle);
+            requete.append(" and a.nom like '%" + nomTitreArticle + "%' ");
+        }
+
+        if(idCategorie > 0){
+            System.out.println("Ajout du paramètre par catégorie à la requête " + idCategorie);
+            requete.append(" and a.idCategorie = "+idCategorie);
+        }
+        requete.toString();
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement pstmtRequete = connection.prepareStatement(requete.toString());
+            pstmtRequete.setInt(1,idUtilisateur);
+            ResultSet rs = pstmtRequete.executeQuery();
+            while (rs.next()){
+                Enchere enchere = new Enchere();
+                enchere = enchereBuilder(rs);
+                listeEnchere.add(enchere);
+            }
+        }catch (SQLException e){
+            logger.severe("Error selectAllEncheresVendeur JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
         return listeEnchere;
