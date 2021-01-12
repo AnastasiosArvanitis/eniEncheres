@@ -354,7 +354,8 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                         //mise a jour de l'article apres enchere
                         updateArticleApresEnchere(enchere.getArticle(), montantEnchere);
                         if(enchere.getMontantEnchere() == 0) {
-                            System.out.println("tu ne fait rien");
+                            //debit du montant de l'enchere du nouvelle encherisseur
+                            deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
                         }else{
                             //debit du montant de l'enchere du nouvelle encherisseur
                             deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
