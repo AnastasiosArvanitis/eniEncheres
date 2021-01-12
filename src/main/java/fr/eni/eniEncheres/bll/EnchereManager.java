@@ -216,10 +216,14 @@ public class EnchereManager {
             //A FINIR ET TESTER
 
                 //enchereOuvert && enchereRemporte
-            case 5 : case 7 : conditionCheckBox = "where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() and a.idUtilisateur != " + idUtilisateur + " ) AND ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle  AND a.dateFinEncheres < getDate()  ) AND e.idUtilisateur = " + idUtilisateur + ")"   ;
+            case 5 : case 7 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()) " +
+                    "OR ( a.dateFinEncheres <= GETDATE() and e.idUtilisateur = " + idUtilisateur + ") ";
                 break;
                 //enchereEnCours && enchereRemporte
-            case 6 : conditionCheckBox = " where ( a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + ") )  AND ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle  AND a.dateFinEncheres < getDate()  ) AND e.idUtilisateur = " + idUtilisateur + ")"  ;
+            case 6 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() " +
+                    "and a.idUtilisateur != " + idUtilisateur  + " AND  exists(select * FROM ENCHERES en where a.id = en.idArticle  " +
+                    "AND   a.dateFinEncheres > getDate()   AND en.idUtilisateur = " + idUtilisateur + ") " +
+                    "OR ( a.dateFinEncheres <= GETDATE() and e.idUtilisateur =" + idUtilisateur + ") " ;
                 break;
         }
             System.out.println(nomTitreArticle);
