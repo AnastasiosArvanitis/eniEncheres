@@ -1,6 +1,7 @@
 package fr.eni.eniEncheres.bo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
 
 public class Article {
 
@@ -10,14 +11,14 @@ public class Article {
     private Retrait retrait;
     private String nom;
     private String description;
-    private Date dateDebutEncheres;
-    private Date dateFinEncheres;
+    private Timestamp dateDebutEncheres;
+    private Timestamp dateFinEncheres;
     private int prixInitial;
     private int prixVente;
 
     public Article() {}
 
-    public Article(Utilisateur utilisateur, Categorie categorie, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial) {
+    public Article(Utilisateur utilisateur, Categorie categorie, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial) {
         this.utilisateur = utilisateur;
         this.categorie = categorie;
         this.nom = nom;
@@ -27,7 +28,7 @@ public class Article {
         this.prixInitial = prixInitial;
     }
 
-    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial) {
+    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial) {
         this.utilisateur = utilisateur;
         this.categorie = categorie;
         this.retrait = retrait;
@@ -39,7 +40,7 @@ public class Article {
         this.prixVente = prixVente;
     }
 
-    public Article(int id, Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, int prixVente) {
+    public Article(int id, Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial, int prixVente) {
         this.id = id;
         this.utilisateur = utilisateur;
         this.categorie = categorie;
@@ -51,7 +52,7 @@ public class Article {
         this.prixInitial = prixInitial;
         this.prixVente = prixVente;
     }
-    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Date dateDebutEncheres, Date dateFinEncheres, int prixInitial, int prixVente, int id) {
+    public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial, int prixVente, int id) {
         this.utilisateur = utilisateur;
         this.categorie = categorie;
         this.retrait = retrait;
@@ -113,19 +114,19 @@ public class Article {
         this.description = description;
     }
 
-    public java.sql.Date getDateDebutEncheres() {
+    public Timestamp getDateDebutEncheres() {
         return dateDebutEncheres;
     }
 
-    public void setDateDebutEncheres(Date dateDebutEncheres) {
+    public void setDateDebutEncheres(Timestamp dateDebutEncheres) {
         this.dateDebutEncheres = dateDebutEncheres;
     }
 
-    public java.sql.Date getDateFinEncheres() {
+    public Timestamp getDateFinEncheres() {
         return dateFinEncheres;
     }
 
-    public void setDateFinEncheres(Date dateFinEncheres) {
+    public void setDateFinEncheres(Timestamp dateFinEncheres) {
         this.dateFinEncheres = dateFinEncheres;
     }
 
