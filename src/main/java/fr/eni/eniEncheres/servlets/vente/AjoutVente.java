@@ -10,8 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
+
+
 import java.sql.SQLException;
+
+import java.sql.Timestamp;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,17 +108,32 @@ public class AjoutVente extends HttpServlet {
         String prixInitialString = request.getParameter("prixInitial");
         int prixInitial = Integer.parseInt(prixInitialString);
 
+
+        /*String heureDebutEnchere = request.getParameter("heureDebutEnchere");
+        String dateHeureDebutEnchere = dateDebutEnchereString.concat(" ").concat(heureDebutEnchere);
+        System.out.println(dateHeureDebutEnchere);*/
         String dateDebutEnchereString = request.getParameter("dateDebutEnchere");
-        Date dateDebutEnchere = Date.valueOf(dateDebutEnchereString);
+        String dateDebutEnchereTimestamp = dateDebutEnchereString.replace("T", " ").concat(":00");
+        Timestamp dateDebutEnchere = Timestamp.valueOf(dateDebutEnchereTimestamp);
+
+        /*DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+        Instant instant = Instant.from(formatter.parse(dateDebutEnchereString));
+        System.out.println("----------------- instant "+instant.toString());*/
+
+        /*String heureFinEnchere = request.getParameter("heureFinEnchere");
+        String dateHeureFinEnchere = dateFinEnchereString.concat(" ").concat(heureFinEnchere);
+        System.out.println(dateHeureFinEnchere);*/
         String dateFinEnchereString = request.getParameter("dateFinEnchere");
-        Date dateFinEnchere = Date.valueOf(dateFinEnchereString);
+        String dateFinEnchereTimestamp = dateFinEnchereString.replace("T", " ").concat(":00");
+        Timestamp dateFinEnchere = Timestamp.valueOf(dateFinEnchereTimestamp);
+
 
         String rue = request.getParameter("rue");
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
         if (utilisateur == null) {
-            response.sendRedirect("/encheres/error?error=ventWithoutLogin");
+            response.sendRedirect("/encheres/error?error=NotConnected");
         } else {
             retraitArticle = new Retrait(rue, codePostal, ville);
             try {
