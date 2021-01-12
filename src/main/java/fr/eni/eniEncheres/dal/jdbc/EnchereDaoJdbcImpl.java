@@ -305,7 +305,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchereNew.setArticle(article);
                 Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("idUtilisateur"));
                 enchereNew.setUtilisateur(utilisateur);
-                enchereNew.setDateEnchere(rs.getDate("dateEnchere"));
+                enchereNew.setDateEnchere((Timestamp) rs.getObject("dateEnchere"));
                 enchereNew.setMontantEnchere(rs.getInt("montantEnchere"));
                 enchere = enchereNew;
             }
@@ -324,7 +324,8 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         //varaible pour recupere l'id de la nouvelle enchere
         int idAjout = 0;
         //varaiable pour initialiser la date du jour
-        java.sql.Date now = new java.sql.Date( new java.util.Date().getTime() );
+        //java.sql.Date now = new java.sql.Date( new java.util.Date().getTime() ); ----> avant
+        java.sql.Timestamp now = new java.sql.Timestamp( new java.util.Date().getTime() ); // ----> apres
 
         final String INSERT_NEW_ENCHERE ="INSERT INTO ENCHERES (idArticle, idUtilisateur, dateEnchere, montantEnchere) VALUES (?,?,?,?)";
 
@@ -340,7 +341,8 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                             PreparedStatement requete = connection.prepareStatement(INSERT_NEW_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
                             requete.setInt(1, idArticle);
                             requete.setInt(2, acheteur.getId());
-                            requete.setDate(3, now);
+                            //requete.setDate(3, now); // ----> avant
+                            requete.setObject(3, now); // ----> apres
                             requete.setInt(4, montantEnchere);
                             requete.executeUpdate();
                             ResultSet rs = requete.getGeneratedKeys();
@@ -415,7 +417,8 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         enchere.setArticle(article);
         Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("ench_idUtilisateur"));
         enchere.setUtilisateur(utilisateur);
-        enchere.setDateEnchere(rs.getDate("dateEnchere"));
+        //enchere.setDateEnchere(rs.getDate("dateEnchere")); ------> avant
+        enchere.setDateEnchere((Timestamp) rs.getObject("dateEnchere")); // ------> apres
         enchere.setMontantEnchere(rs.getInt("montantEnchere"));
 
         return enchere;
