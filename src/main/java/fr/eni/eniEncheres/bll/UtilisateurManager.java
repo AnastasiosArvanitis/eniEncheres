@@ -7,6 +7,8 @@ import fr.eni.eniEncheres.dal.dao.UtilisateurDao;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -130,7 +132,16 @@ public class UtilisateurManager {
         }
     }
 
-
+    public List<Utilisateur> selectAllUtilisateur() throws SQLException, BllException{
+        List<Utilisateur> listUtilisateur = new ArrayList<>();
+        try{
+            listUtilisateur = utilisateurDao.selectAllUtilisateur();
+        }catch (SQLException | DalException e){
+            logger.severe("Error dans selectAll UtilisateurManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return  listUtilisateur;
+    }
 }
 
 

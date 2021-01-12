@@ -8,6 +8,8 @@ import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
@@ -33,6 +35,25 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       throw new DalException(e.getMessage(), e);
     }
     return utilisateur;
+  }
+
+  @Override
+  public List<Utilisateur> selectAllUtilisateur() throws SQLException, DalException {
+    List<Utilisateur> listUtilisateur = new ArrayList<>();
+    final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
+    try(Connection connection = JdbcConnection.connect()){
+      PreparedStatement requete = connection.prepareStatement(SELECT_ALL);
+      ResultSet rs = requete.executeQuery();
+      while (rs.next()){
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur = utilisateurBuilder(rs);
+        listUtilisateur.add(utilisateur);
+      }
+    }catch (SQLException e){
+      logger.severe("Error method selectAll Utilisateur " + e.getMessage() + "\n");
+      throw new DalException(e.getMessage(), e);
+    }
+    return listUtilisateur;
   }
 
   @Override

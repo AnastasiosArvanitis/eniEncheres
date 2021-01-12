@@ -1,0 +1,22 @@
+article.admin table.table-admin{
+    border: 1px solid black;
+}
+article.admin table.table-admin tr td {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+article.admin table.table-admin tr.utilisateur td input.delete {
+    background-color: red;
+}
+article.admin table.table-admin tr.utilisateur td input.desactiver {
+    background-color: blue;
+}
+main article.admin p.message-erreur{
+    text-align: center;
+    color:red;
+}
+main article.admin p.message-succes{
+    text-align: center;
+    color: green;
+}
