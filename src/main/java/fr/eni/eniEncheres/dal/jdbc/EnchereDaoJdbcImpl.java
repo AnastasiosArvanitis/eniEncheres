@@ -456,16 +456,17 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         final String REQ_CONSTRUITE ="SELECT a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom, " +
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, " +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a INNER JOIN CATEGORIES c on a.idCategorie = c.id " +
-                "LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle) " +
-                "where a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE() ";
+                "LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle) ";
 
-        if (!condition.equals("0")) {
+        if (!condition.isEmpty()) {
             addCondition = condition;
         } else {
-            addCondition="";
+            addCondition=" ";
         }
+        System.out.println(REQ_CONSTRUITE + addCondition);
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement requete = connection.prepareStatement(REQ_CONSTRUITE + addCondition);
+            System.out.println(REQ_CONSTRUITE + addCondition);
             ResultSet rs = requete.executeQuery();
             while (rs.next()){
                 Enchere enchere = new Enchere();

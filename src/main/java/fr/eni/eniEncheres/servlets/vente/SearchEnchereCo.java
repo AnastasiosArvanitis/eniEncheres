@@ -38,7 +38,8 @@ public class SearchEnchereCo extends HttpServlet {
         List<Enchere> listeEnchere = new ArrayList<>();
         List<Categorie> listeCategorie = new ArrayList<>();
         int idCategorie = Integer.parseInt(request.getParameter("search-categorie"));
-        String nomTitreArticle = request.getParameter("search-name");
+        String nomTitreArticle = null;
+        nomTitreArticle = request.getParameter("search-name");
         int idUtilisateur = Integer.parseInt(request.getParameter("idUtilisateur"));
         int checkbox = 0;
         String enchereOuvert = "";
@@ -77,6 +78,7 @@ public class SearchEnchereCo extends HttpServlet {
         } else if((enchereOuvert.equals("enchereOuvert") && enchereRemporte.equals("enchereRemporte") && enchereEnCours.equals("enchereEnCours"))){
             checkbox = 7;
         }
+
         try {
             listeEnchere = enchereManager.afficherRequetCo(nomTitreArticle,idCategorie, checkbox, idUtilisateur);
             listeCategorie = categorieManager.selectAllCategorie();
