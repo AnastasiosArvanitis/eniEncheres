@@ -23,7 +23,7 @@
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {
         %>
         <!-- FORMULAIRE MODE CONNEXION-->
-            <form method="post" action="search_co">
+            <form method="post" action="/encheres/search">
             <div>
                 <p><label for="search-name">Filtres:</label></p>
                 <p><input id="search-name" name="search-name" placeholder="le nom de l'article contient..." type="text"></p>
@@ -92,7 +92,7 @@
                     </script>
                     <%--------------------------    RADIO ACHATS                  --------------------------%>
                     <p>
-                        <input type="radio" id="achat" name="radio-achat" value="radioAchat">
+                        <input type="radio" id="achat" name="radio" value="radioAchat">
                         <label for="achat">Achats</label><br>
 
                         <input type="checkbox" id="enchereOuvert" name="check-enchereOuvert" value="enchereOuvert" class="checkbox">
@@ -106,7 +106,7 @@
                     </p>
                         <%--------------------------    RADIO VENTES                  --------------------------%>
                     <p>
-                        <input type="radio" id="vente" name="radio-vente" value="radioVente">
+                        <input type="radio" id="vente" name="radio" value="radioVente">
                         <label for="vente">Mes ventes</label><br>
 
                         <input type="checkbox" id="venteEnCours" name="check-venteEnCours" value="venteEnCours" class="checkbox">
@@ -126,6 +126,7 @@
 
         </form>
             <div class="list-encheres">
+                <c:if test="${empty enchereListe}"><p class="message-info">Aucune enchère ne correspond à vos paramètres de recherche</p></c:if>
             <c:forEach items="${enchereListe}" var="enchere" >
                 <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
                 <article class="enchere-article">

@@ -134,6 +134,14 @@
         <servlet-name>SearchEnchereCo</servlet-name>
         <url-pattern>/search_co</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchEnchereVendeur</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.SearchEnchereVendeur</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchEnchereVendeur</servlet-name>
+        <url-pattern>/searchEnchereVendeur</url-pattern>
+    </servlet-mapping>
 
     <!-- GESTION ERREUR -->
     <servlet>
