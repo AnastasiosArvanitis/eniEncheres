@@ -126,6 +126,15 @@
         <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SearchEnchereCo</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.vente.SearchEnchereCo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchEnchereCo</servlet-name>
+        <url-pattern>/search_co</url-pattern>
+    </servlet-mapping>
+
     <!-- GESTION ERREUR -->
     <servlet>
         <servlet-name>Error</servlet-name>

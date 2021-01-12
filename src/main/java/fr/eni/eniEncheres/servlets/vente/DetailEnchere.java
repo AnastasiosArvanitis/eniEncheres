@@ -20,7 +20,7 @@ import java.util.List;
 public class DetailEnchere extends HttpServlet {
     EnchereManager enchereManager = null;
     UtilisateurManager utilisateurManager = null;
-    private String message="";
+
 
     @Override
     public void init() throws ServletException {
@@ -55,6 +55,7 @@ public class DetailEnchere extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+        String message="";
 
         int montantEnchere = Integer.parseInt( request.getParameter("montantEnchere"));
         int idArticle = Integer.parseInt(request.getParameter("idArticle"));

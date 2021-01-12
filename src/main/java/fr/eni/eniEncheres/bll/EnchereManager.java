@@ -140,7 +140,7 @@ public class EnchereManager {
         return enchereRetourner;
     }
 
-    /*requete pour afficher les choix d'affichage d'un future acheteur*/
+    /*requete pour afficher les choix d'affichage d'un future acheteur non connecter*/
     public List<Enchere> afficherRequete(String nomTitreArticle, int idCategorie) throws SQLException, DalException, BllException {
         List<Enchere> listeEnchere = new ArrayList<>();
 
@@ -179,7 +179,61 @@ public class EnchereManager {
     }
 
 
+    /*requete pour afficher les choix d'affichage d'un future acheteur CONNECTER*/
 
+    public List<Enchere> afficherRequetCo(String nomTitreArticle, int idCategorie, int checkbox, int idUtilisateur) throws SQLException, DalException, BllException {
+        List<Enchere> listeEnchere = new ArrayList<>();
+        String nomTitre = nomTitreArticle;
+        String condition = "";
+        String conditionCategorie = "";
+        String conditionCheckBox = "";
+        String conditionNom = "";
+
+        switch (idCategorie){
+            case 0: conditionCategorie = "";
+                break;
+            case 1:conditionCategorie = " AND c.id = 1";
+                break;
+            case 2:conditionCategorie = " AND c.id = 2";
+                break;
+            case 3:conditionCategorie = " AND c.id = 3";
+                break;
+            case 4:conditionCategorie = " AND c.id = 4";
+                break;
+            default: conditionCategorie = "";
+        }
+        switch (checkbox){
+            case 1 : case 4 : conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() ";
+                break;
+            case 2 : conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur ;
+                break;
+            case 3 : conditionCheckBox = " AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate()  ";
+                break;
+            case 5 : conditionCheckBox = " where( a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()) or (a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate() " ;
+                break;
+            case 6 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + ") or ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate()) " ;
+                break;
+            case 7 : conditionCheckBox = " where a.dateDebutEncheres> GETDATE() or  a.dateFinEncheres< GETDATE() or a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE()  " ;
+                break;
+        }
+
+        if(nomTitre != null){
+            System.out.println(nomTitre);
+            conditionNom = " AND a.nom LIKE '%" + nomTitre + "%'";
+            System.out.println(conditionNom);
+        }else{
+            conditionNom = " ";
+        }
+        condition =  conditionCheckBox + conditionCategorie + conditionNom ;
+
+        try{
+            listeEnchere = enchereDao.afficherRequete(condition);
+        }catch(SQLException | DalException e){
+            logger.severe("Error dans afficherRequete EnchereManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return listeEnchere;
+    }
 
 
 

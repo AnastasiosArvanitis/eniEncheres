@@ -23,17 +23,17 @@
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {
         %>
         <!-- FORMULAIRE MODE CONNEXION-->
-            <form method="post" action="/encheres/ChercherEnchere">
+            <form method="post" action="search_co">
             <div>
-                <p><label for="search-article">Filtres:</label></p>
-                <p><input id="search-article" name="search-article" value="le nom de l'article contient..." type="text"></p>
+                <p><label for="search-name">Filtres:</label></p>
+                <p><input id="search-name" name="search-name" placeholder="le nom de l'article contient..." type="text"></p>
                 <p>
                     <label for="search-categorie">Categorie:
                         <select name="search-categorie" id="search-categorie">
-                            <option value="null" selected>Choix</option>
+                            <option value="0" selected>Choix</option>
                             <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listCategorie");
                                 for(Categorie ca : listCategorie){ %>
-                            <option  value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %></option>
+                            <option  value="<%=ca.getId() %>"><%=ca.getLibelle() %></option>
                             <%	}	%>
                         </select>
                     </label>
@@ -119,6 +119,7 @@
                         <label for="venteTermine">ventes termines</label>
                     </p></div>
             </div>
+                <input type="hidden" name="idUtilisateur" value="${utilisateur.id}">
             <div class="recherche">
                 <input type="submit" value="Rechercher">
             </div>
