@@ -24,8 +24,6 @@ public interface EnchereDao {
 
     Enchere addNewEnchere(Utilisateur acheteur, int idArticle, int montantEnchere) throws SQLException, DalException;
 
-    Enchere terminerEnchere() throws SQLException, DalException;
-
     public Enchere selectById(int id) throws SQLException, DalException;
 
     public List<Enchere> selectEnchereVendeur(Utilisateur utilisateur, String filtreNom, int filtreCategorie) throws SQLException, DalException;
@@ -36,4 +34,6 @@ public interface EnchereDao {
 
     /*requete pour afficher les choix d'affichage d'un future acheteur*/
     public List<Enchere> afficherRequete(String condition) throws SQLException, DalException;
+
+    List<Enchere> selectAllEncheresVendeur(int idUtilisateur, List<String> conditions, int idCategorie, String nomTitreArticle) throws DalException;
 }
