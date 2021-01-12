@@ -54,8 +54,10 @@
         <c:choose>
             <c:when test="${enchere.montantEnchere > 0}"><p>Meilleur Offre : </p><p>${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p></c:when>
         </c:choose>
-        <p>Mise a prix : </p><p>${enchere.article.prixInitial} pts</p>
-        <p>Fin de l'enchère :  </p><p>${enchere.article.dateFinEncheres}</p>
+        <p>Mise a prix : </p>
+        <p>${enchere.article.prixInitial} pts</p>
+        <p>Fin de l'enchère :  </p>
+        <p><fmt:formatDate pattern = "dd/MM/yyyy H:m" value = "${enchere.article.dateFinEncheres}" /></p>
         <p>Adresse de retrait : </p><p> ${enchere.article.retrait.rue}</p>
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
         <p>Vendeur :</p><p>${enchere.article.utilisateur.pseudo}</p>
