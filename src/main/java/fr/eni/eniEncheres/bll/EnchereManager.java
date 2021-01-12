@@ -183,11 +183,11 @@ public class EnchereManager {
 
     public List<Enchere> afficherRequetCo(String nomTitreArticle, int idCategorie, int checkbox, int idUtilisateur) throws SQLException, DalException, BllException {
         List<Enchere> listeEnchere = new ArrayList<>();
-        String nomTitre = nomTitreArticle;
+
         String condition = "";
         String conditionCategorie = "";
         String conditionCheckBox = "";
-        String conditionNom = "";
+        String conditionNom = " ";
 
         switch (idCategorie){
             case 0: conditionCategorie = "";
@@ -203,23 +203,29 @@ public class EnchereManager {
             default: conditionCategorie = "";
         }
         switch (checkbox){
-            case 1 : case 4 : conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() ";
+                //enchereOuvert
+            case 1 : case 4 :  conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() and a.idUtilisateur != " + idUtilisateur;
                 break;
-            case 2 : conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur ;
+                //enchereEnCours
+            case 2 : conditionCheckBox = " where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + ")";
                 break;
-            case 3 : conditionCheckBox = " AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate()  ";
+                //enchereRemporte
+            case 3 : conditionCheckBox = " where a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle  AND a.dateFinEncheres < getDate()  ) AND e.idUtilisateur = " + idUtilisateur ;
                 break;
-            case 5 : conditionCheckBox = " where( a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()) or (a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate() " ;
+
+            //A FINIR ET TESTER
+
+                //enchereOuvert && enchereRemporte
+            case 5 : case 7 : conditionCheckBox = "where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() and a.idUtilisateur != " + idUtilisateur + " ) AND ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle  AND a.dateFinEncheres < getDate()  ) AND e.idUtilisateur = " + idUtilisateur + ")"   ;
                 break;
-            case 6 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + ") or ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + "  AND a.dateFinEncheres < getDate()) " ;
-                break;
-            case 7 : conditionCheckBox = " where a.dateDebutEncheres> GETDATE() or  a.dateFinEncheres< GETDATE() or a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE()  " ;
+                //enchereEnCours && enchereRemporte
+            case 6 : conditionCheckBox = " where ( a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()  AND a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle AND en.idUtilisateur = " + idUtilisateur + ") )  AND ( a.idUtilisateur != " + idUtilisateur + " AND exists(select * FROM ENCHERES en where a.id = en.idArticle  AND a.dateFinEncheres < getDate()  ) AND e.idUtilisateur = " + idUtilisateur + ")"  ;
                 break;
         }
-
-        if(nomTitre != null){
-            System.out.println(nomTitre);
-            conditionNom = " AND a.nom LIKE '%" + nomTitre + "%'";
+            System.out.println(nomTitreArticle);
+        if(!nomTitreArticle.isEmpty()){
+            System.out.println(nomTitreArticle);
+            conditionNom = " AND a.nom LIKE '%" + nomTitreArticle + "%'";
             System.out.println(conditionNom);
         }else{
             conditionNom = " ";
