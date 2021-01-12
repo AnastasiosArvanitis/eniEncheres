@@ -59,22 +59,27 @@
                 <input type="number" id="number" name="prixInitial" value="${article.prixInitial}">
             </p>
             <p>
-                <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="datetime-local" name="dateDebutEnchere" id="debutEnchere">
-                <input type="text" name="heureDebutEnchere" id="heureDebutEnchere">
+                <label for="dateDebutEnchere">Début de l'enchère :</label>
+                <input type="date" name="dateDebutEnchere" id="dateDebutEnchere">
+                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere">
             </p>
             <p>
-                <label for="finEnchere">Fin de l'enchère :</label>
-                <input type="datetime-local" name="dateFinEnchere" id="finEnchere">
-                <input type="text" name="heureFinEnchere" id="heureFinEnchere">
+                <label for="dateFinEnchere">Fin de l'enchère :</label>
+                <input type="date" name="dateFinEnchere" id="dateFinEnchere">
+                <input type="time" name="heureFinEnchere" id="heureFinEnchere">
             </p>
             <script type="application/javascript">
-                var debutEnchere = document.getElementById("debutEnchere");
-                var finEnchere = document.getElementById("finEnchere");
+                var dateDebutEnchere = document.getElementById("dateDebutEnchere");
+                var heureDebutEnchere = document.getElementById("heureDebutEnchere");
+                var dateFinEnchere = document.getElementById("dateFinEnchere");
+                var heureFinEnchere = document.getElementById("heureFinEnchere");
+                var heureDateDebutEnchere = dateDebutEnchere.toString();
                 function dates(event) {
                     event.preventDefault();
-                    console.log(debutEnchere.value);
-                    console.log(finEnchere.value);
+                    console.log("dateDebutEnchere: "+dateDebutEnchere.value);
+                    console.log("heureDebutEnchere: "+ heureDebutEnchere.value);
+                    console.log("dateFinEnchere: "+ dateFinEnchere.value);
+                    console.log("heureFinEnchere: " + heureFinEnchere.value);
                     return true;
                 }
             </script>
@@ -120,7 +125,7 @@
             </fieldset>
 
             <input id="submitVente" type="submit" value="Enregistrer" />
-            <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';">
+            <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
         </form>
         <p class="message-erreur">${message}</p>
     </article>

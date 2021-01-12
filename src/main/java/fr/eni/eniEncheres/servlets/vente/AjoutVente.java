@@ -109,23 +109,25 @@ public class AjoutVente extends HttpServlet {
         int prixInitial = Integer.parseInt(prixInitialString);
 
 
-        /*String heureDebutEnchere = request.getParameter("heureDebutEnchere");
-        String dateHeureDebutEnchere = dateDebutEnchereString.concat(" ").concat(heureDebutEnchere);
-        System.out.println(dateHeureDebutEnchere);*/
+        String heureDebutEnchere = request.getParameter("heureDebutEnchere");
         String dateDebutEnchereString = request.getParameter("dateDebutEnchere");
-        String dateDebutEnchereTimestamp = dateDebutEnchereString.replace("T", " ").concat(":00");
-        Timestamp dateDebutEnchere = Timestamp.valueOf(dateDebutEnchereTimestamp);
+        String dateHeureDebutEnchere = dateDebutEnchereString.concat(" ").concat(heureDebutEnchere).concat(":00");
+        System.out.println("------------------------------- dateHeureDebutEnchere: " +dateHeureDebutEnchere);
+        /*
+        String dateDebutEnchereTimestamp = dateDebutEnchereString.replace("T", " ").concat(":00");*/
+        Timestamp dateDebutEnchere = Timestamp.valueOf(dateHeureDebutEnchere);
 
         /*DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
         Instant instant = Instant.from(formatter.parse(dateDebutEnchereString));
         System.out.println("----------------- instant "+instant.toString());*/
 
-        /*String heureFinEnchere = request.getParameter("heureFinEnchere");
-        String dateHeureFinEnchere = dateFinEnchereString.concat(" ").concat(heureFinEnchere);
-        System.out.println(dateHeureFinEnchere);*/
+        String heureFinEnchere = request.getParameter("heureFinEnchere");
         String dateFinEnchereString = request.getParameter("dateFinEnchere");
-        String dateFinEnchereTimestamp = dateFinEnchereString.replace("T", " ").concat(":00");
-        Timestamp dateFinEnchere = Timestamp.valueOf(dateFinEnchereTimestamp);
+        String dateHeureFinEnchere = dateFinEnchereString.concat(" ").concat(heureFinEnchere).concat(":00");
+        System.out.println("------------------------------- dateHeureFinEnchere: " +dateHeureFinEnchere);
+        /*
+        String dateFinEnchereTimestamp = dateFinEnchereString.replace("T", " ").concat(":00");*/
+        Timestamp dateFinEnchere = Timestamp.valueOf(dateHeureFinEnchere);
 
 
         String rue = request.getParameter("rue");
