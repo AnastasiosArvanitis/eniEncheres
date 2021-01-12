@@ -29,7 +29,8 @@
         <p>${action}</p>
         <p>${article}</p>
 
-        <form action="/encheres/ajout_vente" method="post">
+        <%--<form action="/encheres/ajout_vente" method="post">--%>
+            <form action="/encheres/ajout_vente" method="post">
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
@@ -59,12 +60,24 @@
             </p>
             <p>
                 <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="date" name="dateDebutEnchere" id="debutEnchere">
+                <input type="datetime-local" name="dateDebutEnchere" id="debutEnchere">
+                <input type="text" name="heureDebutEnchere" id="heureDebutEnchere">
             </p>
             <p>
                 <label for="finEnchere">Fin de l'enchère :</label>
-                <input type="date" name="dateFinEnchere" id="finEnchere">
+                <input type="datetime-local" name="dateFinEnchere" id="finEnchere">
+                <input type="text" name="heureFinEnchere" id="heureFinEnchere">
             </p>
+            <script type="application/javascript">
+                var debutEnchere = document.getElementById("debutEnchere");
+                var finEnchere = document.getElementById("finEnchere");
+                function dates(event) {
+                    event.preventDefault();
+                    console.log(debutEnchere.value);
+                    console.log(finEnchere.value);
+                    return true;
+                }
+            </script>
 
             <fieldset class="form-retrait">
                 <legend>Retrait</legend>
@@ -106,7 +119,7 @@
                 </p>
             </fieldset>
 
-            <input type="submit" value="Enregistrer">
+            <input id="submitVente" type="submit" value="Enregistrer" />
             <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';">
         </form>
         <p class="message-erreur">${message}</p>
