@@ -14,9 +14,11 @@ import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.Date;
 
 public class ArticleDaoJdbcImpl implements ArticleDao {
 
@@ -105,8 +107,8 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(4, ajoutArticle.getNom());
             preparedStatement.setString(5, ajoutArticle.getDescription());
-            preparedStatement.setDate(6, ajoutArticle.getDateDebutEncheres());
-            preparedStatement.setDate(7, ajoutArticle.getDateFinEncheres());
+            preparedStatement.setObject(6, ajoutArticle.getDateDebutEncheres());
+            preparedStatement.setObject(7, ajoutArticle.getDateFinEncheres());
             preparedStatement.setInt(8, ajoutArticle.getPrixInitial());
             if (ajoutArticle.getPrixVente() != 0) {
                 preparedStatement.setInt(9, ajoutArticle.getPrixVente());
@@ -148,8 +150,8 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             requete.setInt(3, updateArticle.getRetrait().getId());
             requete.setString(4,updateArticle.getNom());
             requete.setString(5, updateArticle.getDescription());
-            requete.setDate(6,updateArticle.getDateDebutEncheres());
-            requete.setDate(7,updateArticle.getDateFinEncheres());
+            requete.setObject(6, updateArticle.getDateDebutEncheres());
+            requete.setObject(7, updateArticle.getDateFinEncheres());
             requete.setInt(8,updateArticle.getPrixInitial());
             requete.setInt(9,updateArticle.getPrixVente());
             requete.setInt(10 , updateArticle.getId());
@@ -174,8 +176,8 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         article.setUtilisateur(articleUtilisateur);
         article.setNom(rs.getString("nom"));
         article.setDescription(rs.getString("description"));
-        article.setDateDebutEncheres(rs.getDate("dateDebutEncheres"));
-        article.setDateFinEncheres(rs.getDate("dateFinEncheres"));
+        article.setDateDebutEncheres((Timestamp) rs.getObject("dateDebutEncheres"));
+        article.setDateFinEncheres((Timestamp) rs.getObject("dateFinEncheres"));
         article.setPrixInitial(rs.getInt("prixInitial"));
         article.setPrixVente(rs.getInt("prixVente"));
 
