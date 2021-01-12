@@ -353,15 +353,13 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                         }
                         //mise a jour de l'article apres enchere
                         updateArticleApresEnchere(enchere.getArticle(), montantEnchere);
-                        if(enchere.getMontantEnchere() == 0) {
-                            //debit du montant de l'enchere du nouvelle encherisseur
-                            deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
-                        }else{
-                            //debit du montant de l'enchere du nouvelle encherisseur
-                            deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
-                            //ajout credit de l'enchere precedente a l'encherisseur precedent
+
+                        if(enchere.getMontantEnchere() > 0) {
+                            //ajout du montant de l'enchere a l'ancien encherisseur
                             addCredit(enchere.getUtilisateur().getCredit(), enchere.getMontantEnchere(), enchere.getUtilisateur());
                         }
+                        // débit du montant de l'enchere du nouvel encherisseur
+                        deleteCredit(acheteur.getCredit(), montantEnchere, acheteur);
                         //récuperation de l'enchere creer
                         enchereAdd = FactoryDao.getEnchereDao().selectById(idAjout);
                     }else {
