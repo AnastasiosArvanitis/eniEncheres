@@ -35,30 +35,9 @@
             <p style="display: none">${utilisateur.motDePasse}</p>
             <p><span>Credit :</span><span>${utilisateur.credit}</span></p>
         </article>
-
+        <p class="btn-update-profile">
             <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
-            <a href="#" onclick="document.getElementById('modalDelete').style.display='block'">Supprimer</a>
-
-            <!-- MODALE DE CONFIRMATION AVANT SUPPRESSION PROFIL -->
-            <div id="modalDelete" class="modal-delete" style="display: none">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4>ATTENTION !</h4>
-                        <button onclick="document.getElementById('modalDelete').style.display='none'" class="button-modal"><span>X</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Vous étes sur le pont de supprimer votre profil !</p>
-                        <p>Etes vous bien sur de vouloir le supprimer?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <form method="post" action="<%=request.getContextPath()%>/delete_profil">
-                            <input type="hidden" name="id" value="<%=utilisateur.getId() %>">
-                            <input type="submit" value="SUPPRIMER">
-                            <input type="reset" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
-                        </form>
-                    </div>
-                </div>
-            </div>
+        </p>
 
             <!-- MESSAGE EN CAS DE SUCCES LORS DE L UPDATE PROFIL -->
             <p style="color: green">${message}</p>
