@@ -59,6 +59,7 @@ CREATE TABLE ARTICLES (
     CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres),
     CONSTRAINT articles_prix_vente_chk CHECK ((prixVente >= prixInitial) OR (prixVente = NULL))
 )
+ALTER TABLE ARTICLES ADD CONSTRAINT article_prix_vente_df DEFAULT prixInitial FOR prixVente;
 
 
 CREATE TABLE ENCHERES(
@@ -71,6 +72,17 @@ CREATE TABLE ENCHERES(
     CONSTRAINT encheres_pk PRIMARY KEY (id,idArticle,idUtilisateur),
     CONSTRAINT encheres_montant_enchere_uk UNIQUE (idArticle,montantEnchere)
 )
+
+ALTER TABLE ARTICLES   DROP CONSTRAINT articles_date_fin_encheres_chk;
+
+
+
+ALTER TABLE ARTICLES ALTER COLUMN dateDebutEncheres DATETIME;
+ALTER TABLE ARTICLES ALTER COLUMN dateFinEncheres DATETIME;
+
+
+
+ALTER TABLE ARTICLES ADD CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres);
  
 
 

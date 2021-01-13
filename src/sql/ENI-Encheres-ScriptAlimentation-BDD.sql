@@ -27,14 +27,15 @@ INSERT INTO UTILISATEURS VALUES('Ant_pereira','viveiro-pereira','Marie-antoinett
 INSERT INTO UTILISATEURS VALUES('PE_Coro','Coro','Utilisateur inactif','pcp_eni@yopmail.com','','66 Impasse de sembrumes','51290','Saint-Remy-en-Bouzemont','12345678',30,0,0);
 /* ADMINISTRATEUR */
 INSERT INTO UTILISATEURS VALUES('admin','administarteur','admin','admin@admin.fr','0609090909','rue de nantes','44000','Nantes','password',150,1,1);
-
+INSERT INTO UTILISATEURS VALUES('vincdev','vincent','colas','vinc-dev@campus-eni.fr','0606060606','rue de la soif','44000','Nantes','password',350,1,1);
 
 INSERT INTO RETRAITS VALUES('10 Rue des mouettes','44600','ST NAZAIRE');
 INSERT INTO RETRAITS VALUES('15 allee des taneurs','85000','La Roche Sur Yon');
 INSERT INTO RETRAITS VALUES('6 rue yves montand','06000','Nice');
 
 INSERT INTO ARTICLES VALUES (1,2,1,'Tire bouchon','Magnifique Tire bouchon doré a lor fin','05/01/2021','06/01/2021',10,13);
-INSERT INTO ARTICLES VALUES (3,4,2,'Test Article','On va le réussir ce projet','06/01/2021','12/01/2021',15,null)	;
+INSERT INTO ARTICLES VALUES (3,4,2,'Test Article','On va le réussir ce projet','06/01/2021','12/01/2021',15,null);
+INSERT INTO ARTICLES VALUES (2,1,1,'Ordinateur Omen','Meilleur ordinateur HP','06/01/2021','15/01/2021',150,null);
 
 INSERT INTO ENCHERES VALUES(1,	2,	'03/01/2021',	10);
 INSERT INTO ENCHERES VALUES(1,	3,	'04/01/2021',	11);
