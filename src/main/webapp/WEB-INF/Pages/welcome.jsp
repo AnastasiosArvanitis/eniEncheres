@@ -137,8 +137,8 @@
             <c:forEach items="${enchereListe}" var="enchere" >
                 <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
                 <article class="enchere-article">
-                    <div >
-                        <img src="#" alt="">
+                    <div>
+                        <img src="<%=request.getContextPath()%>/uploads/images/?imageName=${enchere.article.id}.jpg" alt="${altArticle}" />
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
