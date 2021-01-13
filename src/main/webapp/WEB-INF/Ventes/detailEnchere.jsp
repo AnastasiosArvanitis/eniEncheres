@@ -71,7 +71,7 @@
 
                 <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) }"><p class="message-info">Vous ne pouvez plus modifier une vente en cours</p></c:when>
 
-                <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant))}"> <%@ include file="../Ventes/BlocsDetailsEncheres/encherir.jsp" %></c:when>
+                <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) && (utilisateur.getCompteActif()) )}"> <%@ include file="../Ventes/BlocsDetailsEncheres/encherir.jsp" %></c:when>
 
                 <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) }"><h2>Confirmer la réception de l'article ( boolean a rajouter table retrait avec boutton actif /inactif)</h2></c:when>
             </c:choose>
@@ -81,6 +81,9 @@
 
         <c:if test="${(empty acheteur)&&(dateDebut < maintenant) && (dateFin > maintenant)}">
             <p class="message-info">Vous devez etre connecté pour enchérir. <a href="/encheres/connection">Se connecter</a></p>
+        </c:if>
+        <c:if test="${(empty acheteur)&&(dateDebut < maintenant) && (dateFin > maintenant)&&(!acheteur.getCompteActif())}">
+            <p class="message-info">Vous n'êtes plus autorisé à enchérir. Merci de contacter un administrateur</p>
         </c:if>
 
 

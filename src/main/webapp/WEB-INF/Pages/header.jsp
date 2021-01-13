@@ -16,11 +16,16 @@
                     out.println("<li><a href=\"" +request.getContextPath()+ "/ajout_vente\">Vendre un article</a></li>");
                     out.println("<li><a href=\"" +request.getContextPath()+ "/profile\">Mon profil</a></li>");
                     out.println("<li><a href=\"" +request.getContextPath()+ "/deconnexion\">Deconnexion</a></li>");
+                    %>
+                    <li><p>Credit :${utilisateur.getCredit()}</p></li>
+                    <%
 
-            %>
-            <li><p>Credit :<%=utilisateur.getCredit()%></p></li>
-            <%
-
+                }else if((utilisateur != null) && (!utilisateur.getCompteActif())) {
+                    out.println("<li><a href=\"" +request.getContextPath()+ "/profile\">Mon profil</a></li>");
+                    out.println("<li><a href=\"" +request.getContextPath()+ "/deconnexion\">Deconnexion</a></li>");
+                    %>
+                    <li><p>Credit :${utilisateur.getCredit()}</p></li>
+                    <%
                 } else {
                     out.println("<li><a href=\"" +request.getContextPath()+ "/connection\">S'inscrire - Se connecter</a></li>");
                 }
