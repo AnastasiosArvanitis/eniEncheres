@@ -39,7 +39,8 @@ public class SearchEnchere extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String choixRadio = request.getParameter("radio");
+        String choixRadio = "";
+        choixRadio   = request.getParameter("radio");
         RequestDispatcher rd = null;
         if (choixRadio.equals("radioAchat")) {
             rd = request.getRequestDispatcher("//search_co");
