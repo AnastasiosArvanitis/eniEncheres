@@ -34,7 +34,7 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post">
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
