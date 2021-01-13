@@ -50,8 +50,8 @@
                     </div>
                 </div>
                 <p class="p-button">
-                    <input type="submit" value="Modifier">
-                    <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
+                    <input type="submit" value="Enregistrer">
+                    <input type="button" value="Retour" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
                 </p>
             </form>
             <p class="message-erreur">${message}</p>
@@ -65,7 +65,8 @@
                     </div>
                     <div class="modal-body">
                         <p>Vous étes sur le pont de supprimer votre profil !</p>
-                        <p>Etes vous bien sur de vouloir le supprimer?</p>
+                        <p>Etes vous bien sur de vouloir le supprimer ?</p>
+                        <p>Action irreversible !</p>
                     </div>
                     <div class="modal-footer">
                         <form method="post" action="<%=request.getContextPath()%>/delete_profil">

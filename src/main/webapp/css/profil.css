@@ -40,7 +40,7 @@ main p a{
     padding: 25px;
 }
 main p{
-    margin: 20px;
+    margin: 10px;
 }
 main article form p.p-button input{
     margin: 25px !important;
@@ -61,4 +61,15 @@ main article form p.p-button {
     border-radius: 25px;
     color: black;
     text-decoration: none;
+}
+.btn-update-profile{
+    margin-top: 50px;
+}
+article.monProfil p span{
+    display: inline-block;
+    width: 280px;
+}
+article.monProfil{
+    margin-left: 180px;
+    margin-top: 25px;
 }
