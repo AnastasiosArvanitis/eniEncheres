@@ -96,6 +96,10 @@ public class Utilisateur {
         this.id = id;
     }
 
+    public Utilisateur(boolean compteActif, int id) {
+        this.compteActif = compteActif;
+        this.id = id;
+    }
 
 
 

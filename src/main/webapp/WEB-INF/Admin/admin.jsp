@@ -18,6 +18,7 @@
         <h2>Administration</h2>
 
             <article class="admin">
+                <h3>Utilisateur</h3>
                 <table class="table-admin">
                     <tr>
                         <th>ID</th>
@@ -31,7 +32,7 @@
                         <th>VILLE</th>
                         <th>MOT DE PASSE</th>
                         <th>CREDIT</th>
-                        <th>ADMINISTRATEUR</th>
+                        <th>ADMIN</th>
                         <th>COMPTE ACTIF</th>
                     </tr>
                     <c:forEach items="${listUtilisateur}" var="utilisateur" >
@@ -57,11 +58,19 @@
 
                             </td>
                             <td>
-                                <form method="post" action="">
+                                <form method="post" action="admin_desactive">
                                     <input type="hidden" name="id" value="${utilisateur.id}">
+                                    <input type="hidden" name="compteActif" value= "false">
                                     <input type="submit" value="DESACTIVER" class="desactiver">
                                 </form>
 
+                            </td>
+                            <td>
+                                <form method="post" action="admin_desactive">
+                                    <input type="hidden" name="id" value="${utilisateur.id}">
+                                    <input type="hidden" name="compteActif" value= "true">
+                                    <input type="submit" value="ACTIVER" class="desactiver">
+                                </form>
                             </td>
                         </tr>
                     </c:forEach>
@@ -69,6 +78,32 @@
                 <p class="message-erreur">${message}</p>
                 <p class="message-succes">${messageSucces}</p>
             </article>
+
+        <article class="admin">
+            <h3>Categorie</h3>
+            <table  class="table-admin">
+                <tr>
+                    <th>ID</th>
+                    <th>LIBELLE</th>
+                </tr>
+                <c:forEach items="${listCategorie}" var="categorie" >
+                    <tr class="utilisateur">
+                        <td>${categorie.id}</td>
+                        <td>${categorie.libelle}</td>
+                        <td><form method="post" action="">
+                            <input type="hidden" name="id" value="${categorie.id}">
+                            <input type="submit" value="MODIFIER" class="desactiver">
+                        </form></td>
+                        <td><form method="post" action="">
+                            <input type="hidden" name="id" value="${categorie.id}">
+                            <input type="submit" value="SUPPRIMER" class="delete">
+                        </form></td>
+                    </tr>
+                </c:forEach>
+
+            </table>
+
+        </article>
 
 
 

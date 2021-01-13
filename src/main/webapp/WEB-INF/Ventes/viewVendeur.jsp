@@ -31,7 +31,8 @@
             <p><span>Rue :</span><span>${vendeur.rue}<span/></p>
             <p><span>Code Postal :</span><span>${vendeur.codePostal}<span/></p>
             <p><span>Ville :</span><span>${vendeur.ville}</span></p>
-            <br>
+        </article>
+        <article style="text-align: left; width: 100%">
             <a href="<%=request.getContextPath()%>/">Retour</a>
         </article>
     </main>

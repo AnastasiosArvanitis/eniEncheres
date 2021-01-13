@@ -72,7 +72,7 @@
                         <form method="post" action="<%=request.getContextPath()%>/delete_profil">
                             <input type="hidden" name="id" value="${utilisateur.id}">
                             <input type="submit" value="SUPPRIMER">
-                            <input type="button" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
+                            <input type="button" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/update_profile';" />
                         </form>
                     </div>
                 </div>

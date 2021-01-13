@@ -67,6 +67,9 @@ main h2{
     text-align: center;
     margin: 25px;
 }
+article.admin table.table-admin{
+    margin: auto;
+}
 
 article.admin table.table-admin{
     border: 1px solid black;
@@ -81,6 +84,9 @@ article.admin table.table-admin tr.utilisateur td input.delete {
 }
 article.admin table.table-admin tr.utilisateur td input.desactiver {
     background-color: blue;
+    height: 20px;
+    width: 80px;
+    color: black;
 }
 main article.admin p.message-erreur{
     text-align: center;

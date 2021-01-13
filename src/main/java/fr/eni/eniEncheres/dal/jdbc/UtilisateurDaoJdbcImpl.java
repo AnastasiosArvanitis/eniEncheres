@@ -146,6 +146,23 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
   @Override
+  public Utilisateur updateCompteActif(Utilisateur utilisateur) throws SQLException, DalException {
+    Utilisateur utilisateurRetourner = null;
+    final String UPDATE_COMPTE_ACTIF = "UPDATE UTILISATEURS SET compteActif = ? WHERE id = ?";
+    try (Connection connection = JdbcConnection.connect()){
+      PreparedStatement requete = connection.prepareStatement(UPDATE_COMPTE_ACTIF);
+      requete.setBoolean(1, utilisateur.getCompteActif());
+      requete.setInt(2,utilisateur.getId());
+      requete.executeUpdate();
+      utilisateurRetourner = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
+    }catch (SQLException e){
+      logger.severe("Error method updateCompteActif " + e.getMessage() + "\n");
+      throw  new DalException(e.getMessage(), e);
+    }
+    return utilisateurRetourner;
+  }
+
+  @Override
   public Utilisateur insert(Utilisateur ajoutUtilisateur) throws SQLException, DalException {
     final String SQL_INSERT ="INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse) VALUES (?,?,?,?,?,?,?,?,?)";
     Utilisateur utilisateurCree = null;
@@ -270,6 +287,17 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     return utilisateur;
   }
 
+  @Override
+  public Utilisateur addCredit(int addCoin, Utilisateur utilisateur) throws SQLException, DalException{
+    Utilisateur utilisateurRetourner = null;
+    int addCredit = utilisateur.getCredit() + addCoin;
+    Utilisateur UtilisateurACredite = new Utilisateur(utilisateur.getPseudo(),utilisateur.getNom(),utilisateur.getPrenom(),
+            utilisateur.getEmail(),utilisateur.getTelephone(),utilisateur.getRue(),utilisateur.getCodePostal(),
+            utilisateur.getVille(), utilisateur.getMotDePasse(), addCredit ,utilisateur.getId());
+
+    utilisateurRetourner = FactoryDao.getUtilisateurDao().updateUtilisateurApresEnchere(UtilisateurACredite);
+    return utilisateurRetourner;
+  }
 }
 
 
