@@ -64,19 +64,23 @@ public class SearchEnchereCo extends HttpServlet {
         }
 
         if(enchereOuvert.equals("enchereOuvert")) {
-            checkbox = 1;
+            if(enchereOuvert.equals("enchereOuverte") && enchereEnCours.equals("enchereEnCours")){
+                checkbox = 4;
+            }else if(enchereOuvert.equals("enchereOuvert") && enchereRemporte.equals("enchereRemporte")){
+                checkbox = 5;
+            }else if((enchereOuvert.equals("enchereOuvert") && enchereRemporte.equals("enchereRemporte") && enchereEnCours.equals("enchereEnCours"))){
+                checkbox = 7;
+            }else {
+                checkbox = 1;
+            }
         }else if(enchereEnCours.equals("enchereEnCours")){
-            checkbox = 2;
+            if(enchereEnCours.equals("enchereEnCours") && enchereRemporte.equals("enchereRemporte")){
+                checkbox = 6;
+            }else {
+                checkbox = 2;
+            }
         }else if(enchereRemporte.equals("enchereRemporte")){
             checkbox = 3;
-        } else if(enchereOuvert.equals("enchereOuverte") && enchereEnCours.equals("enchereEnCours")){
-            checkbox = 4;
-        }else if(enchereOuvert.equals("enchereOuvert") && enchereRemporte.equals("enchereRemporte")){
-            checkbox = 5;
-        }else if(enchereEnCours.equals("enchereEnCours") && enchereRemporte.equals("enchereRemporte")){
-            checkbox = 6;
-        } else if((enchereOuvert.equals("enchereOuvert") && enchereRemporte.equals("enchereRemporte") && enchereEnCours.equals("enchereEnCours"))){
-            checkbox = 7;
         }
 
         try {
