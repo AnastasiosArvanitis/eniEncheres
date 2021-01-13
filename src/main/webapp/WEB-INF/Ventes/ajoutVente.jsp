@@ -36,8 +36,7 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/modifVente" : "/encheres/ajout_vente" }" method="post">
-
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
@@ -57,7 +56,7 @@
             </p>
             <p>
                 <label for="fichier">Photo de l'article : </label>
-                <input type="file" name="fichier" id="fichier">
+                <input type="file" name="photo" id="fichier">
             </p>
             <p>
                 <label for="number">Mise à prix :</label>
@@ -132,8 +131,6 @@
             <c:when test="${action ==\"maj\" && article.id > 0}">
                 <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="modifier"  />
                 <input id="submitVente" name="action" type="submit" value="Supprimer la vente" value="supprimer" />
-
-
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:when>
             <c:otherwise>
@@ -141,15 +138,11 @@
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:otherwise>
         </c:choose>
-
-
-
-
         </form>
         <p class="message-erreur">${message}</p>
     </article>
 </main>
-
+<div class="seperator"></div>
 <%@ include file="../Pages/footer.jsp" %>
 </body>
 </html>

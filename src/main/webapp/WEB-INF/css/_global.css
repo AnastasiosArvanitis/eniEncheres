@@ -18,11 +18,15 @@
 html, body {
     width: 100%;
     min-width: 100%;
-
-
+    height: 100%;
+    min-height: 100%;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     background: var(--body-bg-color);
     color: var(--body-txt-color);
     font-family: 'Open Sans', sans-serif;
@@ -39,7 +43,6 @@ header {
     padding: 10px;
     background: var(--header-bg-color);
     color: var(--header-txt-color);
-    margin-bottom: auto;
 }
 
 header ul {
@@ -60,42 +63,77 @@ header a {
 header a:hover {
     text-decoration: underline;
 }
-main{
-    margin: 25px;
-}
-main h2{
-    text-align: center;
-    margin: 25px;
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background: var(--main-bg-color);
+    margin: 30px auto 30px auto;
 }
 
-article.admin table.table-admin{
-    border: 1px solid black;
-}
-article.admin table.table-admin tr td {
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+.search-article-welcome {
+    width: 100%;
+    margin: 10px auto 10px auto;
 }
 
-article.admin table.table-admin tr.utilisateur td input.delete {
-    background-color: red;
+.list-encheres {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    padding: 20px;
 }
-article.admin table.table-admin tr.utilisateur td input.desactiver {
-    background-color: blue;
+
+.error-container {
+    height: 400px;
 }
-main article.admin p.message-erreur{
-    text-align: center;
-    color:red;
+
+.error-container a {
+    color: var(--border-color);
 }
-main article.admin p.message-succes{
-    text-align: center;
-    color: green;
-}
+
 footer {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width: 100%;
     height: 50px;
-    background: var(--footer-bg-color);
+    background: var(--main-bg-color);
     color: var(--footer-txt-color);
-    margin: auto;
 }
+
+.message-erreur{
+    color:red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
