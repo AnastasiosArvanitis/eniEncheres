@@ -8,6 +8,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="vendeur" scope="request" value="${article.utilisateur.id}"/>
+<c:set var="acheteur" scope="request" value="${utilisateur.id}"/>
+<c:set var="meilleureEnchereUtilisateurId" scope="request" value="${utilisateur.id}"/>
+<c:set var="dateDebut" scope="request" value="${article.dateDebutEncheres}"/>
+<c:set var="dateFin" scope="request" value="${article.dateFinEncheres}"/>
+
+
 <html>
 <head>
     <title>ENI_Enchere</title>
@@ -20,17 +28,13 @@
 <body>
 <%@ include file="../Pages/header.jsp" %>
 <main>
-    <h2>Nouvelle vente</h2>
+    <h2>${action =="maj" && article.id > 0 ?"Modifier vente" : "Nouvelle vente"}</h2>
     <article>
         <img src="#" alt="">
     </article>
     <article>
-
-        <p>${action}</p>
-        <p>${article}</p>
-
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="/encheres/ajout_vente" method="post">
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post">
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
@@ -41,13 +45,11 @@
             </p>
             <p>
                 <label for="categorie">Categorie :</label>
-                <select name="categorie" id="categorie" value="${article.categorie.libelle}">
-                    <option value="null" selected>Choix</option>
-                    <% List<Categorie> listCategorie = (List<Categorie>) request.getAttribute("listeCategorie");
-                        for (Categorie ca : listCategorie) { %>
-                    <option value="<%=ca.getLibelle() %>"><%=ca.getLibelle() %>
-                    </option>
-                    <% } %>
+                <select name="categorie" id="categorie"   >
+                    <option value="null" >Choix</option>
+                    <c:forEach items="${listeCategorie}" var="categorie">
+                        <option value="${categorie.libelle}" ${categorie.libelle == article.categorie.libelle ? 'selected' : ''}>${categorie.libelle}</option>
+                    </c:forEach>
                 </select>
             </p>
             <p>
@@ -59,14 +61,14 @@
                 <input type="number" id="number" name="prixInitial" value="${article.prixInitial}">
             </p>
             <p>
-                <label for="dateDebutEnchere">Début de l'enchère :</label>
-                <input type="date" name="dateDebutEnchere" id="dateDebutEnchere">
-                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere">
+                <label for="debutEnchere">Début de l'enchère :</label>
+                <input type="date" name="dateDebutEnchere" id="debutEnchere" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateDebut}" />">
+                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere" value="<fmt:formatDate pattern = "HH:mm" value = "${dateDebut}" />">
             </p>
             <p>
-                <label for="dateFinEnchere">Fin de l'enchère :</label>
-                <input type="date" name="dateFinEnchere" id="dateFinEnchere">
-                <input type="time" name="heureFinEnchere" id="heureFinEnchere">
+                <label for="finEnchere">Fin de l'enchère :</label>
+                <input type="date" name="dateFinEnchere" id="finEnchere" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateFin}" />">
+                <input type="time" name="heureFinEnchere" id="heureFinEnchere" value="<fmt:formatDate pattern = "HH:mm" value = "${dateFin}" />">
             </p>
             <script type="application/javascript">
                 var dateDebutEnchere = document.getElementById("dateDebutEnchere");
@@ -123,9 +125,17 @@
                     </c:choose>
                 </p>
             </fieldset>
-
-            <input id="submitVente" type="submit" value="Enregistrer" />
-            <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
+        <c:choose>
+            <c:when test="${action ==\"maj\" && article.id > 0}">
+                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="enregistrer" />
+                <input id="submitVente" name="action" type="submit" value="Supprimer la vente" value="supprimer" />
+                <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
+            </c:when>
+            <c:otherwise>
+                <input id="submitVente" type="submit" value="Enregistrer" />
+                <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
+            </c:otherwise>
+        </c:choose>
         </form>
         <p class="message-erreur">${message}</p>
     </article>
