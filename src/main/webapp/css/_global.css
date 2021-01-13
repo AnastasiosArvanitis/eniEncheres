@@ -195,7 +195,15 @@ footer {
     }
 
     .radios-checks {
-        justify-content: space-around!important;
+        flex-direction: column!important;
+    }
+
+    .list-encheres {
+        display: block!important;
+    }
+
+    .enchere-article {
+        margin-bottom: 15px!important;
     }
 }
 
@@ -223,7 +231,15 @@ footer {
     }
 
     .radios-checks {
-        justify-content: space-around!important;
+        flex-direction: column!important;
+    }
+
+    .list-encheres {
+        display: block!important;
+    }
+
+    .enchere-article {
+        margin-bottom: 15px!important;
     }
 }
 
@@ -251,8 +267,17 @@ footer {
     }
 
     .radios-checks {
-        justify-content: space-around!important;
+        flex-direction: column!important;
     }
+
+    .list-encheres {
+        display: block!important;
+    }
+
+    .enchere-article {
+        margin-bottom: 15px!important;
+    }
+
 }
 
 

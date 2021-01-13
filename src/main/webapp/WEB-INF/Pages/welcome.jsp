@@ -157,6 +157,7 @@
         %>
 
 </main>
+<div class="welcome-seperator"></div>
 <%@ include file="./footer.jsp"%>
 <script type="application/javascript">
     window.onload = function() {
