@@ -1,7 +1,7 @@
 <%@ page import="fr.eni.eniEncheres.bo.Enchere" %>
 <%@ page import="java.util.List" %>
 <%@ page import="fr.eni.eniEncheres.bo.Categorie" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <html>
