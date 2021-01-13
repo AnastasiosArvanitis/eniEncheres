@@ -5,7 +5,7 @@
     position: absolute;
     width: 500px;
     margin-top: -350px;
-    margin-left: 200px;
+    margin-left: -50px;
 }
 .modal-content{
     background-color: grey;
@@ -72,4 +72,10 @@ article.monProfil p span{
 article.monProfil{
     margin-left: 180px;
     margin-top: 25px;
+}
+article.monProfil p span.span a{
+    margin-left: 257px;
+}
+article.monProfil p span.span{
+    width: 100%;
 }

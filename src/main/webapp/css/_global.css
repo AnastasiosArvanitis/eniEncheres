@@ -89,6 +89,24 @@ input[type="submit"] {
     border: 1px solid var(--header-bg-color);
     border-radius: 3px;
 }
+input[type="email"] {
+    width: 250px;
+    height: 30px;
+    border: 1px solid var(--header-bg-color);
+    border-radius: 3px;
+}
+input[type="password"] {
+    width: 250px;
+    height: 30px;
+    border: 1px solid var(--header-bg-color);
+    border-radius: 3px;
+}
+input[type="tel"] {
+    width: 250px;
+    height: 30px;
+    border: 1px solid var(--header-bg-color);
+    border-radius: 3px;
+}
 input[type="button"]{
     width: 250px;
     height: 30px;

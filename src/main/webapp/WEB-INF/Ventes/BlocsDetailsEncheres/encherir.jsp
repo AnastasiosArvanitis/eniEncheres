@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div>
+<div class="div-encherir">
     <form method ="post" action="detailEnchere">
         <label for="montantEnchere">Ma Proposition : </label>
         <input type="number" id ="montantEnchere" name="montantEnchere"

@@ -42,25 +42,27 @@
         <c:when test="${(acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin < maintenant)}"><h2>La vente est terminée</h2></c:when>
         <c:otherwise><h2>Détail Vente</h2></c:otherwise>
     </c:choose>
+<section>
+    <article class="enchere-article">
+        <div>
+            <img src="#" alt="" >
+        </div>
 
-    <article>
-        <img src="#" alt="">
     </article>
-    <article>
-        <h3></h3>
-        <p>Description : </p><p>${enchere.article.nom}</p>
-        <p>Catégorie : </p><p>${enchere.article.categorie.libelle}</p>
+    <article class="article-detail">
+        <h3>${enchere.article.nom}</h3>
+        <p>Description : ${enchere.article.description}</p>
+        <p>Catégorie : ${enchere.article.categorie.libelle}</p>
 
         <c:choose>
-            <c:when test="${enchere.montantEnchere > 0}"><p>Meilleur Offre : </p><p>${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p></c:when>
+            <c:when test="${enchere.montantEnchere > 0}"><p>Meilleur Offre : ${enchere.montantEnchere}  pts par ${enchere.utilisateur.pseudo}</p></c:when>
         </c:choose>
-        <p>Mise a prix : </p>
-        <p>${enchere.article.prixInitial} pts</p>
-        <p>Fin de l'enchère :  </p>
-        <p><fmt:formatDate pattern = "dd/MM/yyyy H:m" value = "${enchere.article.dateFinEncheres}" /></p>
-        <p>Adresse de retrait : </p><p> ${enchere.article.retrait.rue}</p>
+        <p>Mise a prix : ${enchere.article.prixInitial} pts</p>
+        <p>Fin de l'enchère :  <fmt:formatDate pattern = "dd/MM/yyyy H:m" value = "${enchere.article.dateFinEncheres}" /></p>
+        <p>Adresse de retrait : </p>
+        <p> ${enchere.article.retrait.rue}</p>
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
-        <p>Vendeur :</p><p>${enchere.article.utilisateur.pseudo}</p>
+        <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>
 
 
         <c:if test="${acheteur > 0}">
@@ -88,6 +90,11 @@
 
 
 
+    </article>
+
+</section>
+    <article style="text-align: left; width: 100%">
+        <a  href="<%=request.getContextPath()%>/">Retour</a>
     </article>
 </main>
 

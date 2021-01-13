@@ -142,7 +142,27 @@ public class UtilisateurManager {
         }
         return  listUtilisateur;
     }
+
+    public Utilisateur updateCompteActif(Utilisateur utilisateur) throws SQLException, BllException{
+        Utilisateur utilisateurRetourner = null;
+        try{
+            utilisateurRetourner = utilisateurDao.updateCompteActif(utilisateur);
+        } catch (DalException e) {
+            logger.severe("Error dans updateCompteActif UtilisateurManager " + e.getMessage());
+            throw new BllException(e.getMessage(), e);
+        }
+        return utilisateurRetourner;
+    }
+
+    public Utilisateur addCredit(int addCoin, Utilisateur utilisateur) throws SQLException, BllException, DalException {
+        Utilisateur utilisateurRetourner = null;
+        utilisateurRetourner = utilisateurDao.addCredit(addCoin, utilisateur);
+        return utilisateurRetourner;
+    }
 }
+
+
+
 
 
 

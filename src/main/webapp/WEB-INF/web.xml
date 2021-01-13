@@ -75,6 +75,14 @@
         <servlet-name>DeleteProfile</servlet-name>
         <url-pattern>/delete_profil</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProfilAddCredit</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.utilisateur.ProfilAjoutCredit</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfilAddCredit</servlet-name>
+        <url-pattern>/profil_add_credit</url-pattern>
+    </servlet-mapping>
 
     <!-- ADMINISTRATION -->
 
@@ -85,6 +93,14 @@
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminDesactive</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.admin.AdminDesactive</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDesactive</servlet-name>
+        <url-pattern>/admin_desactive</url-pattern>
     </servlet-mapping>
 
 
