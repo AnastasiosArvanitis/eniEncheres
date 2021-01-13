@@ -11,12 +11,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<c:set var="vendeur" scope="session" value="${enchere.article.utilisateur.id}"/>
-<c:set var="acheteur" scope="session" value="${utilisateur.id}"/>
-<c:set var="meilleureEnchereUtilisateurId" scope="session" value="${enchere.utilisateur.id}"/>
-<c:set var="dateDebut" scope="session" value="${enchere.article.dateDebutEncheres}"/>
-<c:set var="dateFin" scope="session" value="${enchere.article.dateFinEncheres}"/>
-<c:set var="maintenant" scope="session" value="<%= new Date() %>"/>
+<c:set var="vendeur" scope="request" value="${enchere.article.utilisateur.id}"/>
+<c:set var="acheteur" scope="request" value="${utilisateur.id}"/>
+<c:set var="meilleureEnchereUtilisateurId" scope="request" value="${enchere.utilisateur.id}"/>
+<c:set var="dateDebut" scope="request" value="${enchere.article.dateDebutEncheres}"/>
+<c:set var="dateFin" scope="request" value="${enchere.article.dateFinEncheres}"/>
+<c:set var="maintenant" scope="request" value="<%= new Date() %>"/>
 
 <html>
 <head>
