@@ -5,10 +5,12 @@ import fr.eni.eniEncheres.bo.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.*;
 import java.io.*;
 
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import java.sql.Timestamp;
@@ -20,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class AjoutVente extends HttpServlet {
     CategorieManager categorieManager = null;
     RetraitManager retraitManager = null;
@@ -102,6 +105,9 @@ public class AjoutVente extends HttpServlet {
         String description = request.getParameter("description");
         String categorie = request.getParameter("categorie");
 
+        InputStream fileContent = null;
+        Part filePart = request.getPart("photo");
+
         String prixInitialString = request.getParameter("prixInitial");
         int prixInitial = Integer.parseInt(prixInitialString);
 
@@ -148,6 +154,32 @@ public class AjoutVente extends HttpServlet {
                 addedArticle = articleManager.addNewArticle(newArticle);
                 categorieList = categorieManager.selectAllCategorie();
                 enchereList = enchereManager.selectAllEnchere();
+
+                if (filePart != null && filePart.getSize() > 0) {
+                    // prints out some information for debugging
+                    System.out.println("-------------- uploaded file name: " +filePart.getName());
+                    System.out.println("-------------- uploaded file size: " +filePart.getSize());
+                    System.out.println("-------------- uploaded file type: " +filePart.getContentType());
+
+                    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                    String[] fn = fileName.split("(\\.)");
+                    String ext = fn[(fn.length-1)];
+
+                    if (!ext.isEmpty() || !ext.equals("png") || !ext.equals("jpe") || !ext.equals("jpeg") || !ext.equals("jpg")) {
+                        fileName = Integer.toString(addedArticle.getId()) + "." +ext;
+                        String sContext = this.getServletContext().getRealPath("/");
+                        System.out.println("------ VOUS FETES LE DOSSIERS \\upload\\images dans le dossier que vous voyez la ---> sContext: " +sContext);
+                        System.out.println("--------------- new file name: " +fileName);
+                        fileContent = filePart.getInputStream();
+                        File file = new File(sContext + "\\WEB-INF\\upload\\images\\" +fileName);
+                        try {
+                            FileSave.receiveFile(fileContent, file);
+                            System.out.println("-------------------------- I hope its ok");
+                        } catch(IOException e) {
+                            throw new Exception("Impossible de sauvagarder l'image");
+                        }
+                    }
+                }
 
                 request.setAttribute("enchereListe", enchereList);
                 request.setAttribute("listCategorie", categorieList);
