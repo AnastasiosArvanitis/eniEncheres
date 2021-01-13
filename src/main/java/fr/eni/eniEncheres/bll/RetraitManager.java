@@ -51,6 +51,18 @@ public class RetraitManager {
         }
         return addedRetrait;
     }
+
+    public Retrait updateRetrait(Retrait modifRetrait) throws DalException {
+        Retrait retrait = null;
+        retrait = retraitDao.updateRetrait(modifRetrait);
+
+        return retrait;
+
+    }
+
+
+
+
 }
 
 

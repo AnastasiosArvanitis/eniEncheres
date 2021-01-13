@@ -12,4 +12,7 @@ public interface RetraitDao {
 
     Retrait insertRetrait(Retrait retrait) throws SQLException, DalException;
 
+    Retrait updateRetrait(Retrait modifRetrait) throws  DalException;
+
+
 }
