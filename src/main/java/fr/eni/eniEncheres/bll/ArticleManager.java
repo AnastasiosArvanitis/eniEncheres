@@ -73,6 +73,12 @@ public class ArticleManager {
         }
         return addedArticle;
     }
+
+    public  int updateArticle(Article updateArticle) throws SQLException, DalException {
+        Article articleModifier = articleDao.updateArticle(updateArticle);
+        int idArticle = articleModifier.getId();
+        return idArticle;
+    }
     }
 
 

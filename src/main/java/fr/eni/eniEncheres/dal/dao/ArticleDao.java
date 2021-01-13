@@ -18,4 +18,6 @@ public interface ArticleDao {
     Article insertArticle(Article article) throws SQLException, DalException;
 
     public Article updateArticle(Article updateArticle) throws  SQLException, DalException;
+
+
 }

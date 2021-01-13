@@ -14,6 +14,8 @@
 <c:set var="meilleureEnchereUtilisateurId" scope="request" value="${utilisateur.id}"/>
 <c:set var="dateDebut" scope="request" value="${article.dateDebutEncheres}"/>
 <c:set var="dateFin" scope="request" value="${article.dateFinEncheres}"/>
+<c:set var="retrait" scope="request" value="${article.retrait.id}"/>
+<c:set var="articleId" scope="request" value="${article.id}"/>
 
 
 <html>
@@ -127,7 +129,7 @@
             </fieldset>
         <c:choose>
             <c:when test="${action ==\"maj\" && article.id > 0}">
-                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="enregistrer" />
+                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="modifier"  />
                 <input id="submitVente" name="action" type="submit" value="Supprimer la vente" value="supprimer" />
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:when>
