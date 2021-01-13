@@ -54,7 +54,7 @@
             </p>
             <p>
                 <label for="fichier">Photo de l'article : </label>
-                <input type="file" name="fichier" id="fichier">
+                <input type="file" name="photo" id="fichier">
             </p>
             <p>
                 <label for="number">Mise à prix :</label>
@@ -140,7 +140,7 @@
         <p class="message-erreur">${message}</p>
     </article>
 </main>
-
+<div class="seperator"></div>
 <%@ include file="../Pages/footer.jsp" %>
 </body>
 </html>
