@@ -149,17 +149,17 @@ public class EnchereManager {
         String conditionNom = "";
 
         switch (idCategorie){
-            case 0: conditionCategorie = "";
+            case 0: conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()";
                 break;
-            case 1:conditionCategorie = " AND c.id = 1";
+            case 1:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 1";
                 break;
-            case 2:conditionCategorie = " AND c.id = 2";
+            case 2:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 2";
                 break;
-            case 3:conditionCategorie = " AND c.id = 3";
+            case 3:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 3";
                 break;
-            case 4:conditionCategorie = " AND c.id = 4";
+            case 4:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 4";
                 break;
-            default: conditionCategorie = "";
+            default: conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()";
         }
 
         if(!nomTitreArticle.equals("0")){
@@ -215,15 +215,15 @@ public class EnchereManager {
 
             //A FINIR ET TESTER
 
-                //enchereOuvert && enchereRemporte
-            case 5 : case 7 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()) " +
-                    "OR ( a.dateFinEncheres <= GETDATE() and e.idUtilisateur = " + idUtilisateur + ") ";
-                break;
+                //enchereOuvert && enchereRemporte meme que 7
+            case 5 : case 7  : conditionCheckBox = " where ((a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() " +
+                    "AND a.idUtilisateur != " + idUtilisateur + ") OR ( e.idUtilisateur = " + idUtilisateur + " AND a.dateFinEncheres <= GETDATE() ) )";
+            break;
                 //enchereEnCours && enchereRemporte
-            case 6 : conditionCheckBox = " where (a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() " +
+            case 6 : conditionCheckBox = " where ((a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() " +
                     "and a.idUtilisateur != " + idUtilisateur  + " AND  exists(select * FROM ENCHERES en where a.id = en.idArticle  " +
-                    "AND   a.dateFinEncheres > getDate()   AND en.idUtilisateur = " + idUtilisateur + ") " +
-                    "OR ( a.dateFinEncheres <= GETDATE() and e.idUtilisateur =" + idUtilisateur + ") " ;
+                    "AND   a.dateFinEncheres > getDate()   AND en.idUtilisateur = " + idUtilisateur + ") )" +
+                    "OR ( e.idUtilisateur = " + idUtilisateur + " AND a.dateFinEncheres <= GETDATE() )) " ;
                 break;
         }
             System.out.println(nomTitreArticle);

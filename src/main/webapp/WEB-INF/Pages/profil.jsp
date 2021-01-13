@@ -33,6 +33,7 @@
             <p><span>Code Postal :</span><span>${utilisateur.codePostal}<span/></p>
             <p><span>Ville :</span><span>${utilisateur.ville}</span></p>
             <p style="display: none">${utilisateur.motDePasse}</p>
+            <p><span>Credit :</span><span>${utilisateur.credit}</span></p>
         </article>
 
             <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
