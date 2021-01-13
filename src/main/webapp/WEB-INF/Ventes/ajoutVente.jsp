@@ -14,6 +14,8 @@
 <c:set var="meilleureEnchereUtilisateurId" scope="request" value="${utilisateur.id}"/>
 <c:set var="dateDebut" scope="request" value="${article.dateDebutEncheres}"/>
 <c:set var="dateFin" scope="request" value="${article.dateFinEncheres}"/>
+<c:set var="retrait" scope="request" value="${article.retrait.id}"/>
+<c:set var="articleId" scope="request" value="${article.id}"/>
 
 
 <html>
@@ -34,7 +36,8 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post">
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/modifVente" : "/encheres/ajout_vente" }" method="post">
+
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
@@ -127,8 +130,10 @@
             </fieldset>
         <c:choose>
             <c:when test="${action ==\"maj\" && article.id > 0}">
-                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="enregistrer" />
+                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="modifier"  />
                 <input id="submitVente" name="action" type="submit" value="Supprimer la vente" value="supprimer" />
+
+
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:when>
             <c:otherwise>
@@ -136,6 +141,10 @@
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:otherwise>
         </c:choose>
+
+
+
+
         </form>
         <p class="message-erreur">${message}</p>
     </article>
