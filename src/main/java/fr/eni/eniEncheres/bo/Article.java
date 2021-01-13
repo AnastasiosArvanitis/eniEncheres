@@ -52,6 +52,20 @@ public class Article {
         this.prixInitial = prixInitial;
         this.prixVente = prixVente;
     }
+
+    public Article(int id, Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial) {
+        this.id = id;
+        this.utilisateur = utilisateur;
+        this.categorie = categorie;
+        this.retrait = retrait;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEncheres = dateFinEncheres;
+        this.prixInitial = prixInitial;
+
+    }
+
     public Article(Utilisateur utilisateur, Categorie categorie, Retrait retrait, String nom, String description, Timestamp dateDebutEncheres, Timestamp dateFinEncheres, int prixInitial, int prixVente, int id) {
         this.utilisateur = utilisateur;
         this.categorie = categorie;
