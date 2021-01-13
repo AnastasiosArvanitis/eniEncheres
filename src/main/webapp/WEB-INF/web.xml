@@ -76,6 +76,18 @@
         <url-pattern>/delete_profil</url-pattern>
     </servlet-mapping>
 
+    <!-- ADMINISTRATION -->
+
+    <servlet>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.admin.Admin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+
     <!-- GESTION VENTE -->
     <servlet>
         <servlet-name>AjoutVente</servlet-name>

@@ -4,10 +4,13 @@ import fr.eni.eniEncheres.bo.Utilisateur;
 import fr.eni.eniEncheres.dal.DalException;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface UtilisateurDao {
 
     Utilisateur selectById(int id) throws SQLException, DalException;
+
+    List<Utilisateur> selectAllUtilisateur() throws SQLException, DalException;
 
     Utilisateur selectLogin(String pseudoOuEmail, String password) throws SQLException, DalException;
 
