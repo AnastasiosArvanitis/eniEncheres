@@ -34,7 +34,7 @@
             <p><span>Ville :</span><span>${utilisateur.ville}</span></p>
             <p style="display: none">${utilisateur.motDePasse}</p>
             <p><span>Credit :</span><span>${utilisateur.credit}</span></p>
-            <p><span class="span"><a href="#" onclick="document.getElementById('modalDelete').style.display='block'">Ajout credit</a></span></p>
+            <p><span class="span"><a href="#" onclick="document.getElementById('modalDelete').style.display='block'">Acheter des credits</a></span></p>
             <!-- MODALE DE CONFIRMATION AVANT SUPPRESSION PROFIL -->
             <div id="modalDelete" class="modal-delete" style="display: none">
                 <div class="modal-content">
@@ -43,8 +43,8 @@
                         <button onclick="document.getElementById('modalDelete').style.display='none'" class="button-modal"><span>X</span></button>
                     </div>
                     <div class="modal-body">
-                        <p>Vous avez : ${utilisateur.credit} </p>
-                        <p>Combien souhaitez vous ajoutez ?</p>
+                        <p>Vous avez : ${utilisateur.credit} credits</p>
+                        <p>Combien souhaitez vous en acheter ?</p>
                         <form method="post" action="<%=request.getContextPath()%>/profil_add_credit">
                             <input type="hidden" name="id" value="${utilisateur.id}">
                             <input type="number" name="montant">
