@@ -149,17 +149,17 @@ public class EnchereManager {
         String conditionNom = "";
 
         switch (idCategorie){
-            case 0: conditionCategorie = "";
+            case 0: conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()";
                 break;
-            case 1:conditionCategorie = " AND c.id = 1";
+            case 1:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 1";
                 break;
-            case 2:conditionCategorie = " AND c.id = 2";
+            case 2:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 2";
                 break;
-            case 3:conditionCategorie = " AND c.id = 3";
+            case 3:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 3";
                 break;
-            case 4:conditionCategorie = " AND c.id = 4";
+            case 4:conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE() AND c.id = 4";
                 break;
-            default: conditionCategorie = "";
+            default: conditionCategorie = "where a.dateFinEncheres > GETDATE() and a.dateDebutEncheres <= GETDATE()";
         }
 
         if(!nomTitreArticle.equals("0")){

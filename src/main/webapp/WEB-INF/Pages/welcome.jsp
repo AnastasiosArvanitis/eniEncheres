@@ -135,7 +135,10 @@
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
-                        <p>Prix : ${enchere.article.prixVente} points</p>
+                        <c:choose>
+                            <c:when test="${enchere.article.prixVente == 0}">Prix : ${enchere.article.prixInitial} points</c:when>
+                            <c:when test="${enchere.article.prixVente != 0}">Prix : ${enchere.article.prixVente} points</c:when>
+                        </c:choose>
                         <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                         <p>Vendeur : <a href="<%=request.getContextPath()%>/view_vendeur?idVendeur=${enchere.article.utilisateur.id}">${enchere.article.utilisateur.pseudo}</a></p>
                     </div>
@@ -175,7 +178,10 @@
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
-                        <p>Prix : ${enchere.article.prixVente} points</p>
+                        <c:choose>
+                            <c:when test="${enchere.article.prixVente == 0}">Prix : ${enchere.article.prixInitial} points</c:when>
+                            <c:when test="${enchere.article.prixVente != 0}">Prix : ${enchere.article.prixVente} points</c:when>
+                        </c:choose>
                         <p>Fin de l'enchere : <fmt:formatDate dateStyle = "long" timeStyle = "long" type = "date" value = "${date}" /> </p>
                         <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>
                     </div>
