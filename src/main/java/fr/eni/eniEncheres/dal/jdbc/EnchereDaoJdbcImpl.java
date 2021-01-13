@@ -483,7 +483,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
     @Override
     public List<Enchere> selectAllEncheresVendeur(int idUtilisateur, List<String> conditions, int idCategorie, String nomTitreArticle) throws DalException {
         List<Enchere> listeEnchere = new ArrayList<>();
-        final String selectAllByVendeur = "SELECT \n" +
+        final String selectAllByVendeur = "SELECT distinct \n" +
                 "a.id as art_id, a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom ,\n" +
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle,\n" +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
@@ -501,11 +501,12 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
 
         for (String condition : conditions){
             System.out.println(condition.indexOf(condition) + condition);
-            if(condition.indexOf(condition) > 0) {
+
+            if(conditions.indexOf(condition) > 0) {
                 requete.append(" or ");
             }
             else {
-                requete.append(" and ");
+                requete.append(" and ( ");
             }
             if (condition.equals("venteNonDebute")) {
                 requete.append(venteNonDebute);
@@ -517,6 +518,9 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 requete.append(venteTermine);
             }
         }
+        if(conditions.size()>0){
+            requete.append(")");
+        }
 
         if(!nomTitreArticle.isEmpty()){
             System.out.println("Ajout du paramètre par nom à la requête " + nomTitreArticle);
@@ -527,7 +531,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
             System.out.println("Ajout du paramètre par catégorie à la requête " + idCategorie);
             requete.append(" and a.idCategorie = "+idCategorie);
         }
-        requete.toString();
+        System.out.println(requete.toString());
         try(Connection connection = JdbcConnection.connect()){
             PreparedStatement pstmtRequete = connection.prepareStatement(requete.toString());
             pstmtRequete.setInt(1,idUtilisateur);
