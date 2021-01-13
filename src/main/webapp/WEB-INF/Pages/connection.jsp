@@ -34,6 +34,8 @@
     </div>
 </main>
 
+<div class="connection-sep"></div>
+
 <%@ include file="./footer.jsp"%>
 </body>
 </html>
