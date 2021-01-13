@@ -67,6 +67,29 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         return retraitCree;
     }
 
+    public Retrait updateRetrait(Retrait modifRetrait) throws  DalException {
+        Retrait retraitCree = null;
+        final String SQL_UPDATE = "UPDATE RETRAITS SET rue = ? , codePostal = ? , ville = ? WHERE id = ?";
+        int idAjout = 0;
+
+        try {
+            Connection connection = JdbcConnection.connect();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+            preparedStatement.setString(1, modifRetrait.getRue());
+            preparedStatement.setString(2, modifRetrait.getCodePostal());
+            preparedStatement.setString(3, modifRetrait.getVille());
+            preparedStatement.setInt(1,modifRetrait.getId());
+            preparedStatement.executeUpdate();
+
+            retraitCree = selectRetraitById(modifRetrait.getId());
+
+        } catch(SQLException e){
+            logger.severe("Error method UpdateRetrait " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return retraitCree;
+    }
+
 
     private Retrait retraitBuilder(ResultSet rs) throws SQLException {
         Retrait retrait = new Retrait();
