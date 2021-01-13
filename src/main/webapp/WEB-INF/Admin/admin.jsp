@@ -8,7 +8,6 @@
 <head>
     <title>Enchere Eni</title>
     <style>
-        <%@include file="../../css/_global.css" %>
         <%@include file="../../css/admin.css" %>
     </style>
 
