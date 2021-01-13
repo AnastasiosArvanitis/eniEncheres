@@ -49,7 +49,7 @@
                             <input type="hidden" name="id" value="${utilisateur.id}">
                             <input type="number" name="montant">
                             <p></p>
-                            <input type="submit" value="AJOUTER">
+                            <input type="submit" value="ACHETER">
                             <p></p>
                             <input type="button" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
                         </form>
