@@ -206,7 +206,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   @Override
   public boolean delete(int id) throws SQLException, DalException {
     boolean verifDelete = false;
-    Utilisateur utilisateur;
+    Utilisateur utilisateur = null;
     final String DELETE ="DELETE UTILISATEURS WHERE id = ?";
 
     try(Connection connection = JdbcConnection.connect()){

@@ -61,4 +61,21 @@ public class CategorieManager {
         return categorie;
     }
 
+    public Categorie insert(Categorie categorie) throws SQLException, BllException, DalException {
+        Categorie categorieRetourner = null;
+        categorieRetourner = categorieDao.insert(categorie);
+        return  categorieRetourner;
+    }
+
+    public Categorie update(Categorie categorie) throws SQLException, BllException, DalException {
+        Categorie categorieRetourner = null;
+        categorieRetourner = categorieDao.update(categorie);
+        return  categorieRetourner;
+    }
+
+    public boolean delete(int id) throws SQLException, BllException, DalException {
+        boolean delete = false;
+        delete = categorieDao.delete(id);
+        return delete;
+    }
 }

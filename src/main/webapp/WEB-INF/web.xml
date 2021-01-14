@@ -102,6 +102,33 @@
         <servlet-name>AdminDesactive</servlet-name>
         <url-pattern>/admin_desactive</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminUpdateCategorie</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.admin.AdminUpdateCategorie</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminUpdateCategorie</servlet-name>
+        <url-pattern>/admin_update_categorie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminInsertCategorie</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.admin.AdminAddCategorie</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminInsertCategorie</servlet-name>
+        <url-pattern>/admin_insert_categorie</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminDeleteCategorie</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.admin.AdminDeleteCategorie</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDeleteCategorie</servlet-name>
+        <url-pattern>/admin_delete_categorie</url-pattern>
+    </servlet-mapping>
+
 
 
     <!-- GESTION VENTE -->

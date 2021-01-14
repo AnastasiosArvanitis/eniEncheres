@@ -35,31 +35,30 @@
                         <th>ADMIN</th>
                         <th>COMPTE ACTIF</th>
                     </tr>
-                    <c:forEach items="${listUtilisateur}" var="utilisateur" >
+                    <c:forEach items="${listUtilisateur}" var="acheteur" >
                         <tr class="utilisateur">
-                            <td>${utilisateur.id}</td>
-                            <td>${utilisateur.pseudo}</td>
-                            <td>${utilisateur.nom}</td>
-                            <td>${utilisateur.prenom}</td>
-                            <td>${utilisateur.email}</td>
-                            <td>${utilisateur.telephone}</td>
-                            <td>${utilisateur.rue}</td>
-                            <td>${utilisateur.codePostal}</td>
-                            <td>${utilisateur.ville}</td>
-                            <td>${utilisateur.motDePasse}</td>
-                            <td>${utilisateur.credit}</td>
-                            <td>${utilisateur.administration}</td>
-                            <td>${utilisateur.compteActif}</td>
+                            <td>${acheteur.id}</td>
+                            <td>${acheteur.pseudo}</td>
+                            <td>${acheteur.nom}</td>
+                            <td>${acheteur.prenom}</td>
+                            <td>${acheteur.email}</td>
+                            <td>${acheteur.telephone}</td>
+                            <td>${acheteur.rue}</td>
+                            <td>${acheteur.codePostal}</td>
+                            <td>${acheteur.ville}</td>
+                            <td>${acheteur.motDePasse}</td>
+                            <td>${acheteur.credit}</td>
+                            <td>${acheteur.administration}</td>
+                            <td>${acheteur.compteActif}</td>
                             <td>
-                                <form method="post" action="admin">
-                                    <input type="hidden" name="id" value="${utilisateur.id}">
-                                    <input type="submit" value="SUPPRIMER" class="delete">
-                                </form>
-
+                                    <form method="post" action="admin">
+                                        <input type="hidden" name="id" value="${acheteur.id}">
+                                        <input type="submit" value="SUPPRIMER" class="delete">
+                                    </form>
                             </td>
                             <td>
                                 <form method="post" action="admin_desactive">
-                                    <input type="hidden" name="id" value="${utilisateur.id}">
+                                    <input type="hidden" name="id" value="${acheteur.id}">
                                     <input type="hidden" name="compteActif" value= "false">
                                     <input type="submit" value="DESACTIVER" class="desactiver">
                                 </form>
@@ -67,7 +66,7 @@
                             </td>
                             <td>
                                 <form method="post" action="admin_desactive">
-                                    <input type="hidden" name="id" value="${utilisateur.id}">
+                                    <input type="hidden" name="id" value="${acheteur.id}">
                                     <input type="hidden" name="compteActif" value= "true">
                                     <input type="submit" value="ACTIVER" class="desactiver">
                                 </form>
@@ -81,6 +80,27 @@
 
         <article class="admin">
             <h3>Categorie</h3>
+            <a href="#" onclick="document.getElementById('modalAdd').style.display='block'">+ Ajouter une nouvelle categorie</a>
+            <!-- MODALE D AJOUT DE CATEGORIE -->
+            <div id="modalAdd" class="modal-delete" style="display: none">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>NOUVELLE CATEGORIE !</h4>
+                        <button onclick="document.getElementById('modalAdd').style.display='none'" class="button-modal"><span>X</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="admin_insert_categorie">
+                            <label for="libelle">Libelle de votre nouvelle categorie :</label>
+                            <input type="text" name="libelle" id="libelle">
+                            <input type="submit" value="AJOUTER" onclick="document.getElementById('modalAdd').style.display='none'" />
+                            <input type="button" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/admin';" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
             <table  class="table-admin">
                 <tr>
                     <th>ID</th>
@@ -90,17 +110,21 @@
                     <tr class="utilisateur">
                         <td>${categorie.id}</td>
                         <td>${categorie.libelle}</td>
-                        <td><form method="post" action="">
-                            <input type="hidden" name="id" value="${categorie.id}">
-                            <input type="submit" value="MODIFIER" class="desactiver">
-                        </form></td>
-                        <td><form method="post" action="">
-                            <input type="hidden" name="id" value="${categorie.id}">
-                            <input type="submit" value="SUPPRIMER" class="delete">
-                        </form></td>
+                        <td>
+                            <form method="post" action="admin_update_categorie">
+                                <input type="hidden" name="id" value="${categorie.id}">
+                                <input type="text" name="libelle" value="${categorie.libelle}">
+                                <input type="submit" value="MODIFIER" class="desactiver" />
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post" action="admin_delete_categorie">
+                                    <input type="hidden" name="id" value="${categorie.id}">
+                                   <input type="submit" value="SUPPRIMER" class="delete" />
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
-
             </table>
 
         </article>

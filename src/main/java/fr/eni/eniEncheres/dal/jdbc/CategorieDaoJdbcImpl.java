@@ -84,18 +84,64 @@ public class CategorieDaoJdbcImpl implements CategorieDao {
 
 
 
-    /* METHODE POUR L ADMINISTRATION A FAIRE SI PROJET FINI*/
+    /* METHODE POUR L ADMINISTRATION */
     @Override
     public Categorie insert(Categorie categorie) throws SQLException, DalException {
-        return null;
+        Categorie categorieRetourner = null;
+        final String INSERT_CATEGORIE = " INSERT INTO CATEGORIES (libelle) VALUES (?)";
+        int idAjout = 0;
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(INSERT_CATEGORIE, PreparedStatement.RETURN_GENERATED_KEYS);
+            requete.setString(1, categorie.getLibelle());
+            requete.executeUpdate();
+            ResultSet rs = requete.getGeneratedKeys();
+            if(rs.next()){
+                idAjout = rs.getInt(1);
+                categorieRetourner = selectCategorieByID(idAjout);
+            }
+        }catch (DalException e){
+            logger.severe("Error method insertCategorie " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return categorieRetourner;
     }
     @Override
     public Categorie update(Categorie categorie) throws SQLException, DalException {
-        return null;
+        Categorie categorieRetourner = null;
+        final String UPDATE_CATEGORIE = "UPDATE CATEGORIES set libelle = ? WHERE id = ?";
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(UPDATE_CATEGORIE);
+            requete.setString(1, categorie.getLibelle());
+            requete.setInt(2, categorie.getId());
+            requete.executeUpdate();
+            categorieRetourner = selectCategorieByID(categorie.getId());
+        }catch (DalException e){
+            logger.severe("Error method updateCategorie " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return categorieRetourner;
     }
     @Override
     public boolean delete(int id) throws SQLException, DalException {
-        return false;
+        boolean delete = false;
+        Categorie categorie;
+        final  String DELETE_CATEGORIE = "DELETE CATEGORIES WHERE id = ?";
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(DELETE_CATEGORIE);
+            requete.setInt(1, id);
+            requete.executeUpdate();
+            categorie = selectCategorieByID(id);
+            if(categorie != null){
+                delete = false;
+            }else{
+                delete = true;
+            }
+        }catch (DalException e){
+            logger.severe("Error method deleteCategorie " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+
+        return delete;
     }
 }
 
