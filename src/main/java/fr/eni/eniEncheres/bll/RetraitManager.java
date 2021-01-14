@@ -59,6 +59,11 @@ public class RetraitManager {
         return retrait;
 
     }
+    public boolean deleteRetrait(Retrait deleteRetrait) throws  DalException {
+        boolean effacerRetrait = false;
+        effacerRetrait = retraitDao.deleteRetrait(deleteRetrait);
+        return effacerRetrait;
+    }
 
 
 
