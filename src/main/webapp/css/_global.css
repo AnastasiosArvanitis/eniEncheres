@@ -271,6 +271,9 @@ footer {
     .enchere-article {
         margin-bottom: 15px!important;
     }
+    .div-form{
+        display: block !important;
+    }
 }
 
 @media (max-width: 390px) {
@@ -306,6 +309,9 @@ footer {
 
     .enchere-article {
         margin-bottom: 15px!important;
+    }
+    .div-form{
+        display: block !important;
     }
 
 }

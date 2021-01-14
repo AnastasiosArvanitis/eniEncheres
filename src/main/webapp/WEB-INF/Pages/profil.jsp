@@ -50,7 +50,6 @@
                             <input type="number" name="montant">
                             <p></p>
                             <input type="submit" value="ACHETER">
-                            <p></p>
                             <input type="button" value="ANNULER" onclick="window.location.href='<%=request.getContextPath()%>/profile';" />
                         </form>
                     </div>
@@ -58,15 +57,10 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </article>
         <p class="btn-update-profile">
             <a href="<%=request.getContextPath()%>/update_profile">Modifier</a>
         </p>
-
             <!-- MESSAGE EN CAS DE SUCCES LORS DE L UPDATE PROFIL -->
             <p style="color: green">${message}</p>
     </main>

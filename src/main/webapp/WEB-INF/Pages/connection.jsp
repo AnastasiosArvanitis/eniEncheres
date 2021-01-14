@@ -13,7 +13,7 @@
 <%@ include file="./header.jsp"%>
 <main>
     <div class="connection-container">
-        <h3>Connection Utilisateur</h3>
+        <h3>Connexion Utilisateur</h3>
         <form method="post" action="<%=request.getContextPath()%>/connection" class="connection-form">
             <p><label for="connection-identifiant">Email ou pseudo:</label></p>
             <p><input id="connection-identifiant" type="text" name="connection-identifiant"/></p>

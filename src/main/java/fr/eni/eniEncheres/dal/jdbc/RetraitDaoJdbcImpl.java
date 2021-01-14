@@ -93,13 +93,13 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
      * @return
      * @throws DalException
      */
-    public Boolean deleteRetrait(Retrait deleteRetrait) throws  DalException {
-        Boolean effacerRetrait = false;
+    public boolean deleteRetrait(Retrait deleteRetrait) throws  DalException {
+        boolean effacerRetrait = false;
         final String SQL_RETRAIT = "DELETE RETRAITS WHERE ID = ?";
 
         try {
             Connection connection = JdbcConnection.connect();
-            PreparedStatement  stmt= connection.prepareStatement(SQL_RETRAIT,);
+            PreparedStatement  stmt= connection.prepareStatement(SQL_RETRAIT);
             stmt.setInt(1,deleteRetrait.getId());
             effacerRetrait = ( stmt.executeUpdate()==0);
 
