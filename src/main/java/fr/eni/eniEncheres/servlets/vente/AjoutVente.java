@@ -2,7 +2,9 @@ package fr.eni.eniEncheres.servlets.vente;
 
 import fr.eni.eniEncheres.bll.*;
 import fr.eni.eniEncheres.bo.*;
+import fr.eni.eniEncheres.dal.DalException;
 
+import javax.persistence.Id;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -42,6 +44,7 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         System.out.println("entree dans la servlet");
         List<Categorie> listeCategorie = new ArrayList<>();
         HttpSession session = request.getSession();
@@ -52,7 +55,7 @@ public class AjoutVente extends HttpServlet {
         Article article = null ;
         String action = null;
 
-         if (idArticleString !=null)
+        if (idArticleString !=null)
         {
             try {
                 article = articleManager.getArticleById(Integer.parseInt(idArticleString));
@@ -87,6 +90,20 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String idArticleString = null;
+
+        int idArticle = 0;
+        int idRetrait = 0;
+
+        idArticleString =  request.getParameter("idArticle");
+        System.out.println("idarticle : " + idArticleString);
+
+        if (idArticleString !=null) {
+            idArticle = Integer.parseInt(idArticleString);
+            idRetrait = Integer.parseInt(request.getParameter("idRetrait"));
+            System.out.println("idRetrait : " + idRetrait);
+        }
         List<Enchere> enchereList = new ArrayList<>();
 
         Article newArticle = null;
@@ -137,21 +154,43 @@ public class AjoutVente extends HttpServlet {
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
+
+
+
         if (utilisateur == null) {
             response.sendRedirect("/encheres/error?error=NotConnected");
         } else {
-            retraitArticle = new Retrait(rue, codePostal, ville);
-            try {
-                newRetrait = retraitManager.addNewRetrait(retraitArticle);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (idRetrait>0) {
+                System.out.println("Retrait existant, je met a jour");
+                Retrait retraitModifier = new Retrait(idRetrait, rue, codePostal, ville);
+                try {
+                    newRetrait = retraitManager.updateRetrait(retraitModifier);
+                } catch (DalException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                System.out.println("Retrait non existant, je crée un nouveau retrait");
+                retraitArticle = new Retrait(rue, codePostal, ville);
+                try {
+                    newRetrait = retraitManager.addNewRetrait(retraitArticle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
+
             try {
                 categorieArticle = categorieManager.selectByName(categorie);
-                System.out.println(newRetrait.toString());
 
-                newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
-                addedArticle = articleManager.addNewArticle(newArticle);
+                if(idArticle>0){
+                    newArticle = new Article(idArticle,utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                    addedArticle = articleManager.updateArticle(newArticle);
+                }
+                else{
+                    newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                    addedArticle = articleManager.addNewArticle(newArticle);
+                }
+
                 categorieList = categorieManager.selectAllCategorie();
                 enchereList = enchereManager.selectAllEnchere();
 

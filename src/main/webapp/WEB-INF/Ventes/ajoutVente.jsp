@@ -15,7 +15,7 @@
 <c:set var="dateDebut" scope="request" value="${article.dateDebutEncheres}"/>
 <c:set var="dateFin" scope="request" value="${article.dateFinEncheres}"/>
 <c:set var="retrait" scope="request" value="${article.retrait.id}"/>
-<c:set var="articleId" scope="request" value="${article.id}"/>
+
 
 
 <html>
@@ -36,7 +36,12 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/ajout_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
+                <c:if test="${artice.id >0 }">
+                    <input type="hidden" id="idArticle" name="idArticle" value="${article.id}">
+                    <input type="hidden" id="idRetrait" name="idRetrait" value="${article.retrait.id}">
+                </c:if>
+
             <p>
                 <label for="article">Article : </label>
                 <input type="text" id="article" name="articleName" value="${article.nom}">
