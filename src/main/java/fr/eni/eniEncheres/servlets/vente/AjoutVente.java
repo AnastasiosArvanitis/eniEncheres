@@ -90,6 +90,8 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String message= null;
+        String action = null;
 
         String idArticleString = null;
 
@@ -162,6 +164,7 @@ public class AjoutVente extends HttpServlet {
         } else {
             if (idRetrait>0) {
                 System.out.println("Retrait existant, je met a jour");
+                action ="maj";
                 Retrait retraitModifier = new Retrait(idRetrait, rue, codePostal, ville);
                 try {
                     newRetrait = retraitManager.updateRetrait(retraitModifier);
@@ -219,13 +222,22 @@ public class AjoutVente extends HttpServlet {
                         }
                     }
                 }
+                //Si l'article a bien été modifié ou crée je charge enchere liste
+                System.out.println(action);
+                if(addedArticle != null) {
+                    if (action != null) {
+                        message = "La vente de l'article " + addedArticle.getNom() + " a bien été mise à jour";
+                    } else {
+                        message = "La vente de l'article " + addedArticle.getNom() + " a bien été crée";
+                    }
+                    request.setAttribute("message", message);
+                    request.setAttribute("enchereListe", enchereList);
+                    request.setAttribute("listCategorie", categorieList);
+                    System.out.println(addedArticle.toString());
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
+                    dispatcher.forward(request, response);
 
-                request.setAttribute("enchereListe", enchereList);
-                request.setAttribute("listCategorie", categorieList);
-                System.out.println(addedArticle.toString());
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
-                dispatcher.forward(request, response);
-
+                }
             } catch (BllException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

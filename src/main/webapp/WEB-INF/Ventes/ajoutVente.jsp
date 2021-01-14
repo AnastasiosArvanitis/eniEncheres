@@ -37,7 +37,7 @@
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
             <form action="${action =="maj" && article.id > 0 ?"/encheres/ajout_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
-                <c:if test="${artice.id >0 }">
+                <c:if test="${!empty action}">
                     <input type="hidden" id="idArticle" name="idArticle" value="${article.id}">
                     <input type="hidden" id="idRetrait" name="idRetrait" value="${article.retrait.id}">
                 </c:if>
