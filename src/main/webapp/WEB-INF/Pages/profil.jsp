@@ -9,6 +9,7 @@
         <%@ include file="../../css/profil.css" %>
     </style>
     <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <jsp:include page="./header.jsp" />

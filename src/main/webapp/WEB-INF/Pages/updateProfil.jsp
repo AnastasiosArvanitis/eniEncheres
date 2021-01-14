@@ -14,6 +14,7 @@
         <%@ include file="../../css/profil.css" %>
 
     </style>
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <jsp:include page="header.jsp" />

@@ -25,7 +25,7 @@
         <%@ include file="../../css/_global.css" %>
         <%@ include file="../../css/ajoutVente.css" %>
     </style>
-
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <%@ include file="../Pages/header.jsp" %>

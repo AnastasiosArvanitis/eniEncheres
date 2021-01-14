@@ -6,6 +6,7 @@
         <%@ include file="../../css/_global.css"%>
         <%@ include file="../../css/inscription.css"%>
     </style>
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <%@ include file="./header.jsp"%>
