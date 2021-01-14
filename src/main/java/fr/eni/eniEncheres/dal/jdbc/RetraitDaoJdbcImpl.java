@@ -89,7 +89,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
     /**
      *
      * @param deleteRetrait
-     * Récupère un boolean si l'execution de la requete est ok
+     * Récupère un boolean si l'execution du delete est ok
      * @return
      * @throws DalException
      */
