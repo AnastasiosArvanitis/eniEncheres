@@ -84,7 +84,7 @@ public class AjoutVente extends HttpServlet {
 
         }
         request.setAttribute("action",action);
-        request.setAttribute("listeCategorie",listeCategorie);
+        session.setAttribute("listeCategorie",listeCategorie);
         request.getRequestDispatcher("WEB-INF/Ventes/ajoutVente.jsp").forward(request,response);
     }
 
@@ -127,8 +127,13 @@ public class AjoutVente extends HttpServlet {
         InputStream fileContent = null;
         Part filePart = request.getPart("photo");
 
-        String prixInitialString = request.getParameter("prixInitial");
-        int prixInitial = Integer.parseInt(prixInitialString);
+        String prixInitialString = "";
+        prixInitialString = request.getParameter("prixInitial");
+        int prixInitial =0;
+        if (! prixInitialString.isEmpty()){
+            prixInitial  = Integer.parseInt(prixInitialString);
+        }
+
 
 
         String heureDebutEnchere = request.getParameter("heureDebutEnchere");
@@ -156,7 +161,13 @@ public class AjoutVente extends HttpServlet {
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
-
+        try {
+            categorieList = categorieManager.selectAllCategorie();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (BllException e) {
+            e.printStackTrace();
+        }
 
 
         if (utilisateur == null) {
@@ -223,29 +234,54 @@ public class AjoutVente extends HttpServlet {
                     }
                 }
                 //Si l'article a bien été modifié ou crée je charge enchere liste
-                System.out.println(action);
-                if(addedArticle != null) {
-                    if (action != null) {
-                        message = "La vente de l'article " + addedArticle.getNom() + " a bien été mise à jour";
-                    } else {
-                        message = "La vente de l'article " + addedArticle.getNom() + " a bien été crée";
-                    }
-                    request.setAttribute("message", message);
-                    request.setAttribute("enchereListe", enchereList);
-                    request.setAttribute("listCategorie", categorieList);
-                    System.out.println(addedArticle.toString());
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
-                    dispatcher.forward(request, response);
 
+
+            } catch (BllException e ) {
+                if (action != null) {
+                    message = e.getMessage();
+                } else {
+                    message = e.getMessage();
                 }
-            } catch (BllException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+            }catch (Exception e){
+                if (action != null) {
+                    message = "Une erreur est survenue lors de la modification";
+
+
+                } else {
+                    message = "Une erreur est survenue lors de l'ajout de l'article";
+
+                                    }
+
+            }
+
+            System.out.println(action);
+            if (addedArticle != null) {
+                if (action != null) {
+                    message = "La vente de l'article " + addedArticle.getNom() + " a bien été mise à jour";
+                } else {
+                    message = "La vente de l'article " + addedArticle.getNom() + " a bien été crée";
+                }
+                request.setAttribute("message", message);
+                request.setAttribute("enchereListe", enchereList);
+                request.setAttribute("listCategorie", categorieList);
+                System.out.println(addedArticle.toString());
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
+                dispatcher.forward(request, response);
+            }else
+            {
+
+                if(action !=null ){
+                    request.setAttribute("action",action);
+                }
+
+                request.setAttribute("message", message);
+                request.setAttribute("article",newArticle);
+                System.out.println("Erreur lors de la modification ou de l'ajout  de :" + newArticle.toString());
+                request.getRequestDispatcher("/encheres/errorVente").forward(request, response);
+
             }
         }
+
 
     }
 }

@@ -52,8 +52,8 @@
             </p>
             <p>
                 <label for="categorie">Categorie :</label>
-                <select name="categorie" id="categorie"  required>
-                    <option required="required"  value="" >Choix</option>
+                <select name="categorie" id="categorie"  >${listCategorie}
+                    <option   value="" >Choix</option>
                     <c:forEach items="${listeCategorie}" var="categorie">
                         <option value="${categorie.libelle}" ${categorie.libelle == article.categorie.libelle ? 'selected' : ''}>${categorie.libelle}</option>
                     </c:forEach>
@@ -69,8 +69,8 @@
             </p>
             <p>
                 <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="date" name="dateDebutEnchere" id="debutEnchere" required="required" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateDebut}" />">
-                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere" required="required" value="<fmt:formatDate pattern = "HH:mm" value = "${dateDebut}" />">
+                <input type="date" name="dateDebutEnchere" id="debutEnchere" required="required"  value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateDebut}" />">
+                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere" required="required"  value="<fmt:formatDate pattern = "HH:mm" value = "${dateDebut}" />">
             </p>
             <p>
                 <label for="finEnchere">Fin de l'enchère :</label>

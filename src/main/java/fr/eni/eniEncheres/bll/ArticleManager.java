@@ -53,21 +53,21 @@ public class ArticleManager {
     public Article addNewArticle(Article newArticle) throws Exception {
         Article addedArticle = null;
         if (newArticle.getUtilisateur() == null) {
-            throw new Exception("L'article doit avoir un utilisatuer");
+            throw new BllException("L'article doit avoir un utilisatuer");
         } else if (newArticle.getCategorie() == null) {
-            throw new Exception("L'article doit avoir une categorie");
+            throw new BllException("L'article doit avoir une categorie");
         } else if (newArticle.getRetrait() == null) {
-            throw new Exception("L'article doit avoir un point de retrait");
+            throw new BllException("L'article doit avoir un point de retrait");
         } else if (newArticle.getNom().equals("")) {
-            throw new Exception("L'article doit avoir un nom");
+            throw new BllException("L'article doit avoir un nom");
         } else if (newArticle.getDescription().equals("")) {
-            throw new Exception("L'article doit avoir une description");
+            throw new BllException("L'article doit avoir une description");
         } else if (newArticle.getDateDebutEncheres() == null) {
-            throw new Exception("L'article doit avoir une date de debut d'enchere");
+            throw new BllException("L'article doit avoir une date de debut d'enchere");
         } else if (newArticle.getDateFinEncheres() == null) {
-            throw new Exception("L'article doit avoir une date de fin d'enchere");
+            throw new BllException("L'article doit avoir une date de fin d'enchere");
         } else if (newArticle.getPrixInitial() == 0) {
-            throw new Exception("L'article doit avoir une prix initial");
+            throw new BllException("L'article doit avoir une prix initial");
         } else {
             addedArticle = articleDao.insertArticle(newArticle);
         }

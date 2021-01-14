@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DetailEnchere extends HttpServlet {
     EnchereManager enchereManager = null;
     UtilisateurManager utilisateurManager = null;
