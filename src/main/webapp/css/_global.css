@@ -162,7 +162,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1000px;
+    width: 1100px;
     padding: 20px;
     background: var(--main-bg-color);
     margin: 50px auto 80px auto;
@@ -172,13 +172,35 @@ main {
 .list-encheres {
     width: 100%;
     height: auto;
-    border: 1px solid var(--border-color);
+    border-radius: 3%;
     margin-bottom: 30px;
     padding: 20px;
 }
-.enchere-article{
-    border: 1px solid black;
+.enchere-article {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding: 10px;
+}
+
+.enchere-article:hover {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.enchere-article a {
+    text-decoration: none;
+    color: var(--header-bg-color);
+}
+
+.enchere-article a:hover {
+    text-decoration: underline;
+}
+
+.enchere-article a:active {
+    color: var(--border-color);
+}
+
+.enchere-article a:visited {
+    color: var(--border-color);
 }
 
 .error-container {
@@ -218,7 +240,7 @@ footer {
 /*------------------  Media Queries  -----------------------------------------------*/
 @media (min-width: 901px) and (max-width: 1200px) {
     main {
-        width: 80%;
+        width: 85%;
 
     }
     .form-search-welcome-deconnecte {
