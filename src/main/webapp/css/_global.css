@@ -106,12 +106,14 @@ nav a:hover {
     padding-top: 5px;
 }
 
-input[type="text"] {
+input {
     width: 250px;
     height: 30px;
     border: 1px solid var(--header-bg-color);
     border-radius: 3px;
-    padding-bottom: 10px;
+    padding-left: 3px;
+    font-size: 1em;
+    color: var(--header-bg-color);
 }
 
 select {
@@ -119,43 +121,19 @@ select {
     height: 30px;
     border: 1px solid var(--header-bg-color);
     border-radius: 3px;
+    font-size: 1em;
+    color: var(--header-bg-color);
 }
 
 input[type="checkbox"] {
     align-self: end;
-    width: 30px;
+    width: 20px;
+}
+input[type="radio"] {
+    align-self: end;
+    width: 20px;
 }
 
-input[type="submit"] {
-    width: 250px;
-    height: 30px;
-    border: 1px solid var(--header-bg-color);
-    border-radius: 3px;
-}
-input[type="email"] {
-    width: 250px;
-    height: 30px;
-    border: 1px solid var(--header-bg-color);
-    border-radius: 3px;
-}
-input[type="password"] {
-    width: 250px;
-    height: 30px;
-    border: 1px solid var(--header-bg-color);
-    border-radius: 3px;
-}
-input[type="tel"] {
-    width: 250px;
-    height: 30px;
-    border: 1px solid var(--header-bg-color);
-    border-radius: 3px;
-}
-input[type="button"]{
-    width: 250px;
-    height: 30px;
-    border: 1px solid var(--header-bg-color);
-    border-radius: 3px;
-}
 
 main {
     display: flex;
