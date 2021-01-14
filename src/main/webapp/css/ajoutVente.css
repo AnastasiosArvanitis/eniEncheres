@@ -1,3 +1,7 @@
+.form-ajout-vente p {
+    margin-bottom: 10px;
+}
+
 form p label{
     width: 180px;
     margin: auto;
