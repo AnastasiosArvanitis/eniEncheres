@@ -19,5 +19,9 @@ public interface ArticleDao {
 
     public Article updateArticle(Article updateArticle) throws  SQLException, DalException;
 
+    public boolean deleteArticle(Article articleSuppression) throws  SQLException, DalException;
+
+
+
 
 }

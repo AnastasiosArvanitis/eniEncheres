@@ -37,7 +37,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             if (resultSet.next()) {
                 article = articleBuilder(resultSet);
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             logger.severe("Error method selectArticleById " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -58,7 +58,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             while (resultSet.next()) {
                 articles.add(articleBuilder(resultSet));
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             logger.severe("Error method selectAllArticles " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -73,12 +73,12 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         try {
             Connection connection = JdbcConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER);
-            preparedStatement.setInt(1,utilisateur.getId());
+            preparedStatement.setInt(1, utilisateur.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 returnedArticles.add(articleBuilder(resultSet));
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             logger.severe("Error method selectAllArticlesByUtilisateur " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -93,8 +93,8 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         Article articleCree = null;
         Retrait retraitCree = null;
         Retrait retraitReturne = null;
-        final String SQL_INSERT = "insert into ARTICLES (idUtilisateur, idCategorie, idRetrait,"+
-                "nom, description, dateDebutEncheres,"+
+        final String SQL_INSERT = "insert into ARTICLES (idUtilisateur, idCategorie, idRetrait," +
+                "nom, description, dateDebutEncheres," +
                 "dateFinEncheres, prixInitial, prixVente) values (?,?,?,?,?,?,?,?,?)";
         int idArticleAjout = 0;
         int idRetraitAjout = 0;
@@ -129,7 +129,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
                 idArticleAjout = resultSet.getInt(1);
                 articleCree = selectArticleById(idArticleAjout);
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             logger.severe("Error method insertArticle " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -137,27 +137,27 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
     }
 
     @Override
-    public Article updateArticle(Article updateArticle) throws  SQLException, DalException{
+    public Article updateArticle(Article updateArticle) throws SQLException, DalException {
         Article articleUpdate = null;
         final String UPDATE_ARTICLE = "UPDATE ARTICLES SET idUtilisateur = ?, idCategorie = ?, idRetrait = ?," +
                 "nom = ?, description = ?, dateDebutEncheres = ?, dateFinEncheres = ?, prixInitial = ?, " +
                 "prixVente = ? WHERE id = ?";
 
-        try(Connection connection = JdbcConnection.connect()){
+        try (Connection connection = JdbcConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(UPDATE_ARTICLE);
             requete.setInt(1, updateArticle.getUtilisateur().getId());
             requete.setInt(2, updateArticle.getCategorie().getId());
             requete.setInt(3, updateArticle.getRetrait().getId());
-            requete.setString(4,updateArticle.getNom());
+            requete.setString(4, updateArticle.getNom());
             requete.setString(5, updateArticle.getDescription());
             requete.setObject(6, updateArticle.getDateDebutEncheres());
             requete.setObject(7, updateArticle.getDateFinEncheres());
-            requete.setInt(8,updateArticle.getPrixInitial());
-            requete.setInt(9,updateArticle.getPrixVente());
-            requete.setInt(10 , updateArticle.getId());
+            requete.setInt(8, updateArticle.getPrixInitial());
+            requete.setInt(9, updateArticle.getPrixVente());
+            requete.setInt(10, updateArticle.getId());
             requete.executeUpdate();
             articleUpdate = FactoryDao.getArticleDao().selectArticleById(updateArticle.getId());
-        }catch (SQLException e){
+        } catch (SQLException e) {
             logger.severe("Error method updateArticle " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -191,39 +191,66 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             articleCategorie = categorieDao.selectCategorieByID(categorieId);
         } catch (SQLException e) {
             logger.severe("Error getArticleCategorie... " + e.getMessage() + "\n");
-            throw new DalException( e.getMessage(), e);
+            throw new DalException(e.getMessage(), e);
         }
 
         return articleCategorie;
     }
 
-    private Retrait getArticleRetrait(int retraitId) throws SQLException, DalException  {
+    private Retrait getArticleRetrait(int retraitId) throws SQLException, DalException {
         Retrait articleRetrait = null;
         RetraitDao retraitDao = FactoryDao.getRetraitDao();
         try {
             articleRetrait = retraitDao.selectRetraitById(retraitId);
         } catch (SQLException e) {
             logger.severe("Error getArticleRetrait... " + e.getMessage() + "\n");
-            throw new DalException( e.getMessage(), e);
+            throw new DalException(e.getMessage(), e);
         }
 
         return articleRetrait;
     }
 
-    private Utilisateur getArticleUtilisateur(int utilisateurId) throws SQLException, DalException  {
+    private Utilisateur getArticleUtilisateur(int utilisateurId) throws SQLException, DalException {
         Utilisateur articleUtilisateur = null;
         UtilisateurDao utilisateurDao = FactoryDao.getUtilisateurDao();
         try {
             articleUtilisateur = utilisateurDao.selectById(utilisateurId);
         } catch (SQLException e) {
             logger.severe("Error getArticleUtilisateur... " + e.getMessage() + "\n");
-            throw new DalException( e.getMessage(), e);
+            throw new DalException(e.getMessage(), e);
         }
 
         return articleUtilisateur;
     }
 
+    /**
+     * @param deleteArticle Récupère un boolean si l'execution du delete est ok
+     * @return
+     * @throws DalException
+     */
+    public boolean deleteArticle(Article articleSuppression) throws  SQLException, DalException{
+
+        boolean effacerArticle = false;
+        final String SQL_DELETE = "DELETE ARTICLES WHERE ID = ?";
+
+        try {
+            Connection connection = JdbcConnection.connect();
+            PreparedStatement stmt = connection.prepareStatement(SQL_DELETE);
+            stmt.setInt(1, articleSuppression.getId());
+            effacerArticle = (!(stmt.executeUpdate() == 0));
+
+        } catch (SQLException e) {
+            logger.severe("Error method DeleteArticle " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return effacerArticle;
+    }
+
+
+
 }
+
+
 
 
 

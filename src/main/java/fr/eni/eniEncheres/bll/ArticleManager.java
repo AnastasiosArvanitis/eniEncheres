@@ -98,12 +98,19 @@ public class ArticleManager {
         if (article.getDateDebutEncheres().before(Timestamp.from(Instant.now()))) {
             if (article.getDateDebutEncheres().getTime() < Timestamp.from(Instant.now()).getTime()) {
                 throw new BllException("La date et l'heure de début ne peuvent pas être inférieur à l'heure du jour");
-            }
-        else if(article.getDateDebutEncheres().toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).equals(Timestamp.from(Instant.now()).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))){
+            } else if (article.getDateDebutEncheres().toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).equals(Timestamp.from(Instant.now()).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))) {
                 throw new BllException("Vous avez saisie la même date et heure sur les deux dates");
             }
+        }}
+
+        public boolean deleteArticle(Article articleSuppression) throws  SQLException, DalException{
+
+            boolean articleKO = false;
+                articleKO = articleDao.deleteArticle(articleSuppression);
+                return articleKO;
+
         }
-    }
+
 }
 
 
