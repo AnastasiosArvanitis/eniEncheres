@@ -1,0 +1,131 @@
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.form-search-welcome-deconnecte{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-welcome-div-filters-deconnecte {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    padding-top: 15px;
+}
+
+.search-welcome-div-filters-deconnecte p:nth-child(2) {
+    margin-bottom: 20px;
+}
+
+.search-welcome-div-button-deconnecte {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+}
+
+.welcome-rechercher-btn {
+    width: 200px;
+    height: 80px;
+    background: var(--header-bg-color);
+    color: var(--header-txt-color);
+}
+
+.form-search-welcome-connecte{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-welcome-filters-radios {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
+.search-welcome-div-filters-connecte {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: normal;
+    padding-top: 15px;
+    margin-bottom: 20px;
+}
+
+.search-welcome-div-filters-connecte p:nth-child(2) {
+    margin-bottom: 20px;
+}
+
+.search-welcome-div-button-deconnecte {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    margin-bottom: 30px;
+}
+
+
+.radios-checks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 345px;
+}
+
+.list-encheres {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.enchere-article {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.enchere-article img {
+    width: 150px;
+    height: 150px;
+    border: 1px solid var(--header-bg-color);
+}
+
+.article-content {
+    margin-left: 10px;
+}
+
+.welcome-seperator {
+    height: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

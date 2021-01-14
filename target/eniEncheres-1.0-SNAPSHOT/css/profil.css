@@ -1,0 +1,81 @@
+
+/* MODAL */
+#modalDelete{
+    color: black;
+    position: absolute;
+    width: 500px;
+    margin-top: -350px;
+    margin-left: -50px;
+}
+.modal-content{
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid black;
+    box-shadow: 1px 1px black;
+    border-radius: 20px;
+}
+.modal-header{
+    padding: 17px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+}
+.modal-body{
+    padding: 17px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+.modal-footer{
+    padding: 17px 10px;
+    text-align: right;
+}
+span{
+    display: inline-block;
+    width: 180px;
+}
+main p a{
+    margin: 25px;
+    padding: 25px;
+}
+main p{
+    margin: 10px;
+}
+main article form p.p-button input{
+    margin: 25px !important;
+}
+main article form div div p label{
+    width: 150px;
+    display: inline-block;
+}
+main article form div {
+    display: inline-table;
+}
+main article form p.p-button {
+    text-align: center;
+}
+.btn-update-profile a{
+    border: 1px solid black;
+    background-color: gray;
+    border-radius: 25px;
+    color: black;
+    text-decoration: none;
+}
+.btn-update-profile{
+    margin-top: 50px;
+}
+article.monProfil p span{
+    display: inline-block;
+    width: 280px;
+}
+article.monProfil{
+    margin-left: 180px;
+    margin-top: 25px;
+}
+article.monProfil p span.span a{
+    margin-left: 257px;
+}
+article.monProfil p span.span{
+    width: 100%;
+}
