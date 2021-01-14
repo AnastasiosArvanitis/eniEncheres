@@ -36,7 +36,7 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/ajout_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/ajout_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data' class="form-ajout-vente">
                 <c:if test="${!empty action}">
                     <input type="hidden" id="idArticle" name="idArticle" value="${article.id}">
                     <input type="hidden" id="idRetrait" name="idRetrait" value="${article.retrait.id}">
@@ -77,21 +77,7 @@
                 <input type="date" name="dateFinEnchere" id="finEnchere" required="required" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateFin}" />">
                 <input type="time" name="heureFinEnchere" id="heureFinEnchere" required="required"  value="<fmt:formatDate pattern = "HH:mm" value = "${dateFin}" />">
             </p>
-            <script type="application/javascript">
-                var dateDebutEnchere = document.getElementById("dateDebutEnchere");
-                var heureDebutEnchere = document.getElementById("heureDebutEnchere");
-                var dateFinEnchere = document.getElementById("dateFinEnchere");
-                var heureFinEnchere = document.getElementById("heureFinEnchere");
-                var heureDateDebutEnchere = dateDebutEnchere.toString();
-                function dates(event) {
-                    event.preventDefault();
-                    console.log("dateDebutEnchere: "+dateDebutEnchere.value);
-                    console.log("heureDebutEnchere: "+ heureDebutEnchere.value);
-                    console.log("dateFinEnchere: "+ dateFinEnchere.value);
-                    console.log("heureFinEnchere: " + heureFinEnchere.value);
-                    return true;
-                }
-            </script>
+
 
             <fieldset class="form-retrait">
                 <legend>Retrait</legend>
@@ -150,4 +136,19 @@
 <div class="seperator"></div>
 <%@ include file="../Pages/footer.jsp" %>
 </body>
+<script type="application/javascript">
+    var dateDebutEnchere = document.getElementById("dateDebutEnchere");
+    var heureDebutEnchere = document.getElementById("heureDebutEnchere");
+    var dateFinEnchere = document.getElementById("dateFinEnchere");
+    var heureFinEnchere = document.getElementById("heureFinEnchere");
+    var heureDateDebutEnchere = dateDebutEnchere.toString();
+    function dates(event) {
+        event.preventDefault();
+        console.log("dateDebutEnchere: "+dateDebutEnchere.value);
+        console.log("heureDebutEnchere: "+ heureDebutEnchere.value);
+        console.log("dateFinEnchere: "+ dateFinEnchere.value);
+        console.log("heureFinEnchere: " + heureFinEnchere.value);
+        return true;
+    }
+</script>
 </html>
