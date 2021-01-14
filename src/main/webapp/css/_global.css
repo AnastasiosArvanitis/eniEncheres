@@ -125,6 +125,15 @@ select {
     color: var(--header-bg-color);
 }
 
+textarea {
+    width: 250px;
+    height: 30px;
+    border: 1px solid var(--header-bg-color);
+    border-radius: 3px;
+    font-size: 1em;
+    color: var(--header-bg-color);
+}
+
 input[type="checkbox"] {
     align-self: end;
     width: 20px;
@@ -202,6 +211,10 @@ footer {
     background: var(--footer-bg-color);
     color: var(--footer-txt-color);
     margin-top: auto;
+}
+
+footer a {
+    color: var(--footer-txt-color);
 }
 
 .message-erreur{
@@ -291,6 +304,12 @@ footer {
         display: none;
     }
 
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
 
 }
 
@@ -341,6 +360,13 @@ footer {
         display: block !important;
     }
 
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
+
 }
 
 @media (max-width: 390px) {
@@ -388,6 +414,13 @@ footer {
 
     .div-form{
         display: block !important;
+    }
+
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
     }
 
 }
