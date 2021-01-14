@@ -134,8 +134,8 @@
             </fieldset>
         <c:choose>
             <c:when test="${action ==\"maj\" && article.id > 0}">
-                <input id="submitVente" name="action" type="submit"  value="modifier"  />
-                <input id="submitVente" name="action" type="submit"  value="supprimer" />
+                <input id="submitVente" name="actionBouton" type="submit"  value="modifier"  />
+                <input id="submitVente" name="actionBouton" type="submit"  value="supprimer" />
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:when>
             <c:otherwise>

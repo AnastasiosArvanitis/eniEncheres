@@ -67,6 +67,8 @@ public class AjoutVente extends HttpServlet {
             }
         }
 
+
+
         try {
             listeCategorie = categorieManager.selectAllCategorie();
         } catch (SQLException throwables) {
@@ -92,6 +94,9 @@ public class AjoutVente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String message= null;
         String action = null;
+        String actionBouton = null;
+
+        actionBouton = request.getParameter("actionBouton");
 
         String idArticleString = null;
 
@@ -106,6 +111,35 @@ public class AjoutVente extends HttpServlet {
             idRetrait = Integer.parseInt(request.getParameter("idRetrait"));
             System.out.println("idRetrait : " + idRetrait);
         }
+/**
+ * Si action supprimer, mise en place de la supression Article
+ */boolean supprimerArticle = false;
+        if(actionBouton !=null){
+            if(actionBouton.equals("supprimer")){
+                Article article = null;
+                try {
+                    article = articleManager.getArticleById(idArticle);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (BllException e) {
+                    e.printStackTrace();
+                }
+                try {
+
+                    supprimerArticle = articleManager.deleteArticle(article);
+                    message = "L'article "+article.getNom() + " a bien été supprimé";
+                    boolean supprimerRetrait = retraitManager.deleteRetrait(article.getRetrait());
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (DalException e) {
+                    e.printStackTrace();
+                }
+
+
+        }}
+
+
         List<Enchere> enchereList = new ArrayList<>();
 
         Article newArticle = null;
@@ -173,16 +207,16 @@ public class AjoutVente extends HttpServlet {
         if (utilisateur == null) {
             response.sendRedirect("/encheres/error?error=NotConnected");
         } else {
-            if (idRetrait>0) {
+            if (idRetrait > 0) {
                 System.out.println("Retrait existant, je met a jour");
-                action ="maj";
+                action = "maj";
                 Retrait retraitModifier = new Retrait(idRetrait, rue, codePostal, ville);
                 try {
                     newRetrait = retraitManager.updateRetrait(retraitModifier);
                 } catch (DalException e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 System.out.println("Retrait non existant, je crée un nouveau retrait");
                 retraitArticle = new Retrait(rue, codePostal, ville);
                 try {
@@ -196,12 +230,11 @@ public class AjoutVente extends HttpServlet {
             try {
                 categorieArticle = categorieManager.selectByName(categorie);
 
-                if(idArticle>0){
-                    newArticle = new Article(idArticle,utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                if (idArticle > 0) {
+                    newArticle = new Article(idArticle, utilisateur, categorieArticle, newRetrait, articleName, description, dateDebutEnchere, dateFinEnchere, prixInitial);
                     addedArticle = articleManager.updateArticle(newArticle);
-                }
-                else{
-                    newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                } else {
+                    newArticle = new Article(utilisateur, categorieArticle, newRetrait, articleName, description, dateDebutEnchere, dateFinEnchere, prixInitial);
                     addedArticle = articleManager.addNewArticle(newArticle);
                 }
 
@@ -210,25 +243,25 @@ public class AjoutVente extends HttpServlet {
 
                 if (filePart != null && filePart.getSize() > 0) {
                     // prints out some information for debugging
-                    System.out.println("-------------- uploaded file name: " +filePart.getName());
-                    System.out.println("-------------- uploaded file size: " +filePart.getSize());
-                    System.out.println("-------------- uploaded file type: " +filePart.getContentType());
+                    System.out.println("-------------- uploaded file name: " + filePart.getName());
+                    System.out.println("-------------- uploaded file size: " + filePart.getSize());
+                    System.out.println("-------------- uploaded file type: " + filePart.getContentType());
 
                     String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                     String[] fn = fileName.split("(\\.)");
-                    String ext = fn[(fn.length-1)];
+                    String ext = fn[(fn.length - 1)];
 
                     if (!ext.isEmpty() || !ext.equals("png") || !ext.equals("jpe") || !ext.equals("jpeg") || !ext.equals("jpg")) {
-                        fileName = Integer.toString(addedArticle.getId()) + "." +ext;
+                        fileName = Integer.toString(addedArticle.getId()) + "." + ext;
                         String sContext = this.getServletContext().getRealPath("/");
-                        System.out.println("------ VOUS FETES LE DOSSIERS \\upload\\images dans le dossier que vous voyez la ---> sContext: " +sContext);
-                        System.out.println("--------------- new file name: " +fileName);
+                        System.out.println("------ VOUS FETES LE DOSSIERS \\upload\\images dans le dossier que vous voyez la ---> sContext: " + sContext);
+                        System.out.println("--------------- new file name: " + fileName);
                         fileContent = filePart.getInputStream();
-                        File file = new File(sContext + "\\WEB-INF\\upload\\images\\" +fileName);
+                        File file = new File(sContext + "\\WEB-INF\\upload\\images\\" + fileName);
                         try {
                             FileSave.receiveFile(fileContent, file);
                             System.out.println("-------------------------- I hope its ok");
-                        } catch(IOException e) {
+                        } catch (IOException e) {
                             throw new Exception("Impossible de sauvagarder l'image");
                         }
                     }
@@ -236,13 +269,13 @@ public class AjoutVente extends HttpServlet {
                 //Si l'article a bien été modifié ou crée je charge enchere liste
 
 
-            } catch (BllException e ) {
+            } catch (BllException e) {
                 if (action != null) {
                     message = e.getMessage();
                 } else {
                     message = e.getMessage();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 if (action != null) {
                     message = "Une erreur est survenue lors de la modification";
 
@@ -250,21 +283,23 @@ public class AjoutVente extends HttpServlet {
                 } else {
                     message = "Une erreur est survenue lors de l'ajout de l'article";
 
-                                    }
+                }
 
             }
 
-            System.out.println(action);
-            if (addedArticle != null) {
+        }
+            if ((addedArticle != null) || (actionBouton!=null)){
+                if((addedArticle == null)&&(actionBouton.equals("supprimer"))){
+                    message = "L'article a été correctement supprimé";
+                }else{
                 if (action != null) {
                     message = "La vente de l'article " + addedArticle.getNom() + " a bien été mise à jour";
                 } else {
                     message = "La vente de l'article " + addedArticle.getNom() + " a bien été crée";
-                }
+                }}
                 request.setAttribute("message", message);
                 request.setAttribute("enchereListe", enchereList);
                 request.setAttribute("listCategorie", categorieList);
-                System.out.println(addedArticle.toString());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
                 dispatcher.forward(request, response);
             }else
@@ -284,7 +319,7 @@ public class AjoutVente extends HttpServlet {
 
 
     }
-}
+
 
 
 
