@@ -141,7 +141,7 @@
                 <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
                 <article class="enchere-article">
                     <div>
-                        <img src="<%=request.getContextPath()%>/uploads/images/${enchere.article.id}.jpg" alt="${enchere.article.nom}" />
+                        <img src="<%=request.getContextPath()%>/upload/images/?imageName=${enchere.article.id}" alt="${enchere.article.nom}" />
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>
