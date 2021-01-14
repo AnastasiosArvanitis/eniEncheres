@@ -19,7 +19,7 @@
             <p><label for="connection-identifiant">Email ou pseudo:</label></p>
             <p><input id="connection-identifiant" type="text" name="connection-identifiant"/></p>
             <p><label for="connection-password">Mot de passe:</label></p>
-            <p><input id="connection-password" type="text" name="password-identifiant"/></p>
+            <p><input id="connection-password" type="password" name="password-identifiant"/></p>
             <p><input id="connection-submit" type="submit" value="submit"/></p>
             <p></p>
             <p>
