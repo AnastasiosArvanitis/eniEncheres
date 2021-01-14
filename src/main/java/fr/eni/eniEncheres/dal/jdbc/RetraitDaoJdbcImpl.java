@@ -7,10 +7,7 @@ import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -70,7 +67,6 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
     public Retrait updateRetrait(Retrait modifRetrait) throws  DalException {
         Retrait retraitCree = null;
         final String SQL_UPDATE = "UPDATE RETRAITS SET rue = ? , codePostal = ? , ville = ? WHERE id = ?";
-        int idAjout = 0;
 
         try {
             Connection connection = JdbcConnection.connect();
@@ -78,7 +74,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
             preparedStatement.setString(1, modifRetrait.getRue());
             preparedStatement.setString(2, modifRetrait.getCodePostal());
             preparedStatement.setString(3, modifRetrait.getVille());
-            preparedStatement.setInt(1,modifRetrait.getId());
+            preparedStatement.setInt(4,modifRetrait.getId());
             preparedStatement.executeUpdate();
 
             retraitCree = selectRetraitById(modifRetrait.getId());
@@ -88,6 +84,30 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
             throw new DalException(e.getMessage(), e);
         }
         return retraitCree;
+    }
+
+    /**
+     *
+     * @param deleteRetrait
+     * Récupère un boolean si l'execution du delete est ok
+     * @return
+     * @throws DalException
+     */
+    public Boolean deleteRetrait(Retrait deleteRetrait) throws  DalException {
+        Boolean effacerRetrait = false;
+        final String SQL_RETRAIT = "DELETE RETRAITS WHERE ID = ?";
+
+        try {
+            Connection connection = JdbcConnection.connect();
+            PreparedStatement  stmt= connection.prepareStatement(SQL_RETRAIT,);
+            stmt.setInt(1,deleteRetrait.getId());
+            effacerRetrait = ( stmt.executeUpdate()==0);
+
+        } catch(SQLException e){
+            logger.severe("Error method DeleteRetrait " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return effacerRetrait;
     }
 
 

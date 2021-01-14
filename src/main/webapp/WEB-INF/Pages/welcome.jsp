@@ -18,6 +18,7 @@
 <%@ include file="./header.jsp"%>
 <main>
     <h1>Liste des encheres</h1>
+    <p class="message-succes">${message}</p>
 
         <%
             if ((utilisateur != null) && (utilisateur.getCompteActif())) {

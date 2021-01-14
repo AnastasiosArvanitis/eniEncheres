@@ -15,7 +15,7 @@
 <c:set var="dateDebut" scope="request" value="${article.dateDebutEncheres}"/>
 <c:set var="dateFin" scope="request" value="${article.dateFinEncheres}"/>
 <c:set var="retrait" scope="request" value="${article.retrait.id}"/>
-<c:set var="articleId" scope="request" value="${article.id}"/>
+
 
 
 <html>
@@ -36,19 +36,24 @@
     </article>
     <article>
         <%--<form action="/encheres/ajout_vente" method="post">--%>
-            <form action="${action =="maj" && article.id > 0 ?"/encheres/modif_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
+            <form action="${action =="maj" && article.id > 0 ?"/encheres/ajout_vente" : "/encheres/ajout_vente" }" method="post" enctype='multipart/form-data'>
+                <c:if test="${!empty action}">
+                    <input type="hidden" id="idArticle" name="idArticle" value="${article.id}">
+                    <input type="hidden" id="idRetrait" name="idRetrait" value="${article.retrait.id}">
+                </c:if>
+
             <p>
                 <label for="article">Article : </label>
-                <input type="text" id="article" name="articleName" value="${article.nom}">
+                <input type="text" id="article" name="articleName" value="${article.nom}" required="required" />
             </p>
             <p>
                 <label for="description">Description :</label>
-                <textarea name="description" id="description" col="10" rows="5">${article.description}</textarea>
+                <textarea name="description" id="description" col="10" rows="5" required="required">${article.description}</textarea>
             </p>
             <p>
                 <label for="categorie">Categorie :</label>
-                <select name="categorie" id="categorie"   >
-                    <option value="null" >Choix</option>
+                <select name="categorie" id="categorie"  >${listCategorie}
+                    <option   value="" >Choix</option>
                     <c:forEach items="${listeCategorie}" var="categorie">
                         <option value="${categorie.libelle}" ${categorie.libelle == article.categorie.libelle ? 'selected' : ''}>${categorie.libelle}</option>
                     </c:forEach>
@@ -60,17 +65,17 @@
             </p>
             <p>
                 <label for="number">Mise à prix :</label>
-                <input type="number" id="number" name="prixInitial" value="${article.prixInitial}">
+                <input type="number" id="number" name="prixInitial" value="${article.prixInitial}" min="1" required="required" >
             </p>
             <p>
                 <label for="debutEnchere">Début de l'enchère :</label>
-                <input type="date" name="dateDebutEnchere" id="debutEnchere" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateDebut}" />">
-                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere" value="<fmt:formatDate pattern = "HH:mm" value = "${dateDebut}" />">
+                <input type="date" name="dateDebutEnchere" id="debutEnchere" required="required"  value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateDebut}" />">
+                <input type="time" name="heureDebutEnchere" id="heureDebutEnchere" required="required"  value="<fmt:formatDate pattern = "HH:mm" value = "${dateDebut}" />">
             </p>
             <p>
                 <label for="finEnchere">Fin de l'enchère :</label>
-                <input type="date" name="dateFinEnchere" id="finEnchere" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateFin}" />">
-                <input type="time" name="heureFinEnchere" id="heureFinEnchere" value="<fmt:formatDate pattern = "HH:mm" value = "${dateFin}" />">
+                <input type="date" name="dateFinEnchere" id="finEnchere" required="required" value="<fmt:formatDate pattern = "yyyy-MM-dd" value = "${dateFin}" />">
+                <input type="time" name="heureFinEnchere" id="heureFinEnchere" required="required"  value="<fmt:formatDate pattern = "HH:mm" value = "${dateFin}" />">
             </p>
             <script type="application/javascript">
                 var dateDebutEnchere = document.getElementById("dateDebutEnchere");
@@ -92,7 +97,7 @@
                 <legend>Retrait</legend>
                 <p>
                     <label for="rue">Rue :</label>
-                    <input type="text" id="rue" name="rue"
+                    <input required="required" type="text" id="rue" name="rue"
                     <c:choose>
                     <c:when test="${!empty article.retrait.rue}">
                            value="${article.retrait.rue}">
@@ -104,7 +109,7 @@
                 </p>
                 <p>
                     <label for="codePostal">Code Postal :</label>
-                    <input type="text" id="codePostal" name="codePostal"
+                    <input required="required" type="text" id="codePostal" name="codePostal"
                     <c:choose>
                     <c:when test="${!empty article.retrait.codePostal}">
                            value="${article.retrait.codePostal}">
@@ -116,7 +121,7 @@
                 </p>
                 <p>
                     <label for="ville">Ville :</label>
-                    <input type="text" id="ville" name="ville"
+                    <input required="required" type="text" id="ville" name="ville"
                     <c:choose>
                     <c:when test="${!empty article.retrait.ville}">
                            value="${article.retrait.ville}">
@@ -129,8 +134,8 @@
             </fieldset>
         <c:choose>
             <c:when test="${action ==\"maj\" && article.id > 0}">
-                <input id="submitVente" name="action" type="submit" value="Enregistrer les modifications" value="modifier"  />
-                <input id="submitVente" name="action" type="submit" value="Supprimer la vente" value="supprimer" />
+                <input id="submitVente" name="action" type="submit"  value="modifier"  />
+                <input id="submitVente" name="action" type="submit"  value="supprimer" />
                 <input type="button" value="Annuler" onclick="window.location.href='<%=request.getContextPath()%>/';" />
             </c:when>
             <c:otherwise>

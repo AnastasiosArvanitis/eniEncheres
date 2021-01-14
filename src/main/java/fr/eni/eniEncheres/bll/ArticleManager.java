@@ -7,6 +7,9 @@ import fr.eni.eniEncheres.dal.dao.ArticleDao;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,34 +56,55 @@ public class ArticleManager {
     public Article addNewArticle(Article newArticle) throws Exception {
         Article addedArticle = null;
         if (newArticle.getUtilisateur() == null) {
-            throw new Exception("L'article doit avoir un utilisatuer");
+            throw new BllException("L'article doit avoir un utilisatuer");
         } else if (newArticle.getCategorie() == null) {
-            throw new Exception("L'article doit avoir une categorie");
+            throw new BllException("L'article doit avoir une categorie");
         } else if (newArticle.getRetrait() == null) {
-            throw new Exception("L'article doit avoir un point de retrait");
+            throw new BllException("L'article doit avoir un point de retrait");
         } else if (newArticle.getNom().equals("")) {
-            throw new Exception("L'article doit avoir un nom");
+            throw new BllException("L'article doit avoir un nom");
         } else if (newArticle.getDescription().equals("")) {
-            throw new Exception("L'article doit avoir une description");
+            throw new BllException("L'article doit avoir une description");
         } else if (newArticle.getDateDebutEncheres() == null) {
-            throw new Exception("L'article doit avoir une date de debut d'enchere");
+            throw new BllException("L'article doit avoir une date de debut d'enchere");
         } else if (newArticle.getDateFinEncheres() == null) {
-            throw new Exception("L'article doit avoir une date de fin d'enchere");
+            throw new BllException("L'article doit avoir une date de fin d'enchere");
         } else if (newArticle.getPrixInitial() == 0) {
-            throw new Exception("L'article doit avoir une prix initial");
+            throw new BllException("L'article doit avoir une prix initial");
         } else {
+            controleDateEnchere(newArticle);
             addedArticle = articleDao.insertArticle(newArticle);
         }
         return addedArticle;
     }
 
-    public  int updateArticle(Article updateArticle) throws SQLException, DalException {
+    public  Article updateArticle(Article updateArticle) throws Exception {
+        controleDateEnchere(updateArticle);
         Article articleModifier = articleDao.updateArticle(updateArticle);
-        int idArticle = articleModifier.getId();
-        return idArticle;
-    }
-    }
+        return articleModifier ;
 
+    }
+    /**
+     * Méthode controleDateEnchere
+     * Utilisé sur updateArticle,addNewArticle
+     * Contrôle date enchère,
+     *              *vérifie que la date fin enchère est supérieur à la date début enchère
+     *              *Vérifie que la date de début d'enchère est supérieure à la date du jour
+     * @param article
+     */
+    private void controleDateEnchere(Article article) throws Exception {
+        if (article.getDateFinEncheres().before(article.getDateDebutEncheres()))
+        throw new BllException("La date de début d'enchère ne peut pas être située après la date de fin enchère");
+        if (article.getDateDebutEncheres().before(Timestamp.from(Instant.now()))) {
+            if (article.getDateDebutEncheres().getTime() < Timestamp.from(Instant.now()).getTime()) {
+                throw new BllException("La date et l'heure de début ne peuvent pas être inférieur à l'heure du jour");
+            }
+        else if(article.getDateDebutEncheres().toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).equals(Timestamp.from(Instant.now()).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))){
+                throw new BllException("Vous avez saisie la même date et heure sur les deux dates");
+            }
+        }
+    }
+}
 
 
 

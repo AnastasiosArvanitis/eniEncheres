@@ -2,7 +2,9 @@ package fr.eni.eniEncheres.servlets.vente;
 
 import fr.eni.eniEncheres.bll.*;
 import fr.eni.eniEncheres.bo.*;
+import fr.eni.eniEncheres.dal.DalException;
 
+import javax.persistence.Id;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -42,6 +44,7 @@ public class AjoutVente extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         System.out.println("entree dans la servlet");
         List<Categorie> listeCategorie = new ArrayList<>();
         HttpSession session = request.getSession();
@@ -52,7 +55,7 @@ public class AjoutVente extends HttpServlet {
         Article article = null ;
         String action = null;
 
-         if (idArticleString !=null)
+        if (idArticleString !=null)
         {
             try {
                 article = articleManager.getArticleById(Integer.parseInt(idArticleString));
@@ -81,12 +84,28 @@ public class AjoutVente extends HttpServlet {
 
         }
         request.setAttribute("action",action);
-        request.setAttribute("listeCategorie",listeCategorie);
+        session.setAttribute("listeCategorie",listeCategorie);
         request.getRequestDispatcher("WEB-INF/Ventes/ajoutVente.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String message= null;
+        String action = null;
+
+        String idArticleString = null;
+
+        int idArticle = 0;
+        int idRetrait = 0;
+
+        idArticleString =  request.getParameter("idArticle");
+        System.out.println("idarticle : " + idArticleString);
+
+        if (idArticleString !=null) {
+            idArticle = Integer.parseInt(idArticleString);
+            idRetrait = Integer.parseInt(request.getParameter("idRetrait"));
+            System.out.println("idRetrait : " + idRetrait);
+        }
         List<Enchere> enchereList = new ArrayList<>();
 
         Article newArticle = null;
@@ -108,8 +127,13 @@ public class AjoutVente extends HttpServlet {
         InputStream fileContent = null;
         Part filePart = request.getPart("photo");
 
-        String prixInitialString = request.getParameter("prixInitial");
-        int prixInitial = Integer.parseInt(prixInitialString);
+        String prixInitialString = "";
+        prixInitialString = request.getParameter("prixInitial");
+        int prixInitial =0;
+        if (! prixInitialString.isEmpty()){
+            prixInitial  = Integer.parseInt(prixInitialString);
+        }
+
 
 
         String heureDebutEnchere = request.getParameter("heureDebutEnchere");
@@ -137,21 +161,50 @@ public class AjoutVente extends HttpServlet {
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
+        try {
+            categorieList = categorieManager.selectAllCategorie();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (BllException e) {
+            e.printStackTrace();
+        }
+
+
         if (utilisateur == null) {
             response.sendRedirect("/encheres/error?error=NotConnected");
         } else {
-            retraitArticle = new Retrait(rue, codePostal, ville);
-            try {
-                newRetrait = retraitManager.addNewRetrait(retraitArticle);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (idRetrait>0) {
+                System.out.println("Retrait existant, je met a jour");
+                action ="maj";
+                Retrait retraitModifier = new Retrait(idRetrait, rue, codePostal, ville);
+                try {
+                    newRetrait = retraitManager.updateRetrait(retraitModifier);
+                } catch (DalException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                System.out.println("Retrait non existant, je crée un nouveau retrait");
+                retraitArticle = new Retrait(rue, codePostal, ville);
+                try {
+                    newRetrait = retraitManager.addNewRetrait(retraitArticle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
+
             try {
                 categorieArticle = categorieManager.selectByName(categorie);
-                System.out.println(newRetrait.toString());
 
-                newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
-                addedArticle = articleManager.addNewArticle(newArticle);
+                if(idArticle>0){
+                    newArticle = new Article(idArticle,utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                    addedArticle = articleManager.updateArticle(newArticle);
+                }
+                else{
+                    newArticle = new Article(utilisateur,categorieArticle, newRetrait, articleName, description,dateDebutEnchere,dateFinEnchere, prixInitial);
+                    addedArticle = articleManager.addNewArticle(newArticle);
+                }
+
                 categorieList = categorieManager.selectAllCategorie();
                 enchereList = enchereManager.selectAllEnchere();
 
@@ -180,21 +233,55 @@ public class AjoutVente extends HttpServlet {
                         }
                     }
                 }
+                //Si l'article a bien été modifié ou crée je charge enchere liste
 
+
+            } catch (BllException e ) {
+                if (action != null) {
+                    message = e.getMessage();
+                } else {
+                    message = e.getMessage();
+                }
+            }catch (Exception e){
+                if (action != null) {
+                    message = "Une erreur est survenue lors de la modification";
+
+
+                } else {
+                    message = "Une erreur est survenue lors de l'ajout de l'article";
+
+                                    }
+
+            }
+
+            System.out.println(action);
+            if (addedArticle != null) {
+                if (action != null) {
+                    message = "La vente de l'article " + addedArticle.getNom() + " a bien été mise à jour";
+                } else {
+                    message = "La vente de l'article " + addedArticle.getNom() + " a bien été crée";
+                }
+                request.setAttribute("message", message);
                 request.setAttribute("enchereListe", enchereList);
                 request.setAttribute("listCategorie", categorieList);
                 System.out.println(addedArticle.toString());
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/welcome.jsp");
                 dispatcher.forward(request, response);
+            }else
+            {
 
-            } catch (BllException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                if(action !=null ){
+                    request.setAttribute("action",action);
+                }
+
+                request.setAttribute("message", message);
+                request.setAttribute("article",newArticle);
+                System.out.println("Erreur lors de la modification ou de l'ajout  de :" + newArticle.toString());
+                request.getRequestDispatcher("/encheres/errorVente").forward(request, response);
+
             }
         }
+
 
     }
 }
