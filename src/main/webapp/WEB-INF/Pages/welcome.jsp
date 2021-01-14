@@ -13,6 +13,8 @@
     </style>
    <%-- <link rel="stylesheet" type="text/css" href="./css/_global.css">
     <link rel="stylesheet" type="text/css" href="./css/welcom.css">--%>
+
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <%@ include file="./header.jsp"%>
@@ -139,7 +141,7 @@
                 <c:set var = "date" value = "${enchere.article.dateFinEncheres}" />
                 <article class="enchere-article">
                     <div>
-                        <img src="<%=request.getContextPath()%>/uploads/images/?imageName=${enchere.article.id}.jpg" alt="${altArticle}" />
+                        <img src="<%=request.getContextPath()%>/uploads/images/${enchere.article.id}.jpg" alt="${enchere.article.nom}" />
                     </div>
                     <div class="article-content">
                         <h3><a href="<%=request.getContextPath()%>/detailEnchere?idArticle=${enchere.article.id}">${enchere.article.nom}</a></h3>

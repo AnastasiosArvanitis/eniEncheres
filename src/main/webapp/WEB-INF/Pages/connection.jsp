@@ -7,6 +7,7 @@
         <%@ include file="../../css/connection.css"%>
     </style>
     <%--<link rel="stylesheet" type="text/css" href="./css/_global.css">--%>
+    <script src="https://kit.fontawesome.com/0cf40fbd40.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
     </div>
 </main>
 
-<div class="connection-sep"></div>
+<div class="seperator"></div>
 
 <%@ include file="./footer.jsp"%>
 </body>

@@ -33,10 +33,10 @@
                 }
             %>
         </ul>
-        <div class="menu-btn">
-            <i id="menu_btn" class="fas fa-bars"></i>
-        </div>
     </nav>
+<div class="menu-btn">
+    <i id="menu_btn" class="fas fa-bars"></i>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
@@ -44,28 +44,19 @@
 
         $('#menu_btn').click(function(){
             if ($('nav ul').css('display') == 'none'){
+                //$('nav ul').show('slow',function(){
+                    $('nav').css({'display':'flex'});
+                    $('nav ul').css({'display': 'flex','flex-direction':'column'});
+                //});
 
-                //$('main').css({'margin-top': '150px'});
-                $('nav ul').show('slow',function(){
-                    //$('nav').css({'justify-content': 'space-between'});
-                    $('nav ul').css({'display': 'flex', 'flex-direction':'column'});
-                    //$('#menu_btn').css({'visibility': 'hidden'});
-                });
             }else{
-                //$('nav').css({'justify-content': 'flex-end'});
-                //$('main').css({'margin-top': '30px'});
                 $('nav ul').hide('slow');
-                //$('#menu_btn').css({'visibility': 'visible'});
             }
         });
 
 
     });
 </script>
-
-
-
-
 
 
 
