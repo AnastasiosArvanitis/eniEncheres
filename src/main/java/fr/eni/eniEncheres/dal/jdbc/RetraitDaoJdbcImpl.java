@@ -7,10 +7,7 @@ import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -87,6 +84,30 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
             throw new DalException(e.getMessage(), e);
         }
         return retraitCree;
+    }
+
+    /**
+     *
+     * @param deleteRetrait
+     * Récupère un boolean si l'execution de la requete est ok
+     * @return
+     * @throws DalException
+     */
+    public Boolean deleteRetrait(Retrait deleteRetrait) throws  DalException {
+        Boolean effacerRetrait = false;
+        final String SQL_RETRAIT = "DELETE RETRAITS WHERE ID = ?";
+
+        try {
+            Connection connection = JdbcConnection.connect();
+            PreparedStatement  stmt= connection.prepareStatement(SQL_RETRAIT,);
+            stmt.setInt(1,deleteRetrait.getId());
+            effacerRetrait = ( stmt.executeUpdate()==0);
+
+        } catch(SQLException e){
+            logger.severe("Error method DeleteRetrait " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return effacerRetrait;
     }
 
 

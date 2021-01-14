@@ -14,5 +14,5 @@ public interface RetraitDao {
 
     Retrait updateRetrait(Retrait modifRetrait) throws  DalException;
 
-
+    boolean deleteRetrait(Retrait deleteRetrait) throws  DalException;
 }
