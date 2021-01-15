@@ -37,8 +37,10 @@ public class DetailEnchere extends HttpServlet {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
         int idArticle = Integer.parseInt(request.getParameter("idArticle"));
         Enchere enchere = new Enchere();
+        List<Enchere> listEnchereMax = new ArrayList<>();
         try {
            enchere = enchereManager.getEnchereArticle(idArticle);
+           listEnchereMax = enchereManager.selectEnchereByMontantMax(idArticle);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (DalException e) {
@@ -46,10 +48,11 @@ public class DetailEnchere extends HttpServlet {
         } catch (BllException e) {
             e.printStackTrace();
         }
+        System.out.println(listEnchereMax);
         request.setAttribute("utilisateur",utilisateur);
         request.setAttribute("enchere",enchere);
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp");
-        rd.forward(request,response);
+        request.setAttribute("listEnchereMax",listEnchereMax);
+        request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
     }
 
     @Override
