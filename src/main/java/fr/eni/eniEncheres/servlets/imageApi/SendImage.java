@@ -16,9 +16,7 @@ public class SendImage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        System.out.println("------------------------------ SendImage doGet ---------------------------------------------");
         String imageName = request.getParameter("imageName");
-        System.out.println("------------------------------------------------------------ image name: " +imageName);
         ServletContext sc = getServletContext();
 
         try (InputStream is = sc.getResourceAsStream("/WEB-INF/upload/images/" + imageName +".jpg")) {
