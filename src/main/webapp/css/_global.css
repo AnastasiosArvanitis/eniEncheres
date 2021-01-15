@@ -168,7 +168,7 @@ select {
 textarea {
     width: 250px;
     height: 30px;
-    border: 1px solid var(--header-bg-color);
+    border: 2px solid var(--header-bg-color);
     border-radius: 3px;
     font-size: 1em;
     color: var(--header-bg-color);

@@ -10,16 +10,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-//@WebServlet(name = "SendImage", urlPatterns = {"/upload/images/"})
-public class SendImage extends HttpServlet {
+
+public class SendFormBackground extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        String imageName = request.getParameter("imageName");
+        System.out.println("--------------------------------------------------- SendFormBackground doGet");
         ServletContext sc = getServletContext();
 
-        try (InputStream is = sc.getResourceAsStream("/WEB-INF/upload/images/" + imageName +".jpg")) {
+        try (InputStream is = sc.getResourceAsStream("/WEB-INF/upload/images/backgroundOpacity.png")) {
 
             // it is the responsibility of the container to close output stream
             OutputStream os = response.getOutputStream();
@@ -31,7 +34,7 @@ public class SendImage extends HttpServlet {
                 os.write("Failed to send image".getBytes());
             } else {
                 response.setStatus(200);
-                response.setContentType("image/jpeg");
+                response.setContentType("image/png");
 
                 byte[] buffer = new byte[1024];
                 int bytesRead;
