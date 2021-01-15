@@ -115,6 +115,18 @@ a {
     font-family: var(--body-text-familly);
 }
 
+a:hover {
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--border-color);
+}
+
+a:active {
+    color: var(--border-color);
+}
+
 #menu_btn{
     display: none;
     cursor: pointer;
