@@ -228,7 +228,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
      * @return
      * @throws DalException
      */
-    public boolean deleteArticle(Article articleSuppression) throws  SQLException, DalException{
+    public boolean deleteArticle(Article articleSuppression) throws SQLException, DalException {
 
         boolean effacerArticle = false;
         final String SQL_DELETE = "DELETE ARTICLES WHERE ID = ?";
@@ -245,7 +245,6 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         }
         return effacerArticle;
     }
-
 
 
 }
