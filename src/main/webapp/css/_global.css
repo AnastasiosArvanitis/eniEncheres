@@ -10,6 +10,7 @@
 
     --logo-text-familly: 'East Sea Dokdo', cursive;
     --body-text-familly: 'Open Sans', sans-serif;
+    --credit-text-familly: 'Orbitron', sans-serif;
 }
 
 * {
@@ -45,6 +46,10 @@ header {
     background: var(--header-bg-color);
     color: var(--header-txt-color);
     margin-bottom: auto;
+}
+
+.credit {
+    font-family: var(--credit-text-familly);
 }
 
 .logo {
