@@ -68,7 +68,7 @@
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
         <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>
 
-
+        <c:if test="${(acheteur == vendeur )}">
         <article>
             <h3>Liste des encherisseurs :</h3>
             <% for(Enchere e : enchereMax){
@@ -83,6 +83,8 @@
             }
                 %>
         </article>
+
+        </c:if>
 
         <c:if test="${acheteur > 0}">
 
