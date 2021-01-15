@@ -21,6 +21,8 @@
 <html>
 <head>
     <title>ENI_Enchere</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Open+Sans:wght@300;600&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <style>
         <%@ include file="../../css/_global.css" %>
         <%@ include file="../../css/ajoutVente.css" %>
@@ -133,7 +135,7 @@
         <p class="message-erreur">${message}</p>
     </article>
 </main>
-<div class="seperator"></div>
+
 <%@ include file="../Pages/footer.jsp" %>
 </body>
 <script type="application/javascript">
