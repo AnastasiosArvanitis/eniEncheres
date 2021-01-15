@@ -36,6 +36,8 @@ h2 {
     height: 80px;
     background: var(--header-bg-color);
     color: var(--header-txt-color);
+    font-size: 1.2em;
+    border-radius: 5px;
 }
 
 .form-search-welcome-connecte{
@@ -107,6 +109,7 @@ input[type="text"] {
     width: 150px;
     height: 150px;
     border: 1px solid var(--header-bg-color);
+    border-radius: 5px;
 }
 
 .article-content {
