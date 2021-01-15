@@ -19,7 +19,7 @@
         <h3>Connexion Utilisateur</h3>
         <form method="post" action="<%=request.getContextPath()%>/connection" class="connection-form">
             <p><label for="connection-identifiant">Email ou pseudo:</label></p>
-            <p><input id="connection-identifiant" type="text" name="connection-identifiant"/></p>
+            <p><input id="connection-identifiant" type="text" name="connection-identifiant" /></p>
             <p><label for="connection-password">Mot de passe:</label></p>
             <p><input id="connection-password" type="password" name="password-identifiant"/></p>
             <p><input id="connection-submit" type="submit" value="submit"/></p>
@@ -29,7 +29,7 @@
                     <input id="connection-remember" type="checkbox" name="connection-remeber" value="connection-remeber"></label>
             </p>
             <p></p>
-            <p><a href="#">Mot de pass oublié</a></p>
+            <p><a id="recupMdp" href="<%=request.getContextPath()%>/RecuperationMdp" onclick="envoiRecupMdp(event)">Mot de passe oublié</a></p>
             <p></p>
             <p><a href="<%=request.getContextPath()%>/inscription">Créer un compte</a></p>
         </form>
@@ -41,4 +41,18 @@
 
 <%@ include file="./footer.jsp"%>
 </body>
+<script type="application/javascript">
+
+    function envoiRecupMdp(event){
+        //event.preventDefault() ; pour ne pas envoyer le formulaire
+        var recupMdp = document.getElementById("recupMdp");
+
+        var lien = "<%=request.getContextPath()%>/RecuperationMdp?connectionIdentifiant="+document.getElementById("connection-identifiant").value;
+
+        recupMdp.setAttribute("href", lien);
+
+    }
+
+
+</script>
 </html>

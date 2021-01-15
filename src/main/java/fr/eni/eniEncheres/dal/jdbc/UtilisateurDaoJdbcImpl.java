@@ -79,6 +79,29 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     return utilisateur;
   }
+  // méthode pour la récuperation de l'utilisateur demandant son mot de passe
+  @Override
+  public Utilisateur selectLogin(String pseudoOuEmail) throws SQLException, DalException {
+    Utilisateur utilisateur = null;
+    final String sqlLogin = "select * from UTILISATEURS where (email=? or pseudo=?)";
+
+    try (Connection connection =JdbcConnection.connect()) {
+
+      PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
+      preparedStatement.setString(1, pseudoOuEmail);
+      preparedStatement.setString(2, pseudoOuEmail);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.next()) {
+        utilisateur = utilisateurBuilder(resultSet);
+      }
+    } catch (SQLException e) {
+      logger.severe("Error method selectLogin " + e.getMessage() + "\n");
+      throw new DalException(e.getMessage(), e);
+    }
+
+    return utilisateur;
+  }
 
   @Override
   public Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException {
@@ -298,6 +321,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     utilisateurRetourner = FactoryDao.getUtilisateurDao().updateUtilisateurApresEnchere(UtilisateurACredite);
     return utilisateurRetourner;
   }
+
 }
 
 
