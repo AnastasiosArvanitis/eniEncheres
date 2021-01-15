@@ -36,6 +36,7 @@
             <a href="<%=request.getContextPath()%>/">Retour</a>
         </article>
     </main>
+<div class="seperator"></div>
 <%@ include file="../Pages/footer.jsp" %>
 </body>
 </html>

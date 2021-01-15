@@ -65,7 +65,7 @@
             <!-- MESSAGE EN CAS DE SUCCES LORS DE L UPDATE PROFIL -->
             <p style="color: green">${message}</p>
     </main>
-
+<div class="seperator"></div>
 <jsp:include page="./footer.jsp" />
 </body>
 </html>
