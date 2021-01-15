@@ -72,7 +72,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchereList.add(enchere);
             }
         } catch (SQLException e) {
-            logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
+            logger.severe("Error selectAllEnchereConstruit JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
         return enchereList;
@@ -548,5 +548,27 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         return listeEnchere;
     }
 
+    @Override
+    public List<Enchere> selectEnchereByMontantMax(int idArticle) throws SQLException, DalException{
+        List<Enchere> listEnchereMax = new ArrayList<>();
+        final String SELECT_ENCHERE_MONTANT_MAX= "select e.idUtilisateur as id_utilisateur,max(e.montantEnchere) as montant_Enchere from ENCHERES e inner join UTILISATEURS u on e.idUtilisateur = u.id where e.idArticle=? GROUP BY e.idUtilisateur, e.idArticle ORDER BY max(e.montantEnchere) desc";
+
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_MONTANT_MAX);
+            requete.setInt(1, idArticle);
+            ResultSet rs = requete.executeQuery();
+            while (rs.next()){
+                Enchere enchere = new Enchere();
+                Utilisateur utilisateur = this.getEnchereUtilisateur(rs.getInt("id_utilisateur"));
+                enchere.setUtilisateur(utilisateur);
+                enchere.setMontantEnchere(rs.getInt("montant_Enchere"));
+                listEnchereMax.add(enchere);
+            }
+        }catch (SQLException e){
+            logger.severe("Error selectEnchereByMontantMax JDBC " + e.getMessage() + "\n");
+            throw new DalException(e.getMessage(), e);
+        }
+        return listEnchereMax;
+    }
 
 }

@@ -255,6 +255,17 @@ public class EnchereManager {
         return listeEnchere;
     }
 
+
+    public List<Enchere> selectEnchereByMontantMax(int idArticle) throws SQLException, BllException{
+        List<Enchere> enchereList = new ArrayList<>();
+        try{
+            enchereList = enchereDao.selectEnchereByMontantMax(idArticle);
+        } catch (DalException e) {
+            e.printStackTrace();
+        }
+        return enchereList;
+    }
+
 }
 
 
