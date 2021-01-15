@@ -5,6 +5,9 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <request-character-encoding>UTF-8</request-character-encoding>
+    <response-character-encoding>UTF-8</response-character-encoding>
+
     <display-name>Encheres Management Web Application</display-name>
 
     <session-config>
@@ -206,6 +209,16 @@
     <servlet-mapping>
         <servlet-name>Error</servlet-name>
         <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
+    <!-- GESTION IMAGE -->
+    <servlet>
+        <servlet-name>SendImage</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.imageApi.SendImage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendImage</servlet-name>
+        <url-pattern>/upload/images/</url-pattern>
     </servlet-mapping>
 
 
