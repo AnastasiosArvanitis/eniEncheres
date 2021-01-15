@@ -10,6 +10,15 @@ h2 {
     justify-content: space-around;
     width: 100%;
     margin-bottom: 20px;
+    background-image: url("/encheres/images/formback");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.form-search-welcome-deconnecte label {
+    font-weight: bold;
 }
 
 .search-welcome-div-filters-deconnecte {
