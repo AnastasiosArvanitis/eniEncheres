@@ -49,7 +49,7 @@
 <section>
     <article class="enchere-article">
         <div>
-            <img src="#" alt="" >
+            <img src="<%=request.getContextPath()%>/upload/images/?imageName=${enchere.article.id}" alt="${enchere.article.nom}">
         </div>
 
     </article>
