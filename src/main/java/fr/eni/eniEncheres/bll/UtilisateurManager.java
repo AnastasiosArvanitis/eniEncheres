@@ -45,6 +45,30 @@ public class UtilisateurManager {
         return utilisateur;
     }
 
+    /**
+     *
+     * @param pseudoOuEmail
+     * @return utilisateurExist
+     * Vérifier l'existence de l'utilisatuer en base
+     * @throws SQLException
+     * @throws BllException
+     */
+    public boolean verifUtilisateurLogin(String pseudoOuEmail) throws SQLException, BllException {
+        boolean utilisateurExist= false;
+
+        try {
+            boolean verifEmail = utilisateurDao.verifEmail(pseudoOuEmail, 0);
+            boolean verifPseudo = utilisateurDao.verifPseudo(pseudoOuEmail, 0);
+            if((verifEmail & !verifPseudo)||(!verifEmail & verifPseudo)){
+                utilisateurExist= true;
+            }
+
+        } catch (DalException e) {
+            e.printStackTrace();
+        }
+        return utilisateurExist;
+    }
+
     public Utilisateur selectById(int id) throws SQLException, BllException {
         Utilisateur utilisateur = null;
         try {
@@ -158,6 +182,16 @@ public class UtilisateurManager {
         Utilisateur utilisateurRetourner = null;
         utilisateurRetourner = utilisateurDao.addCredit(addCoin, utilisateur);
         return utilisateurRetourner;
+    }
+
+    public Utilisateur selectLogin(String pseudoOuEmail) throws SQLException, DalException{
+        Utilisateur utilisateurmdp = null;
+            utilisateurmdp=utilisateurDao.selectLogin(pseudoOuEmail);
+        return utilisateurmdp;
+    }
+
+    public void modifMotDePasse(String motDePasse, String cle) throws SQLException, DalException {
+        utilisateurDao.modifMotDePasse(motDePasse,cle);
     }
 }
 

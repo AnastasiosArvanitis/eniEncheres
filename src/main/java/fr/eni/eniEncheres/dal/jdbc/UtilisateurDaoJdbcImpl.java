@@ -79,6 +79,29 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
     return utilisateur;
   }
+  // méthode pour la récuperation de l'utilisateur demandant son mot de passe
+  @Override
+  public Utilisateur selectLogin(String pseudoOuEmail) throws SQLException, DalException {
+    Utilisateur utilisateur = null;
+    final String sqlLogin = "select * from UTILISATEURS where (email=? or pseudo=?)";
+
+    try (Connection connection =JdbcConnection.connect()) {
+
+      PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
+      preparedStatement.setString(1, pseudoOuEmail);
+      preparedStatement.setString(2, pseudoOuEmail);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.next()) {
+        utilisateur = utilisateurBuilder(resultSet);
+      }
+    } catch (SQLException e) {
+      logger.severe("Error method selectLogin " + e.getMessage() + "\n");
+      throw new DalException(e.getMessage(), e);
+    }
+
+    return utilisateur;
+  }
 
   @Override
   public Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException {
@@ -298,6 +321,32 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     utilisateurRetourner = FactoryDao.getUtilisateurDao().updateUtilisateurApresEnchere(UtilisateurACredite);
     return utilisateurRetourner;
   }
-}
+
+
+  public void modifMotDePasse(String motDePasse, String cle) throws DalException, SQLException {
+    char arg1 = cle.charAt(0);
+    String arg2 = cle.substring(1, 4);
+    String arg3 = cle.substring(cle.indexOf('A') + 1, cle.length() - 2);
+    String arg4 = cle.substring(cle.length() - 2, cle.length()-1);
+    String arg5 = cle.substring(4, cle.indexOf('A'));
+    String arg6 = cle.substring(cle.length()-1);
+
+
+
+    String SQL_UPDATE_MDP = "UPDATE UTILISATEURS SET motDePasse = '"+motDePasse+"'  where  nom like '_"+arg1+"%' and codePostal like '_"+arg2+"_' and credit = "+arg3+" and motDePasse like '_"+arg4+"%' and id="+arg5 +"and len(motDePasse) ="+arg6
+    +" " ;
+    System.out.println(SQL_UPDATE_MDP);
+    try (Connection connection = JdbcConnection.connect())
+    {
+      PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_MDP,Statement.RETURN_GENERATED_KEYS);
+      int rs = preparedStatement.executeUpdate();
+      System.out.println("resultat "+ rs);
+      if(rs ==0){
+        throw new DalException("Votre lien n'est plus valide, veuillez en redemandez un en cliquant sur créer un nouveau mot de passe");
+      }
+
+  }
+
+}}
 
 

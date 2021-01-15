@@ -41,6 +41,66 @@ header {
     color: var(--header-txt-color);
     margin-bottom: auto;
 }
+.logo a {
+    color: var(--header-txt-color);
+    text-decoration: none;
+}
+.logo a:active {
+    color: var(--header-txt-color);
+    text-decoration: none;
+}
+.logo a:hover {
+    color: var(--header-txt-color);
+    text-decoration: none;
+}
+.logo a:visited {
+    color: var(--header-txt-color);
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: auto;
+    background: #e63946;
+    padding: 20px 30px 10px 20px;
+
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+
+}
+
+nav ul li {
+    padding-left: 20px;
+    transition: display 1s ease-in-out;
+}
+
+nav a {
+    color: var(--header-txt-color);
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+#menu_btn{
+    display: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.menu-btn {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding-top: 5px;
+}
 
 header ul {
     display: flex;
@@ -118,12 +178,7 @@ article.admin table.table-admin a.categorie-update{
 
 
 /* MODAL */
-#modalDelete{
-    color: black;
-    position: absolute;
-    width: 500px;
-    margin-left: -680px;
-}
+
 #modalAdd{
     color: black;
     position: absolute;
@@ -131,20 +186,7 @@ article.admin table.table-admin a.categorie-update{
     margin-left: 450px;
     margin-top: -350px;
 }
-#modalUpdate{
-    color: black;
-    position: absolute;
-    width: 500px;
-    margin-left: -280px;
-    margin-top: -350px;
-}
-#modalDeleteCategorie{
-    color: black;
-    position: absolute;
-    width: 500px;
-    margin-left: -310px;
-    margin-top: -250px;
-}
+
 .modal-content{
     background-color: grey;
     display: flex;
@@ -170,8 +212,6 @@ article.admin table.table-admin a.categorie-update{
     text-align: right;
 }
 
-
-
 footer {
     display: flex;
     justify-content: space-around;
@@ -180,4 +220,57 @@ footer {
     background: var(--footer-bg-color);
     color: var(--footer-txt-color);
     margin: auto;
+}
+
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+    #menu_btn{
+        display: block;
+    }
+
+    nav {
+        justify-content: flex-start;
+    }
+
+    nav ul {
+        display: block;
+    }
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+@media (min-width: 390px) and (max-width: 600px) {
+
+    #menu_btn{
+        display: block;
+    }
+
+    nav ul {
+        display: block;
+    }
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+@media (max-width: 390px) {
+    #menu_btn{
+        display: block;
+    }
+
+    nav ul {
+        display: block;
+    }
+    footer {
+        flex-direction: column;
+        height: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
