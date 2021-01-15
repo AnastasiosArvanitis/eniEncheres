@@ -221,6 +221,15 @@
         <url-pattern>/upload/images/</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SendFormBackground</servlet-name>
+        <servlet-class>fr.eni.eniEncheres.servlets.imageApi.SendFormBackground</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendFormBackground</servlet-name>
+        <url-pattern>/images/formback</url-pattern>
+    </servlet-mapping>
+
 
     <!--  #################   MIME MAPPING     ########################  -->
     <mime-mapping>
