@@ -7,6 +7,9 @@
     --footer-txt-color: #f1faee;
     --main-bg-color: #a8dadc;
     --border-color: #e63946;
+
+    --logo-text-familly: 'East Sea Dokdo', cursive;
+    --body-text-familly: 'Open Sans', sans-serif;
 }
 
 * {
@@ -27,7 +30,7 @@ body {
     align-items: center;
     background: var(--body-bg-color);
     color: var(--body-txt-color);
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--body-text-familly);
     font-size: 1.2em;
 }
 
@@ -35,7 +38,7 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     width: 100%;
     height: 80px;
     padding: 10px;
@@ -44,9 +47,15 @@ header {
     margin-bottom: auto;
 }
 
+.logo {
+    margin: 20px;
+}
+
 .logo a {
     color: var(--header-txt-color);
     text-decoration: none;
+    font-family: var(--logo-text-familly);
+    font-size: 2em;
 }
 .logo a:active {
     color: var(--header-txt-color);
@@ -81,16 +90,24 @@ nav ul {
 
 nav ul li {
     padding-left: 20px;
-    transition: display 1s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 nav a {
     color: var(--header-txt-color);
     text-decoration: none;
+    font-family: var(--body-text-familly);
+    font-weight: 600;
 }
 
 nav a:hover {
     text-decoration: underline;
+}
+
+a {
+    color: var(--header-bg-color);
+    text-decoration: underline;
+    font-family: var(--body-text-familly);
 }
 
 #menu_btn{
@@ -152,7 +169,7 @@ main {
     width: 1100px;
     padding: 20px;
     background: var(--main-bg-color);
-    margin: 50px auto 80px auto;
+    margin: 80px auto 80px auto;
     border-radius: 30px;
 }
 
