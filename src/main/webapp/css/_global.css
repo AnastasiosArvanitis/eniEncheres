@@ -358,6 +358,17 @@ footer a {
         width: 95%;
     }
 
+
+
+    .logo {
+        margin: 5px;
+        font-size: 0.6em;
+    }
+
+    .credit {
+        font-size: 0.6em;
+    }
+
     .form-search-welcome-deconnecte {
         display: flex!important;
         flex-direction: column!important;
@@ -412,6 +423,17 @@ footer a {
 @media (max-width: 390px) {
     main {
         width: 98%;
+    }
+
+
+
+    .logo {
+        margin: 3px;
+        font-size: 0.6em;
+    }
+
+    .credit {
+        font-size: 0.4em;
     }
 
     .form-search-welcome-deconnecte {
