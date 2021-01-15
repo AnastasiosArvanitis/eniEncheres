@@ -56,6 +56,15 @@ h2 {
     justify-content: space-around;
     width: 100%;
     margin-bottom: 20px;
+    background-image: url("/encheres/images/formback");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.form-search-welcome-connecte label {
+    font-weight: bold;
 }
 
 .search-welcome-filters-radios {
@@ -96,6 +105,10 @@ h2 {
     align-items: center;
     margin-bottom: 30px;
     width: 100%;
+}
+
+.radios-checks label {
+    font-weight: bold;
 }
 
 input[type="text"] {
