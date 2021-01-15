@@ -190,7 +190,7 @@ public class UtilisateurManager {
         return utilisateurmdp;
     }
 
-    public void modifMotDePasse(String motDePasse, String cle){
+    public void modifMotDePasse(String motDePasse, String cle) throws SQLException, DalException {
         utilisateurDao.modifMotDePasse(motDePasse,cle);
     }
 }

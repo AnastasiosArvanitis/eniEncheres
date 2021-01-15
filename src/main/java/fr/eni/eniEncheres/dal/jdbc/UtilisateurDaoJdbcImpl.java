@@ -323,29 +323,30 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   }
 
 
-  public void modifMotDePasse(String motDePasse, String cle) {
+  public void modifMotDePasse(String motDePasse, String cle) throws DalException, SQLException {
     char arg1 = cle.charAt(0);
     String arg2 = cle.substring(1, 4);
-    String arg3 = cle.substring(cle.indexOf('A') + 1, cle.length() - 1);
-    String arg4 = cle.substring(cle.length() - 1, cle.length());
+    String arg3 = cle.substring(cle.indexOf('A') + 1, cle.length() - 2);
+    String arg4 = cle.substring(cle.length() - 2, cle.length()-1);
     String arg5 = cle.substring(4, cle.indexOf('A'));
+    String arg6 = cle.substring(cle.length()-1);
 
 
 
-    final String SQL_UPDATE_MDP = "UPDATE UTILISATEURS SET motDePasse = '"+motDePasse+"'  where  nom like '_"+arg1+"%' and codePostal like '__"+arg2+"' and credit = "+Integer.parseInt(arg3)+" and motDePasse like '_"+arg4+"%' and id="+Integer.parseInt(arg5);
+    String SQL_UPDATE_MDP = "UPDATE UTILISATEURS SET motDePasse = '"+motDePasse+"'  where  nom like '_"+arg1+"%' and codePostal like '_"+arg2+"_' and credit = "+arg3+" and motDePasse like '_"+arg4+"%' and id="+arg5 +"and len(motDePasse) ="+arg6
+    +" " ;
     System.out.println(SQL_UPDATE_MDP);
     try (Connection connection = JdbcConnection.connect())
     {
-      PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_MDP);
-      preparedStatement.executeUpdate();
-
-
-    }catch( SQLException e) {
-
-    }
+      PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_MDP,Statement.RETURN_GENERATED_KEYS);
+      int rs = preparedStatement.executeUpdate();
+      System.out.println("resultat "+ rs);
+      if(rs ==0){
+        throw new DalException("Votre lien n'est plus valide, veuillez en redemandez un en cliquant sur créer un nouveau mot de passe");
+      }
 
   }
 
-}
+}}
 
 

@@ -33,7 +33,7 @@ public interface UtilisateurDao {
 
     boolean verifPseudo(String pseudo, int id) throws  SQLException,DalException;
 
-    public void modifMotDePasse(String motDePasse, String cle);
+    public void modifMotDePasse(String motDePasse, String cle) throws DalException, SQLException;
 
 
 
