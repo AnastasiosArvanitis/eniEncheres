@@ -52,8 +52,7 @@ public class DetailEnchere extends HttpServlet {
         request.setAttribute("utilisateur",utilisateur);
         request.setAttribute("enchere",enchere);
         request.setAttribute("listEnchereMax",listEnchereMax);
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp");
-        rd.forward(request,response);
+        request.getRequestDispatcher("WEB-INF/Ventes/detailEnchere.jsp").forward(request,response);
     }
 
     @Override
