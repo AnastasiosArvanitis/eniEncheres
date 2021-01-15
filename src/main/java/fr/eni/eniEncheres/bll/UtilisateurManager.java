@@ -189,6 +189,10 @@ public class UtilisateurManager {
             utilisateurmdp=utilisateurDao.selectLogin(pseudoOuEmail);
         return utilisateurmdp;
     }
+
+    public void modifMotDePasse(String motDePasse, String cle){
+        utilisateurDao.modifMotDePasse(motDePasse,cle);
+    }
 }
 
 

@@ -322,6 +322,30 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     return utilisateurRetourner;
   }
 
+
+  public void modifMotDePasse(String motDePasse, String cle) {
+    char arg1 = cle.charAt(0);
+    String arg2 = cle.substring(1, 4);
+    String arg3 = cle.substring(cle.indexOf('A') + 1, cle.length() - 1);
+    String arg4 = cle.substring(cle.length() - 1, cle.length());
+    String arg5 = cle.substring(4, cle.indexOf('A'));
+
+
+
+    final String SQL_UPDATE_MDP = "UPDATE UTILISATEURS SET motDePasse = '"+motDePasse+"'  where  nom like '_"+arg1+"%' and codePostal like '__"+arg2+"' and credit = "+Integer.parseInt(arg3)+" and motDePasse like '_"+arg4+"%' and id="+Integer.parseInt(arg5);
+    System.out.println(SQL_UPDATE_MDP);
+    try (Connection connection = JdbcConnection.connect())
+    {
+      PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_MDP);
+      preparedStatement.executeUpdate();
+
+
+    }catch( SQLException e) {
+
+    }
+
+  }
+
 }
 
 
