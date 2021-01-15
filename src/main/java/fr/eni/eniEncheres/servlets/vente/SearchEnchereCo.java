@@ -47,11 +47,11 @@ public class SearchEnchereCo extends HttpServlet {
         String enchereRemporte ="";
 
         enchereOuvert = request.getParameter("check-enchereOuvert");
-        System.out.println(enchereOuvert);
+
         enchereEnCours = request.getParameter("check-enchereEnCours");
-        System.out.println(enchereEnCours);
+
         enchereRemporte = request.getParameter("check-enchereRemporte");
-        System.out.println(enchereRemporte);
+
 
         if (enchereOuvert == null){
             enchereOuvert ="";

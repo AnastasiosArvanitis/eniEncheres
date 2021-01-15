@@ -30,7 +30,7 @@ public class RecuperationMdp extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String connectionIdentifiant = request.getParameter("connectionIdentifiant");
-        System.out.println(connectionIdentifiant);
+
         Utilisateur utilisateurmdp = null;
         String lienEmail = null;
         String cle = null ;
@@ -59,7 +59,7 @@ public class RecuperationMdp extends HttpServlet {
                 utilisateurmdp = utilisateurManager.selectLogin(connectionIdentifiant);
                 String cleGenere = (utilisateurmdp.getNom().substring(1,2)+utilisateurmdp.getCodePostal().substring(1,4)+utilisateurmdp.getId()+"A"+utilisateurmdp.getCredit()+utilisateurmdp.getMotDePasse().substring(1,2) + utilisateurmdp.getMotDePasse().length());
                 lienEmail = "localhost:8080\\encheres\\RecuperationMdp?cle="+cleGenere;
-                System.out.println(lienEmail);
+
 
                 error = "Vous allez recevoir un email vous invitant à modifier votre mot de passe :" + lienEmail;
                 request.setAttribute("success", error);

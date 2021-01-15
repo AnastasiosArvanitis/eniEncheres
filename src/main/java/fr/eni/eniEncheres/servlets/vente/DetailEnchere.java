@@ -48,7 +48,6 @@ public class DetailEnchere extends HttpServlet {
         } catch (BllException e) {
             e.printStackTrace();
         }
-        System.out.println(listEnchereMax);
         request.setAttribute("utilisateur",utilisateur);
         request.setAttribute("enchere",enchere);
         request.setAttribute("listEnchereMax",listEnchereMax);

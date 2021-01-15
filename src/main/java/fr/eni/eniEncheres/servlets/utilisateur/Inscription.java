@@ -38,15 +38,14 @@ public class Inscription extends HttpServlet {
         String messageErreur = "" ;
 
         if (!mdpConfirm.equals(motDePasse)){
-            System.out.println("mot de passe non identique");
+
             request.setAttribute("ajoutUtilisateur", ajoutUtilisateur);
             dispatcher = request.getRequestDispatcher("/WEB-INF/Pages/inscription.jsp");
             dispatcher.forward(request, response);}
             else{
                 try {
                     utilisateur = utilisateurManager.insert(ajoutUtilisateur);
-                    System.out.println("insert réussi");
-                    System.out.println(utilisateur.toString());
+
                 } catch (Exception e) {
                     // Je récupère le message de l'exception
                     messageErreur = e.getMessage();

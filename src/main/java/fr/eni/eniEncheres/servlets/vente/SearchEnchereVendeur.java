@@ -39,7 +39,7 @@ public class SearchEnchereVendeur extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("entre dans la servlet encherevendeur");
+
         List<Enchere> listeEnchere = new ArrayList<>();
         List<Categorie> listeCategorie = new ArrayList<>();
 
