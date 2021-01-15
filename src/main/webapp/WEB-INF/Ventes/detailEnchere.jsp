@@ -1,6 +1,7 @@
 <%@ page import="fr.eni.eniEncheres.bo.Categorie" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %><%--
+<%@ page import="java.util.Date" %>
+<%@ page import="fr.eni.eniEncheres.bo.Enchere" %><%--
 
   Created by IntelliJ IDEA.
   User: vincdev
@@ -17,6 +18,7 @@
 <c:set var="dateDebut" scope="request" value="${enchere.article.dateDebutEncheres}"/>
 <c:set var="dateFin" scope="request" value="${enchere.article.dateFinEncheres}"/>
 <c:set var="maintenant" scope="request" value="<%= new Date() %>"/>
+<% List<Enchere> enchereMax = (List<Enchere>) request.getAttribute("listEnchereMax"); %>
 
 <html>
 <head>
@@ -66,6 +68,21 @@
         <p> ${enchere.article.retrait.codePostal} ${enchere.article.retrait.ville}</p>
         <p>Vendeur : ${enchere.article.utilisateur.pseudo}</p>
 
+
+        <article>
+            <h3>Liste des encherisseurs :</h3>
+            <% for(Enchere e : enchereMax){
+                if(e != null){ %>
+                    <p>Acheteur : <% out.println(e.getUtilisateur().getPseudo()); %> / Montant : <% out.println(e.getMontantEnchere());%></p>
+                <%
+                }else{
+                %>
+                    <p>Il n'y a pas encore d'encherisseur.</p>
+                <%
+                }
+            }
+                %>
+        </article>
 
         <c:if test="${acheteur > 0}">
 
