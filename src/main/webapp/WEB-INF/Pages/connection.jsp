@@ -37,7 +37,7 @@
     </div>
 </main>
 
-<div class="seperator"></div>
+
 
 <%@ include file="./footer.jsp"%>
 </body>

@@ -135,7 +135,7 @@
         <p class="message-erreur">${message}</p>
     </article>
 </main>
-<div class="seperator"></div>
+
 <%@ include file="../Pages/footer.jsp" %>
 </body>
 <script type="application/javascript">
