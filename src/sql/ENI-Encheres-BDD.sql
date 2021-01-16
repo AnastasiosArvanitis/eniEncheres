@@ -47,13 +47,13 @@ CREATE TABLE UTILISATEURS (
 
 CREATE TABLE ARTICLES (
     id                            INTEGER IDENTITY(1,1) CONSTRAINT articles_pk PRIMARY KEY,
-    idUtilisateur                 INTEGER NOT NULL CONSTRAINT articles_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    idCategorie                   INTEGER NOT NULL CONSTRAINT articles_id_categorie_fk FOREIGN KEY REFERENCES CATEGORIES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    idRetrait					  INTEGER NULL CONSTRAINT articles_id_retrait_fk FOREIGN KEY REFERENCES RETRAITS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    idUtilisateur                 INTEGER NULL CONSTRAINT articles_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION, /* ON DELETE SET NULL*/
+    idCategorie                   INTEGER NULL CONSTRAINT articles_id_categorie_fk FOREIGN KEY REFERENCES CATEGORIES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,/* ON DELETE SET NULL*/
+    idRetrait					  INTEGER NULL CONSTRAINT articles_id_retrait_fk FOREIGN KEY REFERENCES RETRAITS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,/* ON DELETE SET NULL*/
     nom                           VARCHAR(30) NOT NULL,
     description                   VARCHAR(300) NOT NULL,
-    dateDebutEncheres             DATE NOT NULL,
-    dateFinEncheres               DATE NOT NULL,
+    dateDebutEncheres             DATETIME NOT NULL,
+    dateFinEncheres               DATETIME NOT NULL,
     prixInitial                   INTEGER NULL CONSTRAINT articles_prix_initial_chk CHECK (prixInitial >= 0),
     prixVente                     INTEGER NULL ,
     CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres),
@@ -66,24 +66,13 @@ CREATE TABLE ENCHERES(
     id                        INTEGER IDENTITY(1,1) NOT NULL ,
     idArticle                 INTEGER NOT NULL CONSTRAINT encheres_id_article_fk FOREIGN KEY REFERENCES ARTICLES(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     idUtilisateur             INTEGER NOT NULL CONSTRAINT encheres_id_utilisateur_fk FOREIGN KEY REFERENCES UTILISATEURS(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    dateEnchere               datetime NOT NULL,
+    dateEnchere               DATETIME NOT NULL,
     montantEnchere            INTEGER NOT NULL,
-
     CONSTRAINT encheres_pk PRIMARY KEY (id,idArticle,idUtilisateur),
     CONSTRAINT encheres_montant_enchere_uk UNIQUE (idArticle,montantEnchere)
 )
 
-ALTER TABLE ARTICLES   DROP CONSTRAINT articles_date_fin_encheres_chk;
-
-
-
-ALTER TABLE ARTICLES ALTER COLUMN dateDebutEncheres DATETIME;
-ALTER TABLE ARTICLES ALTER COLUMN dateFinEncheres DATETIME;
-
-
-
-ALTER TABLE ARTICLES ADD CONSTRAINT articles_date_fin_encheres_chk CHECK (dateFinEncheres > dateDebutEncheres);
- 
+/* SI BESOIN*/
 ALTER TABLE ARTICLES DROP CONSTRAINT articles_id_categorie_fk;
 ALTER TABLE ARTICLES ADD CONSTRAINT articles_id_categorie_fk FOREIGN KEY (idCategorie) REFERENCES CATEGORIES(id) ON DELETE SET NULL;
 

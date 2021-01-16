@@ -14,7 +14,7 @@ h2 {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
+   /* position: relative;*/
 }
 
 .form-search-welcome-deconnecte label {
@@ -60,7 +60,7 @@ h2 {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
+   /* position: relative;*/
 }
 
 .form-search-welcome-connecte label {

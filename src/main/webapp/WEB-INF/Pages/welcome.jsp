@@ -20,6 +20,9 @@
 </head>
 <body>
 <%@ include file="./header.jsp"%>
+<div class="img-presentation">
+    <img src="<%=request.getContextPath()%>/upload/images/?imageName=enchere_home" alt="image d'acceuil">
+</div>
 <main>
     <h1>Liste des encheres</h1>
     <p class="message-succes">${message}</p>
