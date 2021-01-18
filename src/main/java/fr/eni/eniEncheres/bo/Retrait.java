@@ -6,6 +6,10 @@ public class Retrait {
     private String rue;
     private String codePostal;
     private String ville;
+    private boolean retrait;
+
+
+
 
     public Retrait() {}
 
@@ -20,6 +24,14 @@ public class Retrait {
         this.rue = rue;
         this.codePostal = codePostal;
         this.ville = ville;
+    }
+
+    public Retrait(int id, String rue, String codePostal, String ville, boolean retrait) {
+        this.id = id;
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.retrait = retrait ;
     }
 
     public int getId() {
@@ -52,6 +64,14 @@ public class Retrait {
 
     public void setVille(String ville) {
         this.ville = ville;
+    }
+
+    public boolean getRetrait() {
+        return retrait;
+    }
+
+    public void setRetrait(boolean retrait) {
+        this.retrait = retrait;
     }
 
     @Override

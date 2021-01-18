@@ -90,15 +90,34 @@
 
             <c:choose>
 
-                <c:when test="${(acheteur == vendeur ) && (dateDebut > maintenant) &&(utilisateur.getCompteActif())}"><%@ include file="../Ventes/BlocsDetailsEncheres/modifierVente.jsp" %></c:when>
+                <c:when test="${(acheteur == vendeur ) && (dateDebut > maintenant) &&(utilisateur.getCompteActif())}">
+                    <%@ include file="../Ventes/BlocsDetailsEncheres/modifierVente.jsp" %>
+                </c:when>
 
-                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant)&&(utilisateur.getCompteActif())  }"><p class="message-info">Vous ne pouvez plus modifier une vente en cours</p></c:when>
+                <c:when test="${(acheteur == vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant)&&(utilisateur.getCompteActif())  }">
+                    <p class="message-info">Vous ne pouvez plus modifier une vente en cours</p></c:when>
 
-                <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) && (utilisateur.getCompteActif()) )}"> <%@ include file="../Ventes/BlocsDetailsEncheres/encherir.jsp" %></c:when>
+                <c:when test="${((acheteur != vendeur ) && (dateDebut < maintenant) && (dateFin > maintenant) && (utilisateur.getCompteActif()) )}">
+                    <%@ include file="../Ventes/BlocsDetailsEncheres/encherir.jsp" %>
+                </c:when>
 
-                <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) &&(utilisateur.getCompteActif())}"><h2>Confirmer la réception de l'article ( boolean a rajouter table retrait avec boutton actif /inactif)</h2></c:when>
+                <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) &&(utilisateur.getCompteActif()&&(enchere.article.retrait.retrait==true))}">
+                    <p class="message-succes">Votre acheteur a confirmé la livraison, le crédit a été ajouté à votre compte</p></c:when>
 
-                <c:when test="${(!empty acheteur)&&(dateDebut < maintenant) && (dateFin > maintenant)&&(!utilisateur.getCompteActif())}"><p class="message-info">Votre accès est limité. Merci de contacter un administrateur</p></c:when>
+                <c:when test="${(utilisateur.id == vendeur) && ( dateFin < maintenant )&&( meilleureEnchereUtilisateurId > 0) &&(utilisateur.getCompteActif()&&(enchere.article.retrait.retrait==false))}">
+                <p class="message-info" >Dès validation de la réception par l'acheteur , le montant de la vente sera ajouté à votre crédit</p></c:when>
+
+                <c:when test="${(!empty acheteur)&&(dateDebut < maintenant) && (dateFin > maintenant)&&(!utilisateur.getCompteActif())}">
+                    <p class="message-info">Votre accès est limité. Merci de contacter un
+                        administrateur</p></c:when>
+
+                <c:when test="${(meilleureEnchereUtilisateurId == acheteur ) && ( dateFin < maintenant ) && (enchere.article.retrait.retrait==true) }">
+                    <p class="message-succes">L'objet a été récupéré</p></c:when>
+
+                <c:when test="${(meilleureEnchereUtilisateurId == acheteur ) && ( dateFin < maintenant ) && (enchere.article.retrait.retrait==false)}">
+                    <%@ include file="../Ventes/BlocsDetailsEncheres/validationLivraison.jsp"%>
+                </c:when>
+
             </c:choose>
 
         </c:if>

@@ -65,6 +65,13 @@ public class RetraitManager {
         return effacerRetrait;
     }
 
+    public boolean validerRetrait(int numeroRetrait) throws DalException, SQLException{
+        System.out.println("entré dans la bll");
+        boolean retraitValider = false;
+        retraitValider = retraitDao.validerRetrait(numeroRetrait);
+        return retraitValider;
+    }
+
 
 
 
