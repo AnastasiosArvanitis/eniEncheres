@@ -110,6 +110,19 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         return effacerRetrait;
     }
 
+    public boolean validerRetrait(int numeroRetrait) throws DalException, SQLException {
+        boolean retraitValider = false;
+        System.out.println("entre dans la dao");
+        final String SQL_UPDATE_RETRAIT = "UPDATE RETRAITS SET retrait =1 WHERE id =?  and retrait <>1";
+        System.out.println(SQL_UPDATE_RETRAIT);
+
+        try(Connection connection = JdbcConnection.connect()){
+            PreparedStatement stmt = connection.prepareStatement(SQL_UPDATE_RETRAIT);
+            stmt.setInt(1,numeroRetrait);
+            retraitValider = (!(stmt.executeUpdate() == 0));
+        }return  retraitValider;
+    }
+
 
     private Retrait retraitBuilder(ResultSet rs) throws SQLException {
         Retrait retrait = new Retrait();
@@ -117,6 +130,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         retrait.setRue(rs.getString("rue"));
         retrait.setCodePostal(rs.getString("codePostal"));
         retrait.setVille(rs.getString("ville"));
+        retrait.setRetrait(rs.getBoolean("retrait"));
 
         return retrait;
     }
