@@ -21,10 +21,11 @@ CREATE TABLE CATEGORIES (
 )
 
 CREATE TABLE RETRAITS (
-	id               INTEGER IDENTITY(1,1) CONSTRAINT retraits_pk PRIMARY KEY,
+    id               INTEGER IDENTITY(1,1) CONSTRAINT retraits_pk PRIMARY KEY,
     rue              VARCHAR(30) NOT NULL,
     codePostal       VARCHAR(5) NOT NULL,
-    ville            VARCHAR(30) NOT NULL
+    ville            VARCHAR(30) NOT NULL,
+    retrait          BIT NOT NULL DEFAULT 0
 )
 
 
