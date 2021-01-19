@@ -10,9 +10,10 @@ import fr.eni.eniEncheres.dal.dao.ArticleDao;
 import fr.eni.eniEncheres.dal.dao.CategorieDao;
 import fr.eni.eniEncheres.dal.dao.RetraitDao;
 import fr.eni.eniEncheres.dal.dao.UtilisateurDao;
-import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
+import fr.eni.eniEncheres.dal.jdbcTools.HerokuConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,14 +31,14 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         final String SELECT_ARTICLE_BY_ID = "select * from ARTICLES where id = ?";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ARTICLE_BY_ID);
             preparedStatement.setInt(1, articleId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 article = articleBuilder(resultSet);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method selectArticleById " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -52,13 +53,13 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         final String SELECT_ALL = "select * from ARTICLES";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL);
             while (resultSet.next()) {
                 articles.add(articleBuilder(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method selectAllArticles " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -71,14 +72,14 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         final String SELECT_BY_USER = "select * from ARTICLES where idUtilisateur = ? ";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER);
             preparedStatement.setInt(1, utilisateur.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 returnedArticles.add(articleBuilder(resultSet));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method selectAllArticlesByUtilisateur " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -103,7 +104,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         String villeUtilisateur = ajoutArticle.getRetrait().getVille();
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(4, ajoutArticle.getNom());
             preparedStatement.setString(5, ajoutArticle.getDescription());
@@ -129,7 +130,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
                 idArticleAjout = resultSet.getInt(1);
                 articleCree = selectArticleById(idArticleAjout);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method insertArticle " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -143,7 +144,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
                 "nom = ?, description = ?, dateDebutEncheres = ?, dateFinEncheres = ?, prixInitial = ?, " +
                 "prixVente = ? WHERE id = ?";
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(UPDATE_ARTICLE);
             requete.setInt(1, updateArticle.getUtilisateur().getId());
             requete.setInt(2, updateArticle.getCategorie().getId());
@@ -157,7 +158,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
             requete.setInt(10, updateArticle.getId());
             requete.executeUpdate();
             articleUpdate = FactoryDao.getArticleDao().selectArticleById(updateArticle.getId());
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method updateArticle " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -224,7 +225,7 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
     }
 
     /**
-     * @param deleteArticle Récupère un boolean si l'execution du delete est ok
+     * @param articleSuppression Récupère un boolean si l'execution du delete est ok
      * @return
      * @throws DalException
      */
@@ -234,12 +235,12 @@ public class ArticleDaoJdbcImpl implements ArticleDao {
         final String SQL_DELETE = "DELETE ARTICLES WHERE ID = ?";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement stmt = connection.prepareStatement(SQL_DELETE);
             stmt.setInt(1, articleSuppression.getId());
             effacerArticle = (!(stmt.executeUpdate() == 0));
 
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method DeleteArticle " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }

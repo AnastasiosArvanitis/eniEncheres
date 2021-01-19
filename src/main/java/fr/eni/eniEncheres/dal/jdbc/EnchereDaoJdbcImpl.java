@@ -8,9 +8,10 @@ import fr.eni.eniEncheres.dal.FactoryDao;
 import fr.eni.eniEncheres.dal.dao.ArticleDao;
 import fr.eni.eniEncheres.dal.dao.EnchereDao;
 import fr.eni.eniEncheres.dal.dao.UtilisateurDao;
-import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
+import fr.eni.eniEncheres.dal.jdbcTools.HerokuConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,9 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
                 "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
-                "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
+                "        where a.dateDebutEncheres <= now() and a.dateFinEncheres > now()";
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ALL_ENCHERE);
             ResultSet rs = requete.executeQuery();
             while (rs.next()) {
@@ -37,7 +38,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
 
@@ -51,7 +52,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, " +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
                 "        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
-                "        where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()";
+                "        where a.dateDebutEncheres <= now() and a.dateFinEncheres > now()";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
         if (!filtreNom.equals("0")) {
@@ -62,7 +63,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if (!(filtreCategorie == 0)) {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ALL_ENCHERE + filtreNom + stringFiltreCategorie);
 
             ResultSet rs = requete.executeQuery();
@@ -71,7 +72,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchereConstruit JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -92,7 +93,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
                 "        INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
-                "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
+                "where a.dateDebutEncheres <= now() and a.dateFinEncheres > now()\n" +
                 "and (exists (select  * from ENCHERES u where u.idArticle = e.idArticle and u.idUtilisateur = ? ))";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
@@ -104,7 +105,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if (!(filtreCategorie == 0)) {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
             requete.setInt(1, utilisateur.getId());
             ResultSet rs = requete.executeQuery();
@@ -113,7 +114,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -125,7 +126,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         final String SELECT_ENCHERE_BY_USER = "select a.id ,a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom \n" +
                 "       , dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id , e.idArticle as ench_idArticle,\n" +
                 "       e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
-                "where a.dateDebutEncheres <= getdate() and a.dateFinEncheres > getdate()\n" +
+                "where a.dateDebutEncheres <= now() and a.dateFinEncheres > now()\n" +
                 "and a.idUtilisateur = ?";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
@@ -137,7 +138,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if (!(filtreCategorie == 0)) {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
             requete.setInt(1, utilisateur.getId());
             ResultSet rs = requete.executeQuery();
@@ -146,7 +147,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -158,7 +159,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         final String SELECT_ENCHERE_BY_USER = "select a.id ,a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom \n" +
                 "       , dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id , e.idArticle as ench_idArticle,\n" +
                 "       e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
-                "where a.dateDebutEncheres > getdate() and a.dateFinEncheres > getdate()\n" +
+                "where a.dateDebutEncheres > now() and a.dateFinEncheres > now()\n" +
                 "and a.idUtilisateur = ?";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
@@ -170,7 +171,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if (!(filtreCategorie == 0)) {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
             requete.setInt(1, utilisateur.getId());
             ResultSet rs = requete.executeQuery();
@@ -179,7 +180,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -191,7 +192,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         final String SELECT_ENCHERE_BY_USER = "select a.id ,a.idUtilisateur as art_idUtilisateur,a.idCategorie as art_idCategorie, a.idRetrait as art_idRetrait, nom \n" +
                 "       , dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id , e.idArticle as ench_idArticle,\n" +
                 "       e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a        LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
-                "where a.dateFinEncheres <= getdate()\n" +
+                "where a.dateFinEncheres <= now()\n" +
                 "and a.idUtilisateur = ?";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
@@ -203,7 +204,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         if (!(filtreCategorie == 0)) {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
             requete.setInt(1, utilisateur.getId());
             ResultSet rs = requete.executeQuery();
@@ -212,7 +213,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -225,7 +226,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "description, dateDebutEncheres, dateFinEncheres, prixInitial, prixVente, e.id as ench_id, e.idArticle as ench_idArticle, \n" +
                 "e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a\n" +
                 "INNER JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle) and e.idUtilisateur=? \n" +
-                "where  a.dateFinEncheres <= getdate()";
+                "where  a.dateFinEncheres <= now()";
         String stringFiltreCategorie = "";
         List<Enchere> enchereList = new ArrayList<>();
         if (!filtreNom.equals("0")) {
@@ -237,7 +238,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
             stringFiltreCategorie = "and a.idCategorie =" + Integer.toString(filtreCategorie) + " ";
         }
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_BY_USER + filtreNom + stringFiltreCategorie);
             requete.setInt(1, utilisateur.getId());
             ResultSet rs = requete.executeQuery();
@@ -246,7 +247,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 enchereList.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -267,14 +268,14 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "                e.idUtilisateur as ench_idUtilisateur, dateEnchere, montantEnchere from ARTICLES a" +
                 "                LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)" +
                 "                        where a.id = ?";
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
             requete.setInt(1, idArticle);
             ResultSet rs = requete.executeQuery();
             if (rs.next()) {
                 enchereRetourner = enchereBuilder(rs);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method selectByIdArticle Enchere " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -286,7 +287,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         Enchere enchere = null;
         final String SELECT_BY_ID = "SELECT * FROM ENCHERES WHERE id =?";
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
             requete.setInt(1, id);
             ResultSet rs = requete.executeQuery();
@@ -303,7 +304,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchereNew.setMontantEnchere(rs.getInt("montantEnchere"));
                 enchere = enchereNew;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error method selectById Enchere " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -331,7 +332,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 if ((enchere.getUtilisateur() == null) || (acheteur.getId() != enchere.getUtilisateur().getId())) {
                     //controle pour savoir si le credit de l'utilisateur est superrieur au prix de vente
                     if (acheteur.getCredit() >= enchere.getArticle().getPrixVente()) {
-                        try (Connection connection = JdbcConnection.connect()) {
+                        try (Connection connection = HerokuConnection.connect()) {
                             PreparedStatement requete = connection.prepareStatement(INSERT_NEW_ENCHERE, PreparedStatement.RETURN_GENERATED_KEYS);
                             requete.setInt(1, idArticle);
                             requete.setInt(2, acheteur.getId());
@@ -343,7 +344,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                             if (rs.next()) {
                                 idAjout = rs.getInt(1);
                             }
-                        } catch (SQLException e) {
+                        } catch (SQLException | URISyntaxException e) {
                             logger.severe("Error method addNew Enchere " + e.getMessage() + "\n");
                             throw new DalException(e.getMessage(), e);
                         }
@@ -456,7 +457,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         } else {
             addCondition = " ";
         }
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(REQ_CONSTRUITE + addCondition);
             ResultSet rs = requete.executeQuery();
             while (rs.next()) {
@@ -464,7 +465,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 listeEnchere.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEnchere JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -481,11 +482,11 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 "LEFT JOIN ENCHERES e on  a.id =  e.idArticle and  e.id = ( select max(e.id) from ENCHERES e where a.id =  e.idArticle)\n" +
                 "where a.idUtilisateur = ? ";
 
-        final String venteNonDebute = " (a.dateDebutEncheres > GETDATE())";
+        final String venteNonDebute = " (a.dateDebutEncheres > now())";
 
-        final String venteEnCours = "(a.dateFinEncheres> GETDATE() and a.dateDebutEncheres<= GETDATE())";
+        final String venteEnCours = "(a.dateFinEncheres> now() and a.dateDebutEncheres<= now())";
 
-        final String venteTermine = "(a.dateFinEncheres <= GETDATE())";
+        final String venteTermine = "(a.dateFinEncheres <= now())";
 
         StringBuilder requete = new StringBuilder();
         requete.append(selectAllByVendeur);
@@ -520,7 +521,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
             requete.append(" and a.idCategorie = " + idCategorie);
         }
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement pstmtRequete = connection.prepareStatement(requete.toString());
             pstmtRequete.setInt(1, idUtilisateur);
             ResultSet rs = pstmtRequete.executeQuery();
@@ -529,7 +530,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere = enchereBuilder(rs);
                 listeEnchere.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectAllEncheresVendeur JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -541,7 +542,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
         List<Enchere> listEnchereMax = new ArrayList<>();
         final String SELECT_ENCHERE_MONTANT_MAX = "select e.idUtilisateur as id_utilisateur,max(e.montantEnchere) as montant_Enchere from ENCHERES e inner join UTILISATEURS u on e.idUtilisateur = u.id where e.idArticle=? GROUP BY e.idUtilisateur, e.idArticle ORDER BY max(e.montantEnchere) desc";
 
-        try (Connection connection = JdbcConnection.connect()) {
+        try (Connection connection = HerokuConnection.connect()) {
             PreparedStatement requete = connection.prepareStatement(SELECT_ENCHERE_MONTANT_MAX);
             requete.setInt(1, idArticle);
             ResultSet rs = requete.executeQuery();
@@ -552,7 +553,7 @@ public class EnchereDaoJdbcImpl implements EnchereDao {
                 enchere.setMontantEnchere(rs.getInt("montant_Enchere"));
                 listEnchereMax.add(enchere);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             logger.severe("Error selectEnchereByMontantMax JDBC " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }

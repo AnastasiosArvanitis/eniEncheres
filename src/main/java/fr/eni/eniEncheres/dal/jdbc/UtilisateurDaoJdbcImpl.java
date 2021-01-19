@@ -4,9 +4,10 @@ import fr.eni.eniEncheres.bo.Utilisateur;
 import fr.eni.eniEncheres.dal.DalException;
 import fr.eni.eniEncheres.dal.FactoryDao;
 import fr.eni.eniEncheres.dal.dao.UtilisateurDao;
-import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
+import fr.eni.eniEncheres.dal.jdbcTools.HerokuConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE id = ?";
 
     try {
-      Connection connection = JdbcConnection.connect();
+      Connection connection = HerokuConnection.connect();
       PreparedStatement requete = connection.prepareStatement(SELECT_BY_ID);
       requete.setInt(1, id);
       ResultSet resultSet = requete.executeQuery();
@@ -30,7 +31,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       if(resultSet.next()){
         utilisateur = utilisateurBuilder(resultSet);
       }
-    }catch(SQLException e){
+    }catch(SQLException | URISyntaxException e){
       logger.severe("Error method selectById " + e.getMessage() + "\n");
       throw new DalException(e.getMessage(), e);
     }
@@ -41,7 +42,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public List<Utilisateur> selectAllUtilisateur() throws SQLException, DalException {
     List<Utilisateur> listUtilisateur = new ArrayList<>();
     final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
-    try(Connection connection = JdbcConnection.connect()){
+    try(Connection connection = HerokuConnection.connect()){
       PreparedStatement requete = connection.prepareStatement(SELECT_ALL);
       ResultSet rs = requete.executeQuery();
       while (rs.next()){
@@ -49,7 +50,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
         utilisateur = utilisateurBuilder(rs);
         listUtilisateur.add(utilisateur);
       }
-    }catch (SQLException e){
+    }catch (SQLException | URISyntaxException e){
       logger.severe("Error method selectAll Utilisateur " + e.getMessage() + "\n");
       throw new DalException(e.getMessage(), e);
     }
@@ -61,7 +62,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     Utilisateur utilisateur = null;
     final String sqlLogin = "select * from UTILISATEURS where (email=? or pseudo=?) and motDePasse=?";
 
-    try (Connection connection =JdbcConnection.connect()) {
+    try (Connection connection =HerokuConnection.connect()) {
 
       PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
       preparedStatement.setString(1, pseudoOuEmail);
@@ -72,7 +73,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       if (resultSet.next()) {
         utilisateur = utilisateurBuilder(resultSet);
       }
-    } catch (SQLException e) {
+    } catch (SQLException | URISyntaxException e) {
       logger.severe("Error method selectLogin " + e.getMessage() + "\n");
       throw new DalException(e.getMessage(), e);
     }
@@ -85,7 +86,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     Utilisateur utilisateur = null;
     final String sqlLogin = "select * from UTILISATEURS where (email=? or pseudo=?)";
 
-    try (Connection connection =JdbcConnection.connect()) {
+    try (Connection connection =HerokuConnection.connect()) {
 
       PreparedStatement preparedStatement = connection.prepareStatement(sqlLogin);
       preparedStatement.setString(1, pseudoOuEmail);
@@ -95,7 +96,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       if (resultSet.next()) {
         utilisateur = utilisateurBuilder(resultSet);
       }
-    } catch (SQLException e) {
+    } catch (SQLException | URISyntaxException e) {
       logger.severe("Error method selectLogin " + e.getMessage() + "\n");
       throw new DalException(e.getMessage(), e);
     }
@@ -107,7 +108,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public Utilisateur update(Utilisateur utilisateur) throws SQLException, DalException {
     final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, codePostal = ?, ville = ?, motDePasse = ? WHERE id = ?";
     Utilisateur utilisateurRecupere = null;
-    try(Connection connection = JdbcConnection.connect()){
+    try(Connection connection = HerokuConnection.connect()){
       PreparedStatement requete = connection.prepareStatement(UPDATE);
       requete.setString(1, utilisateur.getPseudo());
       requete.setString(2, utilisateur.getNom());
@@ -128,7 +129,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
       utilisateurRecupere = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
 
-    }catch(SQLException e){
+    }catch(SQLException | URISyntaxException e){
       logger.severe("Error method update " + e.getMessage() + "\n");
       throw  new DalException(e.getMessage(), e);
     }
@@ -139,7 +140,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public Utilisateur updateUtilisateurApresEnchere(Utilisateur utilisateur) throws SQLException, DalException {
     final String UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, codePostal = ?, ville = ?, motDePasse = ?, credit = ? WHERE id = ?";
     Utilisateur utilisateurRecupere = null;
-    try(Connection connection = JdbcConnection.connect()){
+    try(Connection connection = HerokuConnection.connect()){
       PreparedStatement requete = connection.prepareStatement(UPDATE);
       requete.setString(1, utilisateur.getPseudo());
       requete.setString(2, utilisateur.getNom());
@@ -161,7 +162,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
       utilisateurRecupere = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
 
-    }catch(SQLException e){
+    }catch(SQLException | URISyntaxException e){
       logger.severe("Error method update " + e.getMessage() + "\n");
       throw  new DalException(e.getMessage(), e);
     }
@@ -172,13 +173,13 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public Utilisateur updateCompteActif(Utilisateur utilisateur) throws SQLException, DalException {
     Utilisateur utilisateurRetourner = null;
     final String UPDATE_COMPTE_ACTIF = "UPDATE UTILISATEURS SET compteActif = ? WHERE id = ?";
-    try (Connection connection = JdbcConnection.connect()){
+    try (Connection connection = HerokuConnection.connect()){
       PreparedStatement requete = connection.prepareStatement(UPDATE_COMPTE_ACTIF);
       requete.setBoolean(1, utilisateur.getCompteActif());
       requete.setInt(2,utilisateur.getId());
       requete.executeUpdate();
       utilisateurRetourner = FactoryDao.getUtilisateurDao().selectById(utilisateur.getId());
-    }catch (SQLException e){
+    }catch (SQLException | URISyntaxException e){
       logger.severe("Error method updateCompteActif " + e.getMessage() + "\n");
       throw  new DalException(e.getMessage(), e);
     }
@@ -190,7 +191,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     final String SQL_INSERT ="INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,codePostal,ville,motDePasse) VALUES (?,?,?,?,?,?,?,?,?)";
     Utilisateur utilisateurCree = null;
     int idAjout = 0;
-    try (Connection connection = JdbcConnection.connect()) {
+    try (Connection connection = HerokuConnection.connect()) {
       PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
       preparedStatement.setString(1, ajoutUtilisateur.getPseudo());
       preparedStatement.setString(2, ajoutUtilisateur.getNom());
@@ -218,7 +219,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
         utilisateurCree = selectById(idAjout);
       }
     }
-    catch(SQLException e){
+    catch(SQLException | URISyntaxException e){
       e.printStackTrace();
       logger.severe("Erreur methode ajoutUtilisateur : " + ajoutUtilisateur.toString() );
 
@@ -232,7 +233,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     Utilisateur utilisateur = null;
     final String DELETE ="DELETE UTILISATEURS WHERE id = ?";
 
-    try(Connection connection = JdbcConnection.connect()){
+    try(Connection connection = HerokuConnection.connect()){
 
       PreparedStatement requete = connection.prepareStatement(DELETE);
 
@@ -244,7 +245,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       }else {
         verifDelete = false;
       }
-    }catch (SQLException e){
+    }catch (SQLException | URISyntaxException e){
       logger.severe("Erreur lors de la suppression du membre " + e.getMessage());
       throw new DalException(e.getMessage(), e);
     }
@@ -255,7 +256,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public boolean verifEmail(String email, int id) throws SQLException, DalException {
     boolean verifEmail = false;
     final String VERIF_EMAIL ="SELECT * FROM UTILISATEURS WHERE email = ?  AND id <> ?";
-      try (Connection connection = JdbcConnection.connect())
+      try (Connection connection = HerokuConnection.connect())
       {
         PreparedStatement preparedStatement = connection.prepareStatement(VERIF_EMAIL);
         preparedStatement.setString(1,email);
@@ -263,7 +264,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
         ResultSet rs = preparedStatement.executeQuery();
         verifEmail = rs.next();
         System.out.println(verifEmail);
-      }catch( SQLException e)
+      }catch(SQLException | URISyntaxException e)
     {
       logger.severe("Erreur méthode vérif email , email rechercher : " + email);
     }
@@ -275,7 +276,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
   public boolean verifPseudo(String pseudo,int id) throws SQLException, DalException {
     boolean verifPseudo = false;
     final String VERIF_PSEUDO =  "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND id <> ? ";
-    try (Connection connection = JdbcConnection.connect())
+    try (Connection connection = HerokuConnection.connect())
     {
       PreparedStatement preparedStatement = connection.prepareStatement(VERIF_PSEUDO);
       preparedStatement.setString(1,pseudo);
@@ -283,7 +284,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
       ResultSet rs = preparedStatement.executeQuery();
       verifPseudo = rs.next();
       System.out.println(verifPseudo);
-    }catch( SQLException e)
+    }catch(SQLException | URISyntaxException e)
     {
       logger.severe("Erreur méthode vérif pseudo , email pseudo : " + verifPseudo);
     }
@@ -336,7 +337,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
     String SQL_UPDATE_MDP = "UPDATE UTILISATEURS SET motDePasse = '"+motDePasse+"'  where  nom like '_"+arg1+"%' and codePostal like '_"+arg2+"_' and credit = "+arg3+" and motDePasse like '_"+arg4+"%' and id="+arg5 +"and len(motDePasse) ="+arg6
     +" " ;
 
-    try (Connection connection = JdbcConnection.connect())
+    try (Connection connection = HerokuConnection.connect())
     {
       PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_MDP,Statement.RETURN_GENERATED_KEYS);
       int rs = preparedStatement.executeUpdate();
@@ -345,8 +346,10 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
         throw new DalException("Votre lien n'est plus valide, veuillez en redemandez un en cliquant sur créer un nouveau mot de passe");
       }
 
-  }
+  } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
 
-}}
+  }}
 
 

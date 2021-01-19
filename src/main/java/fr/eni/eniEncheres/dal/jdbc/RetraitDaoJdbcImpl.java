@@ -3,10 +3,11 @@ package fr.eni.eniEncheres.dal.jdbc;
 import fr.eni.eniEncheres.bo.Retrait;
 import fr.eni.eniEncheres.dal.DalException;
 import fr.eni.eniEncheres.dal.dao.RetraitDao;
-import fr.eni.eniEncheres.dal.jdbcTools.JdbcConnection;
+import fr.eni.eniEncheres.dal.jdbcTools.HerokuConnection;
 import fr.eni.eniEncheres.tools.EnchereLogger;
 
 import javax.xml.transform.Result;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         final String SELECT_BY_ID = "select * from RETRAITS where id = ?";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setInt(1, retraitId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -30,7 +31,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
             if (resultSet.next()) {
                 retrait = retraitBuilder(resultSet);
             }
-        } catch(SQLException e){
+        } catch(SQLException | URISyntaxException e){
             logger.severe("Error method selectRetraitById " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -45,7 +46,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         int idAjout = 0;
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, ajoutRetrait.getRue());
             preparedStatement.setString(2, ajoutRetrait.getCodePostal());
@@ -57,7 +58,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
                 idAjout = resultSet.getInt(1);
                 retraitCree = selectRetraitById(idAjout);
             }
-        } catch(SQLException e){
+        } catch(SQLException | URISyntaxException e){
             logger.severe("Error method insertRetrait " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -69,7 +70,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         final String SQL_UPDATE = "UPDATE RETRAITS SET rue = ? , codePostal = ? , ville = ? WHERE id = ?";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
             preparedStatement.setString(1, modifRetrait.getRue());
             preparedStatement.setString(2, modifRetrait.getCodePostal());
@@ -79,7 +80,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
 
             retraitCree = selectRetraitById(modifRetrait.getId());
 
-        } catch(SQLException e){
+        } catch(SQLException | URISyntaxException e){
             logger.severe("Error method UpdateRetrait " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -98,12 +99,12 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         final String SQL_DELETE = "DELETE RETRAITS WHERE ID = ?";
 
         try {
-            Connection connection = JdbcConnection.connect();
+            Connection connection = HerokuConnection.connect();
             PreparedStatement  stmt= connection.prepareStatement(SQL_DELETE);
             stmt.setInt(1,deleteRetrait.getId());
             effacerRetrait = !( stmt.executeUpdate()==0);
 
-        } catch(SQLException e){
+        } catch(SQLException | URISyntaxException e){
             logger.severe("Error method DeleteRetrait " + e.getMessage() + "\n");
             throw new DalException(e.getMessage(), e);
         }
@@ -116,11 +117,14 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
         final String SQL_UPDATE_RETRAIT = "UPDATE RETRAITS SET retrait =1 WHERE id =?  and retrait <>1";
         System.out.println(SQL_UPDATE_RETRAIT);
 
-        try(Connection connection = JdbcConnection.connect()){
+        try(Connection connection = HerokuConnection.connect()){
             PreparedStatement stmt = connection.prepareStatement(SQL_UPDATE_RETRAIT);
             stmt.setInt(1,numeroRetrait);
             retraitValider = (!(stmt.executeUpdate() == 0));
-        }return  retraitValider;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return  retraitValider;
     }
 
 
